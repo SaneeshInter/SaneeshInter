@@ -56,82 +56,129 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Container(
-                  child: Wrap(
-                    spacing: screenWidth(context, dividedBy: 16),
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    alignment: WrapAlignment.start,
-                    children: [
-                      SvgPicture.asset('assets/images/icon/sunny-day.svg'),
-                      AutoSizeText(
-                        "DAY",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                        ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: screenWidth(context, dividedBy: 2.5),
+                height: 40,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child: SvgPicture.asset(
+                            'assets/images/icon/sunny-day.svg'),
                       ),
-                      SvgPicture.asset('assets/images/icon/check.svg'),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: screenWidth(context, dividedBy: 40),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  child: Wrap(
-                    alignment: WrapAlignment.start,
-                    spacing: screenWidth(context, dividedBy: 16),
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SvgPicture.asset('assets/images/icon/moon.svg'),
-                      Text(
-                        "NIGHT",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
+                      flex: 1,
+                    ),
+                    Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15),
+                          child: AutoSizeText(
+                            "DAY",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
-                      ),
-                      SvgPicture.asset('assets/images/icon/check.svg'),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: screenWidth(context, dividedBy: 40),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  child: Wrap(
-                    spacing: screenWidth(context, dividedBy: 16),
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SvgPicture.asset('assets/images/icon/turn-off.svg'),
-                      Text(
-                        "OFF",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
+                        flex: 2),
+                    Expanded(
+                        child: Container(
+                          child:
+                          SvgPicture.asset('assets/images/icon/check.svg'),
                         ),
-                      ),
-                      SvgPicture.asset('assets/images/icon/check.svg'),
-                    ],
-                  ),
+                        flex: 1)
+                  ],
                 ),
-              ),
-              SizedBox(height: screenHeight(context, dividedBy: 120)),
-            ]),
-          ]),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: screenWidth(context, dividedBy: 2.5),
+                height: 40,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child: SvgPicture.asset('assets/images/icon/moon.svg'),
+                      ),
+                      flex: 1,
+                    ),
+                    Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15),
+                          child: AutoSizeText(
+                            "NIGHT",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        flex: 2),
+                    Expanded(
+                        child: Container(
+                          child:
+                          SvgPicture.asset('assets/images/icon/check.svg'),
+                        ),
+                        flex: 1)
+                  ],
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: screenWidth(context, dividedBy: 2.5),
+                height: 40,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child:
+                        SvgPicture.asset('assets/images/icon/turn-off.svg'),
+                      ),
+                      flex: 1,
+                    ),
+                    Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15),
+                          //color: Colors.green,
+                          child: AutoSizeText(
+                            "OFF",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        flex: 2),
+                    Expanded(
+                        child: Container(
+                          child:
+                          SvgPicture.asset('assets/images/icon/check.svg'),
+                        ),
+                        flex: 1)
+                  ],
+                ),
+              )
+            ],
+          ),
           SizedBox(height: screenHeight(context, dividedBy: 50)),
           SubmitButton(
               onPressed: () {
