@@ -19,7 +19,9 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreentate createState() => _HomeScreentate();
 }
+
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class _HomeScreentate extends State<HomeScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   int devicePixelRatio = 3;
@@ -55,7 +57,10 @@ class _HomeScreentate extends State<HomeScreen> {
         // space to fit everything.
         child: SideMenu(),
       ),
-      appBar: AppBarCommon(_scaffoldKey, scaffoldKey: _scaffoldKey,),
+      appBar: AppBarCommon(
+        _scaffoldKey,
+        scaffoldKey: _scaffoldKey,
+      ),
       backgroundColor: Constants.colors[9],
       body: ScrollConfiguration(
         behavior: MyBehavior(),
@@ -69,7 +74,7 @@ class _HomeScreentate extends State<HomeScreen> {
                   AutoSizeText(
                     'Next Shift',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14.sp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontFamily: "SFProMedium",
@@ -102,7 +107,7 @@ class _HomeScreentate extends State<HomeScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
+                                    children: [
                                       AutoSizeText(
                                         '18',
                                         textAlign: TextAlign.center,
@@ -110,19 +115,19 @@ class _HomeScreentate extends State<HomeScreen> {
                                         stepGranularity: 0.2,
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 22,
+                                            fontSize: 16.sp,
                                             fontFamily: "SFProBold",
                                             fontWeight: FontWeight.w800),
                                       ),
                                       AutoSizeText(
                                         'Jan,21',
-                                        minFontSize: 0,
-                                        stepGranularity: 0.2,
+                                        minFontSize: 2,
+                                        stepGranularity: 1,
                                         textAlign: TextAlign.center,
-                                        maxLines: 1,
+                                        maxLines: 2,
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 12,
+                                            fontSize: 8.sp,
                                             fontFamily: "SFProMedium",
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -239,10 +244,8 @@ class _HomeScreentate extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => ShiftDetailScreen()),
+                  MaterialPageRoute(builder: (context) => ShiftDetailScreen()),
                 );
-
               },
               label: "Shift Details",
               asset: "assets/images/icon/availability.svg",
@@ -301,7 +304,6 @@ class _HomeScreentate extends State<HomeScreen> {
       constraints: new BoxConstraints(
         maxHeight: 110,
       ),
-
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -313,7 +315,7 @@ class _HomeScreentate extends State<HomeScreen> {
                   duration: Duration(milliseconds: 500),
                   curve: Curves.easeInOut);
             },
-            child:   Card(
+            child: Card(
               elevation: 0.0,
               child: Container(
                 width: screenWidth(context, dividedBy: 1.3),
@@ -333,14 +335,17 @@ class _HomeScreentate extends State<HomeScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0,5,0,0),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                         child: Container(
                             width: screenHeight(context, dividedBy: 2.2),
-                            child: AutoSizeText("Jan 18,2022 | 11.00AM-12.00Pm",maxLines: 1, style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-
-                            ),)),
+                            child: AutoSizeText(
+                              "Jan 18,2022 | 11.00AM-12.00Pm",
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            )),
                       ),
                     ],
                   ),
@@ -350,7 +355,6 @@ class _HomeScreentate extends State<HomeScreen> {
           );
         },
       ),
- 
     );
   }
 

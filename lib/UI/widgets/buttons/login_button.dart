@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 
@@ -43,7 +44,7 @@ class _LoginButtonState extends State<LoginButton> {
         child: Text(
           widget.label,
           style: TextStyle(
-              fontSize: 22,
+              fontSize: 14.sp,
               color: Constants.colors[0],
               fontFamily: "SFProMedium",
               fontWeight: FontWeight.w400),

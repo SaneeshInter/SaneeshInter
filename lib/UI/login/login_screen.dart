@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/dashboard_screen.dart';
 import 'package:xpresshealthdev/UI/manager_dashboard_screen.dart';
 import 'package:xpresshealthdev/utils/utils.dart';
@@ -51,125 +52,127 @@ class _LoginScreenState extends State<LoginScreen> {
           Image.asset(
             'assets/images/icon/Bg2.png',
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * .5 ,
+            height: MediaQuery.of(context).size.height * .5,
             fit: BoxFit.fill,
           ),
-          Stack(
-            children: [
-              Container(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * .5,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Form(
-                          key: formKey,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: screenWidth(context, dividedBy: 5),
-                                ),
-                                ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          logoImage(),
-                                          const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                20.0, 0, 0, 0),
-                                            child: AutoSizeText(
-                                              Txt.login,
-                                              textAlign: TextAlign.start,
-                                              maxLines: 3,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 23,
-                                                  fontWeight: FontWeight.w800,
-                                                  fontFamily: "SFProBold"),
+          Container(
+            child: Stack(
+              children: [
+                Container(
+                  child: Align(
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 65.h,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Form(
+                            key: formKey,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            logoImage(),
+                                            const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  20.0, 0, 0, 0),
+                                              child: AutoSizeText(
+                                                Txt.login,
+                                                textAlign: TextAlign.start,
+                                                maxLines: 3,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 23,
+                                                    fontWeight: FontWeight.w800,
+                                                    fontFamily: "SFProBold"),
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 25,
-                                          ),
-                                          Column(
-                                            children: [
-                                              Container(
-                                                child: textInputFileds(
-                                                    controlr: email,
-                                                    hintText: Txt.email,
-                                                    keyboadType: TextInputType
-                                                        .emailAddress,
-                                                    isPwd: false),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Column(
-                                            children: [
-                                              Container(
-                                                child: textInputFileds(
-                                                    controlr: pwd,
-                                                    hintText: Txt.pwd,
-                                                    keyboadType: TextInputType
-                                                        .visiblePassword,
-                                                    isPwd: true),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          signUpBtn(),
+                                            SizedBox(
+                                              height: 2.h,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  child: textInputFileds(
+                                                      controlr: email,
+                                                      hintText: Txt.email,
+                                                      keyboadType: TextInputType
+                                                          .emailAddress,
+                                                      isPwd: false),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 2.h,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  child: textInputFileds(
+                                                      controlr: pwd,
+                                                      hintText: Txt.pwd,
+                                                      keyboadType: TextInputType
+                                                          .visiblePassword,
+                                                      isPwd: true),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 3.h,
+                                            ),
+                                            signUpBtn(),
 
-                                          SizedBox(
-                                            height: screenHeight(context, dividedBy: 50),
-                                          ),
-                                          // Platform.isIOS ? AppleSignInButton(
-                                          // //style: ButtonStyle.black,
-                                          // type: ButtonType.continueButton,
-                                          // onPressed: appleLogIn,):Container(),
-                                        ],
+                                            SizedBox(
+                                              height: 3.h,
+                                            ),
+                                            // Platform.isIOS ? AppleSignInButton(
+                                            // //style: ButtonStyle.black,
+                                            // type: ButtonType.continueButton,
+                                            // onPressed: appleLogIn,):Container(),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 25, top: 0),
-                  child: Text(
-                    "Powered By Xpress Health",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontFamily: "SFProMedium"),
+                const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 25, top: 0),
+                    child: Text(
+                      "Powered By Xpress Health",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontFamily: "SFProMedium"),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -282,11 +285,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 LoginButton(
                     onPressed: () async {
                       final prefs = await SharedPreferences.getInstance();
-                      if (prefs.getBool("user") != null){
+                      if (prefs.getBool("user") != null) {
                         if (prefs.getBool("user") == true) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DashBoard()),
+                            MaterialPageRoute(
+                                builder: (context) => DashBoard()),
                           );
                         } else {
                           Navigator.push(
@@ -296,7 +300,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         }
                       }
-
                     },
                     label: "Login")
               ],
