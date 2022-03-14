@@ -1,0 +1,4 @@
+#Fri Mar 11 13:22:35 IST 2022
+base.0=/Users/intersmart/Documents/FlutterWorks/xpresshealthdev/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
