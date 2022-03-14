@@ -66,7 +66,6 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
                 child: Container(
                   height: 50,
                   width: 50,
-
                 ),
               ),
               ListTile(
@@ -161,6 +160,7 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
     );
   }
 }
+
 class MyBehavior extends ScrollBehavior {
   @override
   Widget buildViewportChrome(

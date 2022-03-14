@@ -35,7 +35,7 @@ class _MyBookingState extends State<MyBookingScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Constants.colors[9],
+        backgroundColor: Constants.colors[3],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(65),
           child: Padding(

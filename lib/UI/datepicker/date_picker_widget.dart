@@ -152,8 +152,8 @@ class _DatePickerState extends State<DatePicker> {
                 quarterTurns: -1,
                 child: ListWheelScrollView(
 
-                  diameterRatio: 4,
-                  useMagnifier: true,
+                  diameterRatio: 10,
+                  // useMagnifier: true,
                   offAxisFraction: 0,
                   onSelectedItemChanged: (x) {
                     setState(() {

@@ -1,5 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/UI/user/detail/profile_doc_row.dart';
 
 import '../../Constants/app_defaults.dart';
 import '../../utils/constants.dart';
@@ -13,302 +16,51 @@ class ProfileDocumentsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-color: Colors.transparent,
+      color: Colors.transparent,
       child: Container(
         child: Column(
           children: [
             /// TOP PART APPOINTMENT
             Column(
               children: [
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'QQQ1Level 5 Certification',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Infection Prevention ',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Employement Contract Signed',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Passport or ID card',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Any other training or documentation',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Best locations you can work in ? Dubline 15 Finglas',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Do you drive ?. Yes',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Have you got the Covid- 19 vaccination?. Medium',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height : 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Do youy consent a grada vetting to be Yes ? Completed ',
-                          style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                            height: 20,
-                            width: 20,
-                            child: SvgPicture.asset(
-                                'assets/images/icon/check.svg')),
-                      ],
-                    ),
-                  ),
-                ),
-
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label: "QQQ1Level 5 Certification",
+                    asset: "assets/images/icon/check.svg"),
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label: "Infection Prevention ",
+                    asset: "assets/images/icon/check.svg"),
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label: "Employement Contract Signed",
+                    asset: "assets/images/icon/check.svg"),
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label: "Passport or ID card",
+                    asset: "assets/images/icon/check.svg"),
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label: "Any other training or documentation",
+                    asset: "assets/images/icon/check.svg"),
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label:
+                        "Best locations you can work in ? Dubline 15 Finglas",
+                    asset: "assets/images/icon/check.svg"),
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label: "Do you drive ?. Ye",
+                    asset: "assets/images/icon/check.svg"),
+                const SizedBox(height: 10),
+                ProfileDocRow(
+                    label: "Have you got the Covid- 19 vaccination?. Medium",
+                    asset: "assets/images/icon/check.svg"),
+                SizedBox(height: 10),
+                ProfileDocRow(
+                    label:
+                        "Do youy consent a grada vetting to be Yes ? Completed",
+                    asset: "assets/images/icon/check.svg")
               ],
             ),
 

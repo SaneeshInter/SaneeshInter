@@ -101,7 +101,7 @@ class _DashBoardWidgetState extends State<DashBoard> {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle:
-            NavBarStyle.style1, // Choose the nav bar style with this property.
+            NavBarStyle.style3, // Choose the nav bar style with this property.
       ),
     );
   }
@@ -110,33 +110,33 @@ class _DashBoardWidgetState extends State<DashBoard> {
 List<PersistentBottomNavBarItem> _navBarsItems() {
   return [
     PersistentBottomNavBarItem(
-      icon: SvgPicture.asset('assets/images/icon/home.svg'),
+      icon: Icon(CupertinoIcons.home),
       title: ("Home"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: Constants.colors[6],
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
-      icon: SvgPicture.asset('assets/images/icon/shiftblack.svg'),
+      icon: Icon(CupertinoIcons.shift),
       title: ("Find Shift"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: Constants.colors[6],
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
-      icon: SvgPicture.asset('assets/images/icon/booking.svg'),
+      icon: Icon(CupertinoIcons.calendar),
       title: ("Booking"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: Constants.colors[6],
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
-      icon: SvgPicture.asset('assets/images/icon/availability.svg'),
+      icon: Icon(CupertinoIcons.calendar_badge_plus),
       title: ("Availability"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: Constants.colors[6],
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
-      icon: SvgPicture.asset('assets/images/icon/user.svg'),
+      icon: Icon(CupertinoIcons.person),
       title: ("Profile"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: Constants.colors[6],
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
   ];

@@ -90,45 +90,48 @@ class _HomeScreentate extends State<MyBookingScreen> {
             ),
           ],
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(5.h),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TabBar(
-                  unselectedLabelColor:Colors.black,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  labelColor: Colors.white,
-                  indicator: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Constants.colors[3], Constants.colors[4]]),
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            backgroundBlendMode: BlendMode.colorDodge,
-                            color: Colors.transparent),
-                        child: Align(
+            preferredSize: Size.fromHeight(65),
+            child: Container(
+              color: Constants.colors[9],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TabBar(
+                    unselectedLabelColor: Colors.black,
+                    indicatorSize: TabBarIndicatorSize.tab,
 
-                          alignment: Alignment.center,
-                          child: Text("Confirmed Shift"),
+                    labelColor: Colors.white,
+                    indicator: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Constants.colors[3], Constants.colors[4]]),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white),
+                    tabs: [
+                      Tab(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              backgroundBlendMode: BlendMode.colorDodge,
+                              color: Colors.transparent),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text("Confirmed Shift"),
+                          ),
                         ),
                       ),
-                    ),
-                    Tab(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            backgroundBlendMode: BlendMode.colorDodge,
-                            color: Colors.transparent),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text("Completed Shift"),
+                      Tab(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              backgroundBlendMode: BlendMode.colorDodge,
+                              color: Colors.transparent),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text("Completed Shift"),
+                          ),
                         ),
                       ),
-                    ),
-                  ]),
+                    ]),
+              ),
             ),
           ),
         ),
@@ -155,6 +158,7 @@ class BodyWidget extends StatelessWidget {
 
 Widget bookingList(int position) {
   return Container(
+    color: Constants.colors[9],
     child: ListView.builder(
       itemCount: 10,
       itemBuilder: (BuildContext context, int index) {
@@ -167,9 +171,13 @@ Widget bookingList(int position) {
               endTime: "12.00 PM",
               price: "32",
               position: position,
-              onTapView: () {   showFeactureAlert(context, date: "");},
+              onTapView: () {
+                showFeactureAlert(context, date: "");
+              },
               onTapCall: () {},
-              onTapMap: () {   showFeactureAlert(context, date: "");},
+              onTapMap: () {
+                showFeactureAlert(context, date: "");
+              },
               onTapBooking: () {
                 print("Tapped");
                 showAddTimeSheet(context, date: "");

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../Constants/app_defaults.dart';
 import '../../../utils/constants.dart';
+import '../../widgets/buttons/drawable_button.dart';
 import '../../widgets/profile_detail.dart';
 import '../../widgets/profile_documents.dart';
 import '../app_bar.dart';
 import '../side_menu.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -15,7 +16,9 @@ class ProfileScreen extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
+
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class _ProfileState extends State<ProfileScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -42,7 +45,10 @@ class _ProfileState extends State<ProfileScreen> {
         // space to fit everything.
         child: SideMenu(),
       ),
-      appBar: AppBarCommon(_scaffoldKey, scaffoldKey: _scaffoldKey,),
+      appBar: AppBarCommon(
+        _scaffoldKey,
+        scaffoldKey: _scaffoldKey,
+      ),
       backgroundColor: Constants.colors[9],
       body: ScrollConfiguration(
         behavior: MyBehavior(),
@@ -56,8 +62,8 @@ class _ProfileState extends State<ProfileScreen> {
                   Container(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                             colors: [
                               Constants.colors[4],
                               Constants.colors[3],
@@ -79,7 +85,6 @@ class _ProfileState extends State<ProfileScreen> {
                                   child: Image.network(
                                     'https://i.imgur.com/PJpPD6S.png',
                                     fit: BoxFit.cover,
-
                                   ),
                                 ),
                               ),
@@ -98,7 +103,7 @@ class _ProfileState extends State<ProfileScreen> {
                                       fontFamily: "SFProMedium",
                                       fontWeight: FontWeight.w700),
                                 ),
-                                const SizedBox(height : 5),
+                                const SizedBox(height: 5),
                                 Text(
                                   'Staff Nurses',
                                   textAlign: TextAlign.left,
@@ -108,7 +113,7 @@ class _ProfileState extends State<ProfileScreen> {
                                       fontFamily: "S",
                                       fontWeight: FontWeight.w400),
                                 ),
-                                const SizedBox(height : 5),
+                                const SizedBox(height: 5),
                                 Text(
                                   'Emp No:6950',
                                   textAlign: TextAlign.left,
@@ -121,10 +126,29 @@ class _ProfileState extends State<ProfileScreen> {
                               ],
                             ),
                             const Spacer(),
-                            IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(
-                                    'assets/images/icon/righarrow.svg'))
+                            Column(
+                              children: [
+                                Text(
+                                  "\$" + "32/hr",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Constants.colors[8],
+                                      fontWeight: FontWeight.w700),
+                                ),
+
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                DrawableButton(
+                                  onPressed: () {},
+                                  label: "Edit",
+                                  asset:
+                                      "assets/images/icon/swipe-to-right.svg",
+                                  backgroundColor: Constants.colors[4],
+                                  textColors: Constants.colors[0],
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                         const SizedBox(height: AppDefaults.margin),

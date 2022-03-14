@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/Login/login_screen.dart';
+import 'package:xpresshealthdev/utils/constants.dart';
 
 import '../../Constants/strings.dart';
 import '../../Constants/toast.dart';
@@ -65,107 +66,20 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
                         SizedBox(
                           height: screenWidth(context, dividedBy: 6),
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(bottom: 25, top: 0),
                           child: Text(
                             "Powered By Xpress Health",
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontFamily: "SFProMedium"),
                           ),
                         ),
                       ],
                     )),
               ],
             )),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget textInputFileds(
-      {required String hintText,
-      validator,
-      required TextEditingController controlr,
-      required TextInputType keyboadType,
-      required bool isPwd}) {
-    return Container(
-      // height: 100,
-      padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-      child: TextFormField(
-        cursorWidth: 1.0,
-        controller: controlr,
-        validator: validator,
-        textAlign: TextAlign.justify,
-        obscureText: isPwd,
-        maxLines: 1,
-        keyboardType: keyboadType,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(10),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
-            ),
-            labelStyle: TextStyle(
-                // fontFamily: 'Abel',
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: Colors.grey),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
-            ),
-            hintText: hintText,
-            hintStyle: TextStyle(
-                // fontFamily: 'Abel',
-                fontWeight: FontWeight.normal,
-                fontSize: 16,
-                color: Colors.grey)),
-        style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            decoration: TextDecoration.none,
-            color: Colors.brown),
-      ),
-    );
-  }
-
-  Widget forgotpasswordnadLogin() {
-    return Row(
-      children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.only(left: 40),
-            child: Container(
-              child: InkWell(
-                  onTap: () {
-                    print("forgot password pressed");
-                  },
-                  child: Text(Txt.forgotPwd,
-                      style: TextStyle(
-                          // fontFamily: 'Abel',
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12,
-                          color: Colors.grey))),
-            )),
-        Spacer(),
-        Padding(
-          padding: const EdgeInsets.only(right: 38),
-          child: Container(
-            width: 50,
-            height: 50,
-            child: isLoading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    ),
-                  )
-                : InkWell(
-                    onTap: () {},
-                    child: Image(image: AssetImage("assets/images/login.png")),
-                  ),
           ),
         ),
       ],
@@ -198,13 +112,12 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
                             MaterialPageRoute(
                                 builder: (context) => LoginScreen()));
                       },
-                      child:
-                          const Text('Manager', style: TextStyle(fontSize: 18)),
+                      child: Text('Manager', style: TextStyle(fontSize: 12.sp)),
                       style: ElevatedButton.styleFrom(
                           primary: Colors.transparent,
                           onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10.0),
+                              borderRadius: new BorderRadius.circular(5.0),
                               side:
                                   BorderSide(color: Colors.white, width: 2.0))),
                     ),
@@ -249,7 +162,8 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
                   child: Container(
                     height: commonButtonHeight(context),
                     width: screenWidth(context, dividedBy: 1),
-                    child: RaisedButton(
+
+                    child: ElevatedButton(
                       onPressed: () async {
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setBool('user', true);
@@ -260,15 +174,37 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
                             MaterialPageRoute(
                                 builder: (context) => LoginScreen()));
                       },
-                      child: const Text('User', style: TextStyle(fontSize: 18)),
-                      color: Colors.white,
-                      //HexColor('#6587da'),
-                      textColor: Colors.black,
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(7.0),
-                      ),
+                      child: Text('User', style: TextStyle(fontSize: 12.sp)),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          onPrimary: Constants.colors[10],
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                              side:
+                                  BorderSide(color: Colors.white, width: 2.0))),
                     ),
+
+                    // child: RaisedButton(
+                    //   onPressed: () async {
+                    //     final prefs = await SharedPreferences.getInstance();
+                    //     await prefs.setBool('user', true);
+                    //     print('Button Clicked');
+                    //     print('Button Clicked');
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => LoginScreen()));
+                    //   },
+                    //   child: Text('User', style: TextStyle(fontSize: 12.sp)),
+                    //   color: Colors.white,
+                    //   //HexColor('#6587da'),
+                    //   textColor: Colors.black,
+                    //
+                    //   elevation: 0,
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: new BorderRadius.circular(7.0),
+                    //   ),
+                    // ),
                   ),
                 ),
                 Padding(
@@ -345,12 +281,15 @@ class HexColor extends Color {
     String formattedHex = "FF" + hex.toUpperCase().replaceAll("#", "");
     return int.parse(formattedHex, radix: 16);
   }
+
   HexColor(final String hex) : super(_getColor(hex));
 }
+
 class CustColors {
   static const DarkBlue = Color(0xff4e1d56);
   static const Green = Color(0xff6386da);
   static const Blue1 = Color(0xffa4bcf7);
   static const Green1 = Color(0xffdaf2a5);
   static const White = Color(0xffffffff);
+  static const ButtonText = Color(0xff1b1b1b);
 }

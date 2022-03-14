@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
@@ -33,7 +34,7 @@ class _BuildButtonState extends State<BuildButton> {
         child: Text(
           widget.label,
           style: TextStyle(
-              fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400),
+              fontSize: 8.5.sp, color: Colors.white, fontWeight: FontWeight.w400),
         ),
       ),
     );

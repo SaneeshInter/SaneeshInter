@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/user/app_bar.dart';
 import 'package:xpresshealthdev/UI/user/detail/shift_detail.dart';
 
@@ -49,7 +50,7 @@ class _FindShifttate extends State<FindShiftScreen> {
           _scaffoldKey,
           scaffoldKey: _scaffoldKey,
         ),
-        backgroundColor: Constants.colors[2],
+        backgroundColor: Constants.colors[9],
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.symmetric(
@@ -61,26 +62,26 @@ class _FindShifttate extends State<FindShiftScreen> {
                   initialSelectedDate: DateTime.now(),
                   selectionColor: Constants.colors[3],
                   selectedTextColor: Colors.white,
-                  width: 65,
-                  height: 80,
+                  width: 18.w,
+                  height:  20.w,
                   deactivatedColor: Colors.blue,
                   monthTextStyle: TextStyle(color: Colors.transparent),
                   dateTextStyle: TextStyle(
                       color: Constants.colors[7],
                       fontWeight: FontWeight.w800,
-                      fontSize: 22),
+                      fontSize: 16.sp),
                   dayTextStyle: TextStyle(
                       color: Constants.colors[7],
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 4.sp),
                   selectedDateStyle: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
-                      fontSize: 23),
+                      fontSize: 16.sp),
                   selectedDayStyle: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 4.sp),
                   itemController: itemController,
                   onDateChange: (date, x) {
                     // New date selected

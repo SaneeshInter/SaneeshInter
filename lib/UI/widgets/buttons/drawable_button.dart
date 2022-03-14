@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sizer/sizer.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 
@@ -63,7 +64,7 @@ class _DrawableState extends State<DrawableButton> {
               child: Text(
                 widget.label,
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 10.sp,
                     color: widget.textColors,
                     fontFamily: "SFProMedium",
                     fontWeight: FontWeight.w400),

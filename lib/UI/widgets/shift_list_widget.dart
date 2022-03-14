@@ -56,13 +56,8 @@ class _HomePageCardState extends State<ShiftListWidget> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  offset: Offset(-2, 2),
-                  blurRadius: 2,
-                  spreadRadius: 2,
-                  color: Constants.colors[7].withOpacity(0.15))
-            ]),
+
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

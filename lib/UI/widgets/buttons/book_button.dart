@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 class BookButton extends StatefulWidget {
@@ -38,7 +39,7 @@ class _BookButtonState extends State<BookButton> {
         child: Text(
           widget.label,
           style: TextStyle(
-              fontSize: 13,
+              fontSize: 8.5.sp,
               color: tapped == false ? Colors.white : Colors.black,
               fontWeight: FontWeight.w400),
         ),

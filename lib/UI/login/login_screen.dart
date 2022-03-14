@@ -56,14 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
             fit: BoxFit.fill,
           ),
           Container(
+
             child: Stack(
               children: [
                 Container(
                   child: Align(
+                    alignment: Alignment.bottomCenter,
                     child: Container(
+
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width * 0.9,
-                      height: 65.h,
+                      height: 70.h,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
@@ -88,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             logoImage(),
-                                            const Padding(
+                                             Padding(
                                               padding: EdgeInsets.fromLTRB(
                                                   20.0, 0, 0, 0),
                                               child: AutoSizeText(
@@ -97,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 maxLines: 3,
                                                 style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: 23,
+                                                    fontSize: 18.sp,
                                                     fontWeight: FontWeight.w800,
                                                     fontFamily: "SFProBold"),
                                               ),
@@ -133,12 +136,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                               ],
                                             ),
                                             SizedBox(
-                                              height: 3.h,
+                                              height: 2.h,
                                             ),
                                             signUpBtn(),
 
                                             SizedBox(
-                                              height: 3.h,
+                                              height: 2.h,
                                             ),
                                             // Platform.isIOS ? AppleSignInButton(
                                             // //style: ButtonStyle.black,
@@ -187,8 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
       required bool isPwd}) {
     return Container(
       // height: 100,
-
-      height: 45,
+      height: 5.5.h,
       width: screenWidth(context, dividedBy: 1),
       padding: EdgeInsets.only(top: 0, left: 20, right: 20),
       child: TextFormField(
@@ -208,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
             labelStyle: TextStyle(
                 fontFamily: 'SFProRegular',
                 fontWeight: FontWeight.w500,
-                fontSize: 16,
+                fontSize: 10.sp,
                 color: Colors.grey),
             enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -222,11 +224,11 @@ class _LoginScreenState extends State<LoginScreen> {
             hintStyle: TextStyle(
                 fontFamily: 'SFProRegular',
                 fontWeight: FontWeight.normal,
-                fontSize: 16,
+                fontSize: 10.sp,
                 color: Colors.grey)),
         style: TextStyle(
             fontWeight: FontWeight.w500,
-            fontSize: 16,
+            fontSize: 10.sp,
             decoration: TextDecoration.none,
             color: Colors.brown),
       ),

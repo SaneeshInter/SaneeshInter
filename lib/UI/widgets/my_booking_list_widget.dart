@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
@@ -48,55 +49,52 @@ class _MyBookingState extends State<MyBookingListWidget> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  offset: Offset(-2, 2),
-                  blurRadius: 2,
-                  spreadRadius: 2,
-                  color: Constants.colors[7].withOpacity(0.15))
-            ]),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(
-                  widget.date,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(height: screenHeight(context, dividedBy: 180)),
-                Text(
-                  widget.jobTittle,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(height: screenHeight(context, dividedBy: 180)),
-                Text(
-                  "From " + widget.startTime + " To " + widget.endTime,
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w400),
-                ),
-                SizedBox(height: screenHeight(context, dividedBy: 180)),
-                Text(
-                  "At st george Hosp",
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Constants.colors[3],
-                      fontWeight: FontWeight.w500),
-                ),
+         ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                    widget.date,
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(height: screenHeight(context, dividedBy: 180)),
+                  Text(
+                    widget.jobTittle,
+                    style: TextStyle(
+                        fontSize: 10.5.sp,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(height: screenHeight(context, dividedBy: 180)),
+                  Text(
+                    "From " + widget.startTime + " To " + widget.endTime,
+                    style: TextStyle(
+                        fontSize: 8.sp,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(height: screenHeight(context, dividedBy: 180)),
+                  Text(
+                    "At st george Hosp",
+                    style: TextStyle(
+                        fontSize: 9.5.sp,
+                        color: Constants.colors[3],
+                        fontWeight: FontWeight.w500),
+                  ),
+                ]),
+                Spacer(),
               ]),
-              Spacer(),
-            ]),
-            SizedBox(height: screenHeight(context, dividedBy: 180)),
-            buttonList(context, widget)
-          ],
+              SizedBox(height: screenHeight(context, dividedBy: 180)),
+              buttonList(context, widget)
+            ],
+          ),
         ),
       ),
     );
@@ -109,10 +107,12 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
       children: [
         BookButton(
           label: "Add Timesheet",
+
           onPressed: () {
             widget.onTapView();
             print("Cards booking");
           },
+
           key: null,
         ),
         Spacer(),

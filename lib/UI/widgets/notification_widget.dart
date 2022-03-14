@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 import '../../Constants/app_defaults.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
@@ -52,38 +53,41 @@ class _NotificationState extends State<NotificationWidget> {
                 spreadRadius: 2,
                 color: Constants.colors[7].withOpacity(0.15))
           ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(
-                    widget.name,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700),
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      widget.name,
+                      style:  TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700),
+                    ),
 
-                ],
-              ),
-              SizedBox(height: screenHeight(context, dividedBy: 120)),
-              Text(
-                widget.startTime,
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w400),
-              ),
-              SizedBox(height: screenHeight(context, dividedBy: 120)),
+                  ],
+                ),
+                SizedBox(height: screenHeight(context, dividedBy: 120)),
+                Text(
+                  widget.startTime,
+                  style: TextStyle(
+                      fontSize: 10.sp,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: screenHeight(context, dividedBy: 120)),
+              ]),
+              Spacer(),
+              SvgPicture.asset('assets/images/icon/notification.svg'),
             ]),
-            Spacer(),
-            SvgPicture.asset('assets/images/icon/notification.svg'),
-          ]),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:sizer/sizer.dart';
 
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
@@ -44,24 +44,18 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
           horizontal: screenWidth(context, dividedBy: 25),
           vertical: screenHeight(context, dividedBy: 70)),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(-2, 2),
-                blurRadius: 2,
-                spreadRadius: 2,
-                color: Constants.colors[7].withOpacity(0.15))
-          ]),
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: screenWidth(context, dividedBy: 2.5),
-                height: 40,
+              Flexible(
+                flex: 1,
                 child: Row(
                   children: [
                     Expanded(
@@ -87,7 +81,7 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
                     Expanded(
                         child: Container(
                           child:
-                          SvgPicture.asset('assets/images/icon/check.svg'),
+                              SvgPicture.asset('assets/images/icon/check.svg'),
                         ),
                         flex: 1)
                   ],
@@ -101,9 +95,8 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: screenWidth(context, dividedBy: 2.5),
-                height: 40,
+              Flexible(
+                flex: 1,
                 child: Row(
                   children: [
                     Expanded(
@@ -128,7 +121,7 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
                     Expanded(
                         child: Container(
                           child:
-                          SvgPicture.asset('assets/images/icon/check.svg'),
+                              SvgPicture.asset('assets/images/icon/check.svg'),
                         ),
                         flex: 1)
                   ],
@@ -142,15 +135,14 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: screenWidth(context, dividedBy: 2.5),
-                height: 40,
+              Flexible(
+                flex: 1,
                 child: Row(
                   children: [
                     Expanded(
                       child: Container(
                         child:
-                        SvgPicture.asset('assets/images/icon/turn-off.svg'),
+                            SvgPicture.asset('assets/images/icon/turn-off.svg'),
                       ),
                       flex: 1,
                     ),
@@ -171,7 +163,7 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
                     Expanded(
                         child: Container(
                           child:
-                          SvgPicture.asset('assets/images/icon/check.svg'),
+                              SvgPicture.asset('assets/images/icon/check.svg'),
                         ),
                         flex: 1)
                   ],
@@ -181,10 +173,7 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
           ),
           SizedBox(height: screenHeight(context, dividedBy: 50)),
           SubmitButton(
-              onPressed: () {
-
-
-              },
+              onPressed: () {},
               label: "Submit",
               textColors: Constants.colors[0],
               color1: Constants.colors[3],

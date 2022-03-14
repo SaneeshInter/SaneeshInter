@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/availability_list.dart';
@@ -60,26 +61,26 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                 initialSelectedDate: DateTime.now(),
                 selectionColor: Constants.colors[3],
                 selectedTextColor: Colors.white,
-                width: screenWidth(context, dividedBy: 4),
-                height: screenHeight(context, dividedBy: 8),
+                width: 25.w,
+                height: 25.w,
                 deactivatedColor: Colors.blue,
                 monthTextStyle: TextStyle(color: Colors.transparent),
                 dateTextStyle: TextStyle(
                     color: Constants.colors[7],
-                    fontWeight: FontWeight.w800,
-                    fontSize: 40),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 23.sp),
                 dayTextStyle: TextStyle(
                     color: Constants.colors[7],
-                    fontWeight: FontWeight.w700,
-                    fontSize: 10),
-                selectedDateStyle: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 8.sp),
+                selectedDateStyle:  TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontSize: 40),
-                selectedDayStyle: const TextStyle(
+                    fontSize: 23.sp),
+                selectedDayStyle:  TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 10),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 8.sp),
                 itemController: itemController,
                 onDateChange: (date, x) {
                   // New date selected
@@ -92,9 +93,9 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                   });
                 },
               ),
-              SizedBox(height: screenHeight(context, dividedBy: 30)),
+              SizedBox(height: 2.h),
               Container(
-                height: screenHeight(context, dividedBy: 4),
+                height: 52.w,
                 child: RotatedBox(
                     quarterTurns: -1,
                     child: ListWheelScrollView(

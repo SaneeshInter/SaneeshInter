@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/UI/user/detail/home_card_item.dart';
 
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
@@ -74,7 +75,7 @@ class _HomeScreentate extends State<HomeScreen> {
                   AutoSizeText(
                     'Next Shift',
                     style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontFamily: "SFProMedium",
@@ -96,10 +97,16 @@ class _HomeScreentate extends State<HomeScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: Container(
-                                height: 17.w,
-                                width: 17.w,
+                                height: 20.w,
+                                width: 20.w,
                                 decoration: BoxDecoration(
-                                  color: Colors.green,
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Constants.colors[4],
+                                        Constants.colors[3],
+                                      ]),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
@@ -115,7 +122,7 @@ class _HomeScreentate extends State<HomeScreen> {
                                         stepGranularity: 0.2,
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 16.sp,
+                                            fontSize: 14.sp,
                                             fontFamily: "SFProBold",
                                             fontWeight: FontWeight.w800),
                                       ),
@@ -127,7 +134,7 @@ class _HomeScreentate extends State<HomeScreen> {
                                         maxLines: 2,
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 8.sp,
+                                            fontSize: 9.sp,
                                             fontFamily: "SFProMedium",
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -148,8 +155,8 @@ class _HomeScreentate extends State<HomeScreen> {
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
                                   style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 22,
+                                      color: Constants.colors[11],
+                                      fontSize: 16.sp,
                                       fontFamily: "SFProMedium",
                                       fontWeight: FontWeight.w600),
                                 ),
@@ -162,12 +169,12 @@ class _HomeScreentate extends State<HomeScreen> {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.blueGrey,
-                                      fontSize: 14,
+                                      fontSize: 12.sp,
                                       fontFamily: "S",
                                       fontWeight: FontWeight.w400),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 2.h,
                                 ),
                                 Row(
                                   children: [
@@ -180,7 +187,7 @@ class _HomeScreentate extends State<HomeScreen> {
                                       textColors: Constants.colors[4],
                                     ),
                                     SizedBox(
-                                      width: 5,
+                                      width: 2.w,
                                     ),
                                     DrawableButton(
                                       onPressed: () {},
@@ -218,7 +225,7 @@ class _HomeScreentate extends State<HomeScreen> {
                         maxLines: 1,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 21,
+                          fontSize: 16.sp,
                           fontFamily: "SFProMedium",
                         ),
                       ),
@@ -278,12 +285,12 @@ class _HomeScreentate extends State<HomeScreen> {
           child: Row(
             children: [
               Expanded(
-                child: const AutoSizeText(
+                child:  AutoSizeText(
                   "Premium / Immediate \nShifts",
                   maxLines: 2,
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 23,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -301,7 +308,7 @@ class _HomeScreentate extends State<HomeScreen> {
 
   Widget horizontalList() {
     return ConstrainedBox(
-      constraints: new BoxConstraints(
+      constraints: BoxConstraints(
         maxHeight: 110,
       ),
       child: ListView.builder(
@@ -318,7 +325,7 @@ class _HomeScreentate extends State<HomeScreen> {
             child: Card(
               elevation: 0.0,
               child: Container(
-                width: screenWidth(context, dividedBy: 1.3),
+                width: 65.w,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
@@ -330,7 +337,7 @@ class _HomeScreentate extends State<HomeScreen> {
                         maxLines: 2,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20,
+                          fontSize: 14.sp,
                           fontFamily: "SFProMedium",
                         ),
                       ),
@@ -343,7 +350,7 @@ class _HomeScreentate extends State<HomeScreen> {
                               maxLines: 1,
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 14,
+                                fontSize: 8.sp,
                               ),
                             )),
                       ),
@@ -401,154 +408,10 @@ class _HomeScreentate extends State<HomeScreen> {
         primary: false,
         crossAxisCount: 2,
         children: [
-          Card(
-            elevation: 0.0,
-            child: Container(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: const AutoSizeText(
-                        "My\nAvailability ",
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: "SFProMedium",
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        child: SvgPicture.asset(
-                          'assets/images/icon/availability.svg',
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 0.0,
-            child: Container(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: const AutoSizeText(
-                        "Submit\nTimeSheets ",
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: "SFProMedium",
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        child: SvgPicture.asset(
-                          'assets/images/icon/availability.svg',
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 0.0,
-            child: Container(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: const AutoSizeText(
-                        "Find Shift",
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: "SFProMedium",
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        child: SvgPicture.asset(
-                          'assets/images/icon/availability.svg',
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 0.0,
-            child: Container(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: AutoSizeText(
-                        "My\nBooking ",
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: "SFProMedium",
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        child: SvgPicture.asset(
-                          'assets/images/icon/availability.svg',
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          HomeCardItem(label: "My\nAvailability ", asset: "assets/images/icon/availability.svg"),
+          HomeCardItem(label: "Submit\nTimeSheets ", asset: "assets/images/icon/availability.svg"),
+          HomeCardItem(label: "Find Shift", asset: "assets/images/icon/availability.svg"),
+          HomeCardItem(label: "My\nBooking", asset: "assets/images/icon/availability.svg")
         ],
       ),
     );
