@@ -42,7 +42,7 @@ class _AvailabilityState extends State<AvailabilityScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Constants.colors[2],
+      backgroundColor: Constants.colors[9],
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
@@ -35,9 +36,9 @@ class _MyBookingState extends State<MyBookingScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Constants.colors[3],
+        backgroundColor: Constants.colors[9],
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(65),
+          preferredSize: Size.fromHeight(10.h),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
@@ -97,26 +98,26 @@ class _MyBookingState extends State<MyBookingScreen> {
               initialSelectedDate: DateTime.now(),
               selectionColor: Constants.colors[3],
               selectedTextColor: Colors.white,
-              width: 65,
-              height: 80,
+              width: 18.w,
+              height: 22.w,
               deactivatedColor: Colors.blue,
               monthTextStyle: TextStyle(color: Colors.transparent),
               dateTextStyle: TextStyle(
                   color: Constants.colors[7],
                   fontWeight: FontWeight.w800,
-                  fontSize: 22),
+                  fontSize: 16.sp),
               dayTextStyle: TextStyle(
                   color: Constants.colors[7],
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 4.sp),
               selectedDateStyle: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 23),
+                  fontSize: 16.sp),
               selectedDayStyle: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 4.sp),
               itemController: itemController,
               onDateChange: (date, x) {
                 // New date selected
@@ -126,7 +127,7 @@ class _MyBookingState extends State<MyBookingScreen> {
                 });
               },
             ),
-            SizedBox(height: screenHeight(context, dividedBy: 60)),
+            SizedBox(height: 2.h),
             ListView.builder(
               itemCount: 10,
               shrinkWrap: true,

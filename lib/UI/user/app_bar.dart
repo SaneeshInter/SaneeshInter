@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/user/home/home_screen.dart';
 import 'package:xpresshealthdev/UI/user/home/profile_screen.dart';
 import 'package:xpresshealthdev/UI/user/sidenav/completed_shift_screen.dart';
@@ -21,6 +22,8 @@ class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         icon: SvgPicture.asset(
           'assets/images/icon/menu.svg',
+          width: 5.w,
+          height: 4.2.w,
         ),
         onPressed: () {
           scaffoldKey.currentState?.openDrawer();
@@ -42,8 +45,7 @@ class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
               child: SvgPicture.asset(
                 'assets/images/icon/logo.svg',
                 fit: BoxFit.contain,
-                height: 30,
-                width: 40,
+                height: 8.w,
               )),
         ],
       ),
@@ -52,7 +54,10 @@ class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           onPressed: () {},
           icon: SvgPicture.asset(
-              'assets/images/icon/searchicon.svg'), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
+            'assets/images/icon/searchicon.svg',
+            width: 5.w,
+            height: 5.w,
+          ), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
         ),
       ],
     );

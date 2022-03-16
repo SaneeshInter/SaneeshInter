@@ -56,6 +56,8 @@ class _HomeScreentate extends State<MyBookingScreen> {
           leading: IconButton(
             icon: SvgPicture.asset(
               'assets/images/icon/menu.svg',
+              width: 5.w,
+              height: 4.2.w,
             ),
             onPressed: () {
               scaffoldKey.currentState?.openDrawer();
@@ -72,12 +74,12 @@ class _HomeScreentate extends State<MyBookingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
+
                   alignment: Alignment.center,
                   child: SvgPicture.asset(
                     'assets/images/icon/logo.svg',
                     fit: BoxFit.contain,
-                    height: 30,
-                    width: 40,
+                    height: 8.w,
                   )),
             ],
           ),
@@ -86,7 +88,8 @@ class _HomeScreentate extends State<MyBookingScreen> {
             IconButton(
               onPressed: () {},
               icon: SvgPicture.asset(
-                  'assets/images/icon/searchicon.svg'), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
+                  'assets/images/icon/searchicon.svg', width: 5.w,
+                height: 5.w,), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
             ),
           ],
           bottom: PreferredSize(

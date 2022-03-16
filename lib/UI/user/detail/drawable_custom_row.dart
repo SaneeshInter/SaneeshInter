@@ -7,7 +7,7 @@ class CustomRow extends StatefulWidget {
   final String label;
   final String asset;
   final Color textColors;
-  final int size;
+  final double size;
 
   const CustomRow({
     Key? key,

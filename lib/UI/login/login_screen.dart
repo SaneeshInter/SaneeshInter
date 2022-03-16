@@ -9,10 +9,12 @@ import 'package:xpresshealthdev/utils/utils.dart';
 
 import '../../Constants/strings.dart';
 import '../../Constants/toast.dart';
+import '../../utils/constants.dart';
 import '../../utils/validator.dart';
 import '../dashboard_screen.dart';
 import '../manager_dashboard_screen.dart';
 import '../widgets/buttons/login_button.dart';
+import '../widgets/input_text.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -49,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Constants.colors[9],
       body: Stack(
         children: <Widget>[
           Image.asset(
@@ -112,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                     controlr: email,
                                                     validator: (email) {
                                                       if (validEmail(email))
@@ -123,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     hintText: Txt.email,
                                                     keyboadType: TextInputType
                                                         .emailAddress,
-                                                    isPwd: false,
+                                                    isPwd: false, onTapDate: (){},
                                                   ),
                                                 ),
                                               ],
@@ -134,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                     controlr: pwd,
                                                     validator: (password) {
                                                       if (validPassword(
@@ -146,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     hintText: Txt.pwd,
                                                     keyboadType: TextInputType
                                                         .visiblePassword,
-                                                    isPwd: true,
+                                                    isPwd: true, onTapDate: (){},
                                                   ),
                                                 ),
                                               ],
@@ -155,7 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                               height: 2.h,
                                             ),
                                             signUpBtn(),
-
                                             SizedBox(
                                               height: 2.h,
                                             ),

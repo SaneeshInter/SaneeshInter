@@ -23,7 +23,6 @@ class HomeCardItem extends StatefulWidget {
 
 class _HomeCardState extends State<HomeCardItem> {
   bool tapped = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

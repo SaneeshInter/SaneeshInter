@@ -63,7 +63,7 @@ class _FindShifttate extends State<FindShiftScreen> {
                   selectionColor: Constants.colors[3],
                   selectedTextColor: Colors.white,
                   width: 18.w,
-                  height:  20.w,
+                  height:  22.w,
                   deactivatedColor: Colors.blue,
                   monthTextStyle: TextStyle(color: Colors.transparent),
                   dateTextStyle: TextStyle(

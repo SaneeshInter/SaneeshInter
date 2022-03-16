@@ -8,6 +8,7 @@ import 'package:xpresshealthdev/UI/user/sidenav/completed_shift_screen.dart';
 import 'package:xpresshealthdev/UI/user/sidenav/notification_screen.dart';
 
 import '../../Constants/app_defaults.dart';
+import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 
 class SideMenu extends StatelessWidget {
@@ -19,22 +20,14 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        stops: [
-          0.3,
-          0.6,
-          0.9,
-          0.12,
-        ],
-        colors: [
-          HexColor("#04b654"),
-          HexColor("#049e95"),
-          HexColor("#049e95"),
-          HexColor("#058dbf"),
-        ],
-      )),
+        gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Constants.colors[3],
+              Constants.colors[4],
+            ]),
+      ),
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
@@ -72,7 +65,7 @@ class SideMenu extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 20,
+                                    fontSize: 16.sp,
                                     fontFamily: "SFProMedium",
                                     fontWeight: FontWeight.w700),
                               ),
@@ -82,7 +75,7 @@ class SideMenu extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 15,
+                                    fontSize: 11.sp,
                                     fontFamily: "S",
                                     fontWeight: FontWeight.w400),
                               ),
@@ -92,7 +85,7 @@ class SideMenu extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 15,
+                                    fontSize: 12.sp,
                                     fontFamily: "S",
                                     fontWeight: FontWeight.w400),
                               ),
@@ -107,49 +100,6 @@ class SideMenu extends StatelessWidget {
               ],
             ),
           ),
-          // ListTile(
-          //   title: const Text(
-          //     'Home',
-          //     style: TextStyle(color: Colors.white),
-          //   ),
-          //   leading: SvgPicture.asset(
-          //     'assets/images/icon/home.svg',
-          //     color: Colors.white,
-          //   ),
-          //   onTap: () {
-          //     // Update the state of the app.
-          //     // ...
-          //     Navigator.pop(context);
-          //     pushNewScreen(
-          //       context,
-          //       screen: HomeScreen(),
-          //       withNavBar: true, // OPTIONAL VALUE. True by default.
-          //       pageTransitionAnimation: PageTransitionAnimation.cupertino,
-          //     );
-          //   },
-          // ),
-          // ListTile(
-          //   title: const Text(
-          //     'My Profile',
-          //     style: TextStyle(color: Colors.white),
-          //   ),
-          //   leading: SvgPicture.asset(
-          //     'assets/images/icon/user.svg',
-          //     color: Colors.white,
-          //   ),
-          //   onTap: () {
-          //     // Update the state of the app.
-          //     // ...
-          //     Navigator.pop(context);
-          //
-          //     pushNewScreen(
-          //       context,
-          //       screen: ProfileScreen(),
-          //       withNavBar: true, // OPTIONAL VALUE. True by default.
-          //       pageTransitionAnimation: PageTransitionAnimation.cupertino,
-          //     );
-          //   },
-          // ),
           ListTile(
             title: const Text(
               'Submit Timesheet',

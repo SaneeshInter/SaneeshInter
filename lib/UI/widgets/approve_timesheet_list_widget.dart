@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/widgets/buttons/delete_button.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
@@ -42,83 +43,80 @@ class _TimeSheetApproveState extends State<TimeSheetApproveListWidget> {
           horizontal: screenWidth(context, dividedBy: 25),
           vertical: screenHeight(context, dividedBy: 70)),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(-2, 2),
-                blurRadius: 2,
-                spreadRadius: 2,
-                color: Constants.colors[7].withOpacity(0.15))
-          ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                widget.name,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
-              ),
-              SizedBox(height: screenHeight(context, dividedBy: 120)),
-              Row(
-                children: [
-                  Text(
-                    "Date : " + widget.startTime ,
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  const SizedBox(width: 15),
-                  Text(
-                    "Time : " + widget.endTime,
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-              SizedBox(height: screenHeight(context, dividedBy: 120)),
-            ]),
-            Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                ViewButton(
-                  label: "HCA",
-                  onPressed: widget.onTapView,
-                  key: null,
-                )
-              ],
-            )
-          ]),
-          SizedBox(height: screenHeight(context, dividedBy: 120)),
-          Row(
-            children: [
-              BuildButton(
-                label: "Approve Timesheets",
-                onPressed: widget.onTapMap,
-                key: null,
-              ),
-              SizedBox(width: screenWidth(context, dividedBy: 40)),
-              DeleteButton(
-                label: "View Timesheets",
-                onPressed: () {
-                  widget.onTapBooking();
-                  print("Cards booking");
-                },
-                key: null,
-              ),
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  widget.name,
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: screenHeight(context, dividedBy: 120)),
+                Row(
+                  children: [
+                    Text(
+                      "Date : " + widget.startTime,
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(width: 2.w),
+                    Text(
+                      "Time : " + widget.endTime,
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight(context, dividedBy: 120)),
+              ]),
               Spacer(),
-            ],
-          ),
-          SizedBox(height: screenHeight(context, dividedBy: 120)),
-        ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ViewButton(
+                    label: "HCA",
+                    onPressed: widget.onTapView,
+                    key: null,
+                  )
+                ],
+              )
+            ]),
+            SizedBox(height: screenHeight(context, dividedBy: 120)),
+            Row(
+              children: [
+                BuildButton(
+                  label: "Approve Timesheets",
+                  onPressed: widget.onTapMap,
+                  key: null,
+                ),
+                SizedBox(width: screenWidth(context, dividedBy: 40)),
+                DeleteButton(
+                  label: "View Timesheets",
+                  onPressed: () {
+                    widget.onTapBooking();
+                    print("Cards booking");
+                  },
+                  key: null,
+                ),
+                Spacer(),
+              ],
+            ),
+            SizedBox(height: screenHeight(context, dividedBy: 120)),
+          ],
+        ),
       ),
     );
   }

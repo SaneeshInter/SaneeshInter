@@ -33,7 +33,7 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
         FixedExtentScrollController();
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Constants.colors[2],
+        backgroundColor: Constants.colors[9],
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.symmetric(
