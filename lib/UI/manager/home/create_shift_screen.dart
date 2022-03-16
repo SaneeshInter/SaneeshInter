@@ -1,18 +1,25 @@
+import 'dart:core';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:xpresshealthdev/UI/dashboard_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/utils/utils.dart';
+import 'package:xpresshealthdev/utils/validator.dart';
 
 import '../../../Constants/strings.dart';
 import '../../../Constants/toast.dart';
 import '../../../utils/constants.dart';
+import '../../dashboard_screen.dart';
+import '../../manager_dashboard_screen.dart';
 import '../../widgets/buttons/login_button.dart';
 
 class CreateShiftScreen extends StatefulWidget {
-
   const CreateShiftScreen({Key? key}) : super(key: key);
+
   @override
   _CreateShiftState createState() => _CreateShiftState();
 }
@@ -30,6 +37,11 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   TextEditingController dateFrom = new TextEditingController();
   TextEditingController dateTo = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+
+  TextEditingController controller = TextEditingController();
 
   // LoginBloc _loginBloc = LoginBloc();
   // ToastMsg toastMsg = ToastMsg();
@@ -64,14 +76,13 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-
                         Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           key: formKey,
                           child: Align(
                             alignment: Alignment.center,
                             child: Column(
                               children: [
-
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: ClipRRect(
@@ -89,7 +100,9 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               height: 25,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.fromLTRB(16.0,0,0,0),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      16.0, 0, 0, 0),
                                               child: AutoSizeText(
                                                 'File the form',
                                                 style: TextStyle(
@@ -108,10 +121,17 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 Container(
                                                   child: textInputFileds(
                                                       controlr: jobtitle,
+                                                      validator: (jobtitle) {
+                                                        if (validJob(jobtitle))
+                                                          return null;
+                                                        else
+                                                          return "enter job title";
+                                                      },
                                                       hintText: Txt.jobtitle,
                                                       keyboadType:
                                                           TextInputType.text,
-                                                      isPwd: false),
+                                                      isPwd: false,
+                                                      onTapDate: () {}),
                                                 ),
                                               ],
                                             ),
@@ -123,6 +143,14 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 Container(
                                                   child: textInputFileds(
                                                       controlr: location,
+                                                      onTapDate: () {},
+                                                      validator: (location) {
+                                                        if (validLocation(
+                                                            location))
+                                                          return null;
+                                                        else
+                                                          return "enter your location";
+                                                      },
                                                       hintText: Txt.location,
                                                       keyboadType:
                                                           TextInputType.text,
@@ -138,10 +166,18 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 Container(
                                                   child: textInputFileds(
                                                       controlr: jobDescri,
+                                                      onTapDate: () {},
+                                                      validator: (jobDescri) {
+                                                        if (validDescription(
+                                                            jobDescri))
+                                                          return null;
+                                                        else
+                                                          return "enter job decscription";
+                                                      },
                                                       hintText: Txt.jobDescri,
                                                       keyboadType: TextInputType
                                                           .visiblePassword,
-                                                      isPwd: true),
+                                                      isPwd: false),
                                                 ),
                                               ],
                                             ),
@@ -152,11 +188,21 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               children: [
                                                 Container(
                                                   child: textInputFileds(
-                                                      controlr: jobDescri,
+                                                      controlr: date,
+                                                      validator: (date) {
+                                                        if (validDate(date))
+                                                          return null;
+                                                        else
+                                                          return "select date";
+                                                      },
+                                                      onTapDate: () {
+                                                        _selectDate(
+                                                            context, date);
+                                                      },
                                                       hintText: Txt.date,
                                                       keyboadType: TextInputType
                                                           .visiblePassword,
-                                                      isPwd: true),
+                                                      isPwd: false),
                                                 ),
                                               ],
                                             ),
@@ -168,10 +214,20 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 Container(
                                                   child: textInputFileds(
                                                       controlr: dateFrom,
+                                                      validator: (dateFrom) {
+                                                        if (validDate(dateFrom))
+                                                          return null;
+                                                        else
+                                                          return "select time";
+                                                      },
+                                                      onTapDate: () {
+                                                        _selectTime(
+                                                            context, dateFrom);
+                                                      },
                                                       hintText: Txt.timeFrom,
                                                       keyboadType: TextInputType
                                                           .visiblePassword,
-                                                      isPwd: true),
+                                                      isPwd: false),
                                                 ),
                                               ],
                                             ),
@@ -183,10 +239,20 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 Container(
                                                   child: textInputFileds(
                                                       controlr: dateTo,
+                                                      validator: (dateTo) {
+                                                        if (validDate(dateTo))
+                                                          return null;
+                                                        else
+                                                          return "select time";
+                                                      },
+                                                      onTapDate: () {
+                                                        _selectTime(
+                                                            context, dateTo);
+                                                      },
                                                       hintText: Txt.timeTo,
                                                       keyboadType: TextInputType
                                                           .visiblePassword,
-                                                      isPwd: true),
+                                                      isPwd: false),
                                                 ),
                                               ],
                                             ),
@@ -199,11 +265,12 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 Container(
                                                   child: textInputFileds(
                                                       controlr: resourceType,
-                                                      hintText:
-                                                          Txt.selectResourceType,
+                                                      onTapDate: () {},
+                                                      hintText: Txt
+                                                          .selectResourceType,
                                                       keyboadType: TextInputType
                                                           .visiblePassword,
-                                                      isPwd: true),
+                                                      isPwd: false),
                                                 ),
                                               ],
                                             ),
@@ -211,13 +278,10 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               height: 15,
                                             ),
                                             signUpBtn(),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                            // Platform.isIOS ? AppleSignInButton(
-                                            // //style: ButtonStyle.black,
-                                            // type: ButtonType.continueButton,
-                                            // onPressed: appleLogIn,):Container(),
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+
                                           ],
                                         ),
                                       ),
@@ -232,7 +296,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                     ),
                   ),
                 ),
-
               ],
             ),
           ],
@@ -244,13 +307,15 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   Widget textInputFileds(
       {required String hintText,
       validator,
+      required Function onTapDate,
       required TextEditingController controlr,
       required TextInputType keyboadType,
       required bool isPwd}) {
     return Container(
-      // height: 100,
 
-      height: 45,
+
+       height: 45.sp,
+
       width: screenWidth(context, dividedBy: 1),
       padding: EdgeInsets.only(top: 0, left: 20, right: 20),
       child: TextFormField(
@@ -260,6 +325,9 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         textAlign: TextAlign.justify,
         obscureText: isPwd,
         maxLines: 1,
+        onTap: () {
+          onTapDate();
+        },
         keyboardType: keyboadType,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.all(10),
@@ -345,11 +413,29 @@ class _CreateShiftState extends State<CreateShiftScreen> {
             child: Stack(
               children: [
                 LoginButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => DashBoard()),
-                      // );
+                    onPressed: () async {
+                      var validate = formKey.currentState?.validate();
+                      if (null != validate) {
+                        if (validate) {
+                          final prefs = await SharedPreferences.getInstance();
+                          if (prefs.getBool("user") != null) {
+                            if (prefs.getBool("user") == true) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DashBoard()),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ManagerDashBoard()),
+                              );
+                            }
+                          }
+                        }
+                        // use the information provided
+                      }
                     },
                     label: "Create Shifts")
               ],
@@ -359,55 +445,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         SizedBox(
           height: 5,
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(top: 5, bottom: 0, left: 20, right: 20),
-        //   child: Container(
-        //     child: Row(
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         Flexible(
-        //           child: Text(
-        //             Txt.nopAccunt,
-        //             style: TextStyle(
-        //                   fontWeight: FontWeight.w700,
-        //                   fontSize: 18,
-        //                   color: Colors.black
-        //             ),),
-        //         ),
-        //         InkWell(
-        //             onTap: (){
-        //               // print('Button Clicked');
-        //               // Navigator.push(
-        //               //   context,
-        //               //   MaterialPageRoute(builder: (context) => SignUpScreen()),
-        //               // );
-        //             },
-        //             child: Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Text(Txt.createAccunt,
-        //
-        //                 style: TextStyle(color: Colors.blue,
-        //                       fontSize: 15,fontWeight: FontWeight.bold
-        //                 ),),
-        //             )
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        // InkWell(
-        //     onTap: (){
-        //       print('Button Clicked');
-        //     },
-        //     child: Padding(
-        //       padding: const EdgeInsets.all(8.0),
-        //       child: Text(Txt.forgotPassword,
-        //         style: TextStyle(color: Colors.blue,
-        //               fontSize: 15,fontWeight: FontWeight.bold
-        //         ),),
-        //     )
-        // ),
       ],
     );
   }
@@ -451,8 +488,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   }
 }
 
-
-
 class CustColors {
   static const DarkBlue = Color(0xff4e1d56);
   static const Green = Color(0xff6386da);
@@ -460,4 +495,42 @@ class CustColors {
   static const Green1 = Color(0xffdaf2a5);
 
   static const White = Color(0xffffffff);
+}
+
+_selectDate(BuildContext context, TextEditingController dateController) async {
+  print("date");
+  final DateTime? newDate = await showDatePicker(
+    context: context,
+    initialDatePickerMode: DatePickerMode.day,
+    initialDate: DateTime(2020, 11, 17),
+    firstDate: DateTime(2017, 1),
+    lastDate: DateTime(2022, 7),
+    helpText: 'Select a date',
+    fieldHintText: "dd-MM-yyyy",
+  );
+
+  if (newDate != null) {
+    print(newDate);
+
+    var dates = DateFormat('dd-MM-yyyy').format(newDate);
+    dateController.text = dates;
+  }
+  return "values";
+}
+
+_selectTime(BuildContext context, TextEditingController anycontroller) async {
+  print("time");
+
+  final TimeOfDay? timeOfDay = await showTimePicker(
+    context: context,
+    initialTime: TimeOfDay.now(),
+    initialEntryMode: TimePickerEntryMode.input,
+    confirmText: "CONFIRM",
+    cancelText: "NOT NOW",
+    helpText: "BOOKING TIME",
+  );
+
+  if (timeOfDay != null) {
+    anycontroller.text = timeOfDay.format(context);
+  }
 }

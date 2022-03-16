@@ -1,15 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/dashboard_screen.dart';
-import 'package:xpresshealthdev/UI/manager_dashboard_screen.dart';
 import 'package:xpresshealthdev/utils/utils.dart';
 
 import '../../Constants/strings.dart';
 import '../../Constants/toast.dart';
+import '../../utils/validator.dart';
+import '../dashboard_screen.dart';
+import '../manager_dashboard_screen.dart';
 import '../widgets/buttons/login_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -56,14 +58,12 @@ class _LoginScreenState extends State<LoginScreen> {
             fit: BoxFit.fill,
           ),
           Container(
-
             child: Stack(
               children: [
                 Container(
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 70.h,
@@ -71,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Form(
+                            // autovalidateMode: AutovalidateMode.always,
                             key: formKey,
                             child: Align(
                               alignment: Alignment.center,
@@ -91,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             logoImage(),
-                                             Padding(
+                                            Padding(
                                               padding: EdgeInsets.fromLTRB(
                                                   20.0, 0, 0, 0),
                                               child: AutoSizeText(
@@ -112,11 +113,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                               children: [
                                                 Container(
                                                   child: textInputFileds(
-                                                      controlr: email,
-                                                      hintText: Txt.email,
-                                                      keyboadType: TextInputType
-                                                          .emailAddress,
-                                                      isPwd: false),
+                                                    controlr: email,
+                                                    validator: (email) {
+                                                      if (validEmail(email))
+                                                        return null;
+                                                      else
+                                                        return 'Enter a valid email address';
+                                                    },
+                                                    hintText: Txt.email,
+                                                    keyboadType: TextInputType
+                                                        .emailAddress,
+                                                    isPwd: false,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -127,11 +135,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                               children: [
                                                 Container(
                                                   child: textInputFileds(
-                                                      controlr: pwd,
-                                                      hintText: Txt.pwd,
-                                                      keyboadType: TextInputType
-                                                          .visiblePassword,
-                                                      isPwd: true),
+                                                    controlr: pwd,
+                                                    validator: (password) {
+                                                      if (validPassword(
+                                                          password))
+                                                        return null;
+                                                      else
+                                                        return 'Enter a valid password';
+                                                    },
+                                                    hintText: Txt.pwd,
+                                                    keyboadType: TextInputType
+                                                        .visiblePassword,
+                                                    isPwd: true,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -184,13 +200,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget textInputFileds(
       {required String hintText,
-      validator,
+      required validator,
       required TextEditingController controlr,
       required TextInputType keyboadType,
       required bool isPwd}) {
     return Container(
       // height: 100,
-      height: 5.5.h,
+
+      height: 45,
       width: screenWidth(context, dividedBy: 1),
       padding: EdgeInsets.only(top: 0, left: 20, right: 20),
       child: TextFormField(
@@ -210,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
             labelStyle: TextStyle(
                 fontFamily: 'SFProRegular',
                 fontWeight: FontWeight.w500,
-                fontSize: 10.sp,
+                fontSize: 16,
                 color: Colors.grey),
             enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -224,11 +241,11 @@ class _LoginScreenState extends State<LoginScreen> {
             hintStyle: TextStyle(
                 fontFamily: 'SFProRegular',
                 fontWeight: FontWeight.normal,
-                fontSize: 10.sp,
+                fontSize: 16,
                 color: Colors.grey)),
         style: TextStyle(
             fontWeight: FontWeight.w500,
-            fontSize: 10.sp,
+            fontSize: 16,
             decoration: TextDecoration.none,
             color: Colors.brown),
       ),
@@ -286,21 +303,27 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 LoginButton(
                     onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      if (prefs.getBool("user") != null) {
-                        if (prefs.getBool("user") == true) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DashBoard()),
-                          );
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ManagerDashBoard()),
-                          );
+                      var validate = formKey.currentState?.validate();
+                      if (null != validate) {
+                        if (validate) {
+                          final prefs = await SharedPreferences.getInstance();
+                          if (prefs.getBool("user") != null) {
+                            if (prefs.getBool("user") == true) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DashBoard()),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ManagerDashBoard()),
+                              );
+                            }
+                          }
                         }
+                        // use the information provided
                       }
                     },
                     label: "Login")
@@ -311,55 +334,6 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(
           height: 5,
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(top: 5, bottom: 0, left: 20, right: 20),
-        //   child: Container(
-        //     child: Row(
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         Flexible(
-        //           child: Text(
-        //             Txt.nopAccunt,
-        //             style: TextStyle(
-        //                   fontWeight: FontWeight.w700,
-        //                   fontSize: 18,
-        //                   color: Colors.black
-        //             ),),
-        //         ),
-        //         InkWell(
-        //             onTap: (){
-        //               // print('Button Clicked');
-        //               // Navigator.push(
-        //               //   context,
-        //               //   MaterialPageRoute(builder: (context) => SignUpScreen()),
-        //               // );
-        //             },
-        //             child: Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Text(Txt.createAccunt,
-        //
-        //                 style: TextStyle(color: Colors.blue,
-        //                       fontSize: 15,fontWeight: FontWeight.bold
-        //                 ),),
-        //             )
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        // InkWell(
-        //     onTap: (){
-        //       print('Button Clicked');
-        //     },
-        //     child: Padding(
-        //       padding: const EdgeInsets.all(8.0),
-        //       child: Text(Txt.forgotPassword,
-        //         style: TextStyle(color: Colors.blue,
-        //               fontSize: 15,fontWeight: FontWeight.bold
-        //         ),),
-        //     )
-        // ),
       ],
     );
   }
