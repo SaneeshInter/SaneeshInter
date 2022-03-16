@@ -7,11 +7,11 @@ import '../../../Constants/app_defaults.dart';
 import '../../../utils/constants.dart';
 import '../../widgets/buttons/drawable_button.dart';
 
-class ProfileDocRow extends StatefulWidget {
+class ProfileDetailsRow extends StatefulWidget {
   final String label;
   final String asset;
 
-  const ProfileDocRow({
+  const ProfileDetailsRow({
     Key? key,
     required this.label,
     required this.asset,
@@ -21,7 +21,7 @@ class ProfileDocRow extends StatefulWidget {
   _CustomRowState createState() => _CustomRowState();
 }
 
-class _CustomRowState extends State<ProfileDocRow> {
+class _CustomRowState extends State<ProfileDetailsRow> {
   bool tapped = false;
 
   @override
@@ -42,9 +42,19 @@ class _CustomRowState extends State<ProfileDocRow> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.fromLTRB(0, 8, 5, 8),
           child: Row(
             children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                    height: 4.w,
+                    width: 4.w,
+                    child: SvgPicture.asset(
+                      widget.asset,
+                      color: Constants.colors[7],
+                    )),
+              ),
               Expanded(
                 flex: 6,
                 child: AutoSizeText(
@@ -56,15 +66,6 @@ class _CustomRowState extends State<ProfileDocRow> {
                   ),
                   maxLines: 2,
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                    height: 3.w,
-                    width: 3.w,
-                    child: SvgPicture.asset(
-                      widget.asset,
-                    )),
               ),
             ],
           ),

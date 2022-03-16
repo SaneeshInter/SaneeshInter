@@ -16,6 +16,7 @@ import '../../../utils/constants.dart';
 import '../../dashboard_screen.dart';
 import '../../manager_dashboard_screen.dart';
 import '../../widgets/buttons/login_button.dart';
+import '../../widgets/input_text.dart';
 
 class CreateShiftScreen extends StatefulWidget {
   const CreateShiftScreen({Key? key}) : super(key: key);
@@ -77,21 +78,21 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Form(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+
                           key: formKey,
                           child: Align(
                             alignment: Alignment.center,
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: ClipRRect(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                     child: Container(
                                       color: Colors.white,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
+                                        padding: const EdgeInsets.all(4.0),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -104,7 +105,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                   const EdgeInsets.fromLTRB(
                                                       16.0, 0, 0, 0),
                                               child: AutoSizeText(
-                                                'File the form',
+                                                'Fil the form',
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.black,
@@ -119,7 +120,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                       controlr: jobtitle,
                                                       validator: (jobtitle) {
                                                         if (validJob(jobtitle))
@@ -141,7 +142,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                       controlr: location,
                                                       onTapDate: () {},
                                                       validator: (location) {
@@ -164,7 +165,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                       controlr: jobDescri,
                                                       onTapDate: () {},
                                                       validator: (jobDescri) {
@@ -187,7 +188,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                       controlr: date,
                                                       validator: (date) {
                                                         if (validDate(date))
@@ -212,7 +213,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                       controlr: dateFrom,
                                                       validator: (dateFrom) {
                                                         if (validDate(dateFrom))
@@ -237,7 +238,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                       controlr: dateTo,
                                                       validator: (dateTo) {
                                                         if (validDate(dateTo))
@@ -263,7 +264,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: textInputFileds(
+                                                  child: TextInputFileds(
                                                       controlr: resourceType,
                                                       onTapDate: () {},
                                                       hintText: Txt
@@ -304,103 +305,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     );
   }
 
-  Widget textInputFileds(
-      {required String hintText,
-      validator,
-      required Function onTapDate,
-      required TextEditingController controlr,
-      required TextInputType keyboadType,
-      required bool isPwd}) {
-    return Container(
-
-
-       height: 45.sp,
-
-      width: screenWidth(context, dividedBy: 1),
-      padding: EdgeInsets.only(top: 0, left: 20, right: 20),
-      child: TextFormField(
-        cursorWidth: 1.0,
-        controller: controlr,
-        validator: validator,
-        textAlign: TextAlign.justify,
-        obscureText: isPwd,
-        maxLines: 1,
-        onTap: () {
-          onTapDate();
-        },
-        keyboardType: keyboadType,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(10),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
-            ),
-            labelStyle: TextStyle(
-                fontFamily: 'SFProRegular',
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: Colors.grey),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
-            ),
-            hintText: hintText,
-            hintStyle: TextStyle(
-                fontFamily: 'SFProRegular',
-                fontWeight: FontWeight.normal,
-                fontSize: 16,
-                color: Colors.grey)),
-        style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            decoration: TextDecoration.none,
-            color: Colors.brown),
-      ),
-    );
-  }
-
-  Widget forgotpasswordnadLogin() {
-    return Row(
-      children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.only(left: 40),
-            child: Container(
-              child: InkWell(
-                  onTap: () {
-                    print("forgot password pressed");
-                  },
-                  child: Text(Txt.forgotPwd,
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12,
-                          color: Colors.grey))),
-            )),
-        Spacer(),
-        Padding(
-          padding: const EdgeInsets.only(right: 38),
-          child: Container(
-            width: 50,
-            height: 50,
-            child: isLoading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    ),
-                  )
-                : InkWell(
-                    onTap: () {},
-                    child:
-                        Image(image: AssetImage("assets/images/whitelogo.png")),
-                  ),
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget signUpBtn() {
     return Column(
@@ -417,22 +321,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                       var validate = formKey.currentState?.validate();
                       if (null != validate) {
                         if (validate) {
-                          final prefs = await SharedPreferences.getInstance();
-                          if (prefs.getBool("user") != null) {
-                            if (prefs.getBool("user") == true) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DashBoard()),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ManagerDashBoard()),
-                              );
-                            }
-                          }
                         }
                         // use the information provided
                       }
@@ -449,53 +337,11 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     );
   }
 
-  Widget logoImage() {
-    return Column(
-      children: <Widget>[
-        Center(
-            child: Stack(
-          children: [
-            Visibility(
-              visible: true,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 10, left: 0, right: 0, bottom: 0),
-                child: Container(
-                    height: MediaQuery.of(context).size.width / 5,
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: SvgPicture.asset(
-                      'assets/images/icon/logo.svg',
-                    )),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Visibility(
-                  visible: visible,
-                  child: Center(
-                    child: Container(
-                        margin: EdgeInsets.only(top: 0, bottom: 0),
-                        child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              CustColors.Green),
-                        )),
-                  )),
-            ),
-          ],
-        )),
-      ],
-    );
+
   }
-}
 
-class CustColors {
-  static const DarkBlue = Color(0xff4e1d56);
-  static const Green = Color(0xff6386da);
-  static const Blue1 = Color(0xffa4bcf7);
-  static const Green1 = Color(0xffdaf2a5);
 
-  static const White = Color(0xffffffff);
-}
+
 
 _selectDate(BuildContext context, TextEditingController dateController) async {
   print("date");

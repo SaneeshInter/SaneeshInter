@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 class ViewButton extends StatefulWidget {
@@ -31,7 +32,7 @@ class _ViewButtonState extends State<ViewButton> {
         child: Text(
           widget.label,
           style: TextStyle(
-              fontSize: 13,
+              fontSize: 8.5.sp,
               color: Constants.colors[3],
               fontWeight: FontWeight.w400),
         ),

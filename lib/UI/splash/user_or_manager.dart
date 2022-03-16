@@ -132,7 +132,7 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
                             margin: EdgeInsets.only(top: 0, bottom: 0),
                             child: CircularProgressIndicator(
                               valueColor: new AlwaysStoppedAnimation<Color>(
-                                  CustColors.Green),
+                                  Constants.colors[3]),
                             )),
                       )),
                 ),
@@ -216,7 +216,7 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
                             margin: EdgeInsets.only(top: 0, bottom: 0),
                             child: CircularProgressIndicator(
                               valueColor: new AlwaysStoppedAnimation<Color>(
-                                  CustColors.Green),
+                                  Constants.colors[3]),
                             )),
                       )),
                 ),
@@ -260,7 +260,7 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
                             margin: EdgeInsets.only(top: 0, bottom: 0),
                             child: CircularProgressIndicator(
                               valueColor: new AlwaysStoppedAnimation<Color>(
-                                  CustColors.Green),
+                                  Constants.colors[3]),
                             )),
                       )),
                 ),
@@ -274,22 +274,4 @@ class _UserOrManagerScreenState extends State<UserOrManager> {
       ],
     );
   }
-}
-
-class HexColor extends Color {
-  static int _getColor(String hex) {
-    String formattedHex = "FF" + hex.toUpperCase().replaceAll("#", "");
-    return int.parse(formattedHex, radix: 16);
-  }
-
-  HexColor(final String hex) : super(_getColor(hex));
-}
-
-class CustColors {
-  static const DarkBlue = Color(0xff4e1d56);
-  static const Green = Color(0xff6386da);
-  static const Blue1 = Color(0xffa4bcf7);
-  static const Green1 = Color(0xffdaf2a5);
-  static const White = Color(0xffffffff);
-  static const ButtonText = Color(0xff1b1b1b);
 }

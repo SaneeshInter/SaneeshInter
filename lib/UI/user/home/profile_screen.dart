@@ -99,7 +99,7 @@ class _ProfileState extends State<ProfileScreen> {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 16.sp,
                                       fontFamily: "SFProMedium",
                                       fontWeight: FontWeight.w700),
                                 ),
@@ -109,7 +109,7 @@ class _ProfileState extends State<ProfileScreen> {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: 11.sp,
                                       fontFamily: "S",
                                       fontWeight: FontWeight.w400),
                                 ),
@@ -119,7 +119,7 @@ class _ProfileState extends State<ProfileScreen> {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: 12.sp,
                                       fontFamily: "S",
                                       fontWeight: FontWeight.w400),
                                 ),

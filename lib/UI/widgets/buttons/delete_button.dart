@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 class DeleteButton extends StatefulWidget {
@@ -38,7 +39,7 @@ class _DeleteButtonState extends State<DeleteButton> {
         child: Text(
           widget.label,
           style: TextStyle(
-              fontSize: 13,
+              fontSize: 8.5.sp,
               color: tapped == false ? Colors.black : Colors.black,
               fontWeight: FontWeight.w400),
         ),

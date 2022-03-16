@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/manager/home/approved_timesheet_screen.dart';
 import 'package:xpresshealthdev/UI/manager/home/manager_home_screen.dart';
 import 'package:xpresshealthdev/UI/manager/home/my_booking_screen.dart';
@@ -25,6 +28,16 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
     MyBookingScreen(),
     ApprovedTimeSheetScreen()
   ];
+
+  late PersistentTabController _controller;
+  late bool _hideNavBar;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PersistentTabController(initialIndex: 0);
+    _hideNavBar = false;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -92,6 +105,8 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
             child: SvgPicture.asset(
               'assets/images/icon/menu.svg',
               fit: BoxFit.contain,
+              width: 5.w,
+              height: 4.2.w,
             )),
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -109,8 +124,7 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
                 child: SvgPicture.asset(
                   'assets/images/icon/logo.svg',
                   fit: BoxFit.contain,
-                  height: 30,
-                  width: 40,
+                  height: 8.w,
                 )),
           ],
         ),
@@ -119,52 +133,80 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
           IconButton(
             onPressed: () {},
             icon: SvgPicture.asset(
-                'assets/images/icon/searchicon.svg'), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
+                'assets/images/icon/searchicon.svg', width: 5.w,
+              height: 5.w,), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
           ),
         ],
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: SizedBox(
-        child: BottomNavigationBar(
-          showSelectedLabels: true,
-          iconSize: 3,
-          showUnselectedLabels: true,
-          selectedIconTheme: IconThemeData(color: Colors.red, opacity: 10),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/images/icon/home.svg'),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/images/icon/shiftblack.svg'),
-              label: 'Create Shift',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/images/icon/booking.svg'),
-              label: 'View Booking',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/images/icon/availability.svg'),
-              label: 'Apporve TimeSheets',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: HexColor("#259ee7"),
-          backgroundColor: HexColor("#FFFFFFFF"),
-          unselectedItemColor: HexColor("#a4adb6"),
-          onTap: _onItemTapped,
+      body: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _widgetOptions,
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        backgroundColor: Colors.white,
+        // Default is Colors.white.
+        handleAndroidBackButtonPress: true,
+        // Default is true.
+        resizeToAvoidBottomInset: true,
+        // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        stateManagement: true,
+        // Default is true.
+        hideNavigationBarWhenKeyboardShows: true,
+        // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        decoration: NavBarDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          colorBehindNavBar: Colors.white,
         ),
+        popAllScreensOnTapOfSelectedTab: true,
+        popActionScreens: PopActionScreensType.all,
+        itemAnimationProperties: ItemAnimationProperties(
+          // Navigation Bar's items animation properties.
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+        screenTransitionAnimation: ScreenTransitionAnimation(
+          // Screen transition animation on change of selected tab.
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
+        navBarStyle:
+            NavBarStyle.style3, // Choose the nav bar style with this property.
       ),
     );
   }
 }
 
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
-    return child;
-  }
+List<PersistentBottomNavBarItem> _navBarsItems() {
+  return [
+    PersistentBottomNavBarItem(
+      icon: Icon(CupertinoIcons.home),
+      title: ("Home"),
+      iconSize: 6.w,
+      activeColorPrimary: Constants.colors[6],
+      inactiveColorPrimary: CupertinoColors.systemGrey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: Icon(CupertinoIcons.shift),
+      title: ("Create Shift"),
+      iconSize: 6.w,
+      activeColorPrimary: Constants.colors[6],
+      inactiveColorPrimary: CupertinoColors.systemGrey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: Icon(CupertinoIcons.calendar),
+      title: ("View Booking"),
+      iconSize: 6.w,
+      activeColorPrimary: Constants.colors[6],
+      inactiveColorPrimary: CupertinoColors.systemGrey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: Icon(CupertinoIcons.calendar_badge_plus),
+      title: ("Apporve TimeSheets"),
+      iconSize: 6.w,
+      activeColorPrimary: Constants.colors[6],
+      inactiveColorPrimary: CupertinoColors.systemGrey,
+    ),
+  ];
 }

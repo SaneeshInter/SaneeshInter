@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:xpresshealthdev/UI/user/detail/profile_details_row.dart';
 
 import '../../Constants/app_defaults.dart';
 import '../../utils/constants.dart';
@@ -67,190 +68,34 @@ class ProfileDetailCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 8.0),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/sex.svg')),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'Gender:Male',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/confetti.svg')),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'Date Of Birth:00/00/00',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/flag.svg')),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'Nationality',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/Pin.svg')),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'Address',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/email.svg')),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'Email',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/phone.svg',color: Colors.grey,)),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'Phone Number',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/passport.svg')),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'PPS Number',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 20,
-                                width: 20,
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/bank.svg')),
-                            SizedBox(width: 15.0),
-                            Text(
-                              'Bank Details',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      ProfileDetailsRow(
+                          label: "Gender:Male",
+                          asset: "assets/images/icon/sex.svg"),
+                      SizedBox(width: 15.0),
+                      ProfileDetailsRow(
+                          label: "Date Of Birth:00/00/00",
+                          asset: "assets/images/icon/confetti.svg"),
+                      SizedBox(width: 15.0),
+                      ProfileDetailsRow(
+                          label: "Address",
+                          asset: "assets/images/icon/Pin.svg"),
+                      SizedBox(width: 15.0),
+                      ProfileDetailsRow(
+                          label: "Email",
+                          asset: "assets/images/icon/email.svg"),
+                      SizedBox(width: 15.0),
+                      ProfileDetailsRow(
+                          label: "Phone Number",
+                          asset: "assets/images/icon/phone.svg"),
+                      SizedBox(width: 15.0),
+                      ProfileDetailsRow(
+                          label: "PPS Number",
+                          asset: "assets/images/icon/passport.svg"),
+                      SizedBox(width: 15.0),
+                      ProfileDetailsRow(
+                          label: "Bank Details",
+                          asset: "assets/images/icon/bank.svg"),
+                      SizedBox(width: 15.0),
                     ],
                   ),
                 ),
