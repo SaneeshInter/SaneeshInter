@@ -10,6 +10,7 @@ import 'package:xpresshealthdev/UI/user/home/find_shift_screen.dart';
 import 'package:xpresshealthdev/UI/user/home/home_screen.dart';
 import 'package:xpresshealthdev/UI/user/home/my_booking_screen.dart';
 import 'package:xpresshealthdev/UI/user/home/profile_screen.dart';
+import 'package:xpresshealthdev/ui/user/home/shift_list.dart';
 
 import '../Constants/app_defaults.dart';
 import '../utils/colors_util.dart';
@@ -40,9 +41,10 @@ class _DashBoardWidgetState extends State<DashBoard> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static  List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     FindShiftScreen(),
+
     MyBookingScreen(),
     AvailabilityScreen(),
     ProfileScreen(),

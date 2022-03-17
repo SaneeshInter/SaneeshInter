@@ -82,6 +82,7 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                     fontWeight: FontWeight.w600,
                     fontSize: 8.sp),
                 itemController: itemController,
+
                 onDateChange: (date, x) {
                   // New date selected
                   setState(() {

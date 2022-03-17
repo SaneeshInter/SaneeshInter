@@ -32,6 +32,7 @@ class _BuildButtonState extends State<TextInputFileds> {
       height: 5.5.h,
       width: screenWidth(context, dividedBy: 1),
       padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+
       child: TextFormField(
         cursorWidth: 1.0,
         controller: widget.controlr,
@@ -40,6 +41,9 @@ class _BuildButtonState extends State<TextInputFileds> {
         obscureText: widget.isPwd,
         maxLines: 1,
         keyboardType: widget.keyboadType,
+        onTap: (){
+          widget.onTapDate();
+        },
         decoration: InputDecoration(
             contentPadding: EdgeInsets.all(5),
             errorBorder: const OutlineInputBorder(

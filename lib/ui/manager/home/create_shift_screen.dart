@@ -197,6 +197,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                           return "select date";
                                                       },
                                                       onTapDate: () {
+
                                                         _selectDate(
                                                             context, date);
                                                       },
@@ -361,7 +362,7 @@ _selectDate(BuildContext context, TextEditingController dateController) async {
     var dates = DateFormat('dd-MM-yyyy').format(newDate);
     dateController.text = dates;
   }
-  return "values";
+
 }
 
 _selectTime(BuildContext context, TextEditingController anycontroller) async {
