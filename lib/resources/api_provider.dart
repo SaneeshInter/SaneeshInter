@@ -1,16 +1,29 @@
 import 'dart:convert';
+
 import 'package:http/http.dart';
+
 import '../model/shift_list_response.dart';
 //ref https://medium.com/codechai/architecting-your-flutter-project-bd04e144a8f1
 
 class ApiProvider {
   Client client = Client();
+  String BASE_URL = "https://agasthyapix.yodser.com/api";
 
   Future<SliftListRepso> fetchShiftList(String date) async {
     print("date");
     print(date);
-    var uri = Uri.parse(
-        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
+    var uri = Uri.parse(BASE_URL + '/categories.asmx/fillCategories');
+    final response = await client.get(uri);
+    print(response);
+    if (response.statusCode == 200) {
+      return SliftListRepso.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<SliftListRepso> loginUser(String username, String password) async {
+    var uri = Uri.parse(BASE_URL + '/categories.asmx/fillCategories');
     final response = await client.get(uri);
     print(response);
     if (response.statusCode == 200) {

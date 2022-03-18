@@ -3,16 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/utils/utils.dart';
+import 'package:xpresshealthdev/blocs/login_bloc.dart';
 
 import '../../Constants/strings.dart';
 import '../../Constants/toast.dart';
 import '../../utils/constants.dart';
 import '../../utils/validator.dart';
-import '../dashboard_screen.dart';
-import '../manager_dashboard_screen.dart';
 import '../widgets/buttons/login_button.dart';
 import '../widgets/input_text.dart';
 
@@ -38,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //_loginResponse();
+    _loginResponse();
   }
 
   @override
@@ -126,7 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     hintText: Txt.email,
                                                     keyboadType: TextInputType
                                                         .emailAddress,
-                                                    isPwd: false, onTapDate: (){},
+                                                    isPwd: false,
+                                                    onTapDate: () {},
                                                   ),
                                                 ),
                                               ],
@@ -149,7 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     hintText: Txt.pwd,
                                                     keyboadType: TextInputType
                                                         .visiblePassword,
-                                                    isPwd: true, onTapDate: (){},
+                                                    isPwd: true,
+                                                    onTapDate: () {},
                                                   ),
                                                 ),
                                               ],
@@ -200,7 +199,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   Widget signUpBtn() {
     return Column(
       children: <Widget>[
@@ -216,22 +214,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       var validate = formKey.currentState?.validate();
                       if (null != validate) {
                         if (validate) {
-                          final prefs = await SharedPreferences.getInstance();
-                          if (prefs.getBool("user") != null) {
-                            if (prefs.getBool("user") == true) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DashBoard()),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ManagerDashBoard()),
-                              );
-                            }
-                          }
+                          loginBloc.fetchLogin(email.text, pwd.text);
+                          // final prefs = await SharedPreferences.getInstance();
+                          // if (prefs.getBool("user") != null) {
+                          //   if (prefs.getBool("user") == true) {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => DashBoard()),
+                          //     );
+                          //   } else {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => ManagerDashBoard()),
+                          //     );
+                          //   }
+                          // }
                         }
                         // use the information provided
                       }
@@ -285,6 +284,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
+
+  void _loginResponse() {}
 }
 
 class CustColors {
