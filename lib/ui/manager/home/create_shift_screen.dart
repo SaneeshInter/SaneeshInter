@@ -221,7 +221,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         _selectTime(
                                                             context, dateFrom);
                                                       },
-                                                      hintText: Txt.timeTo,
+                                                      hintText: Txt.timeFrom,
                                                       keyboadType:
                                                           TextInputType.none,
                                                       isPwd: false),
@@ -258,30 +258,18 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             const SizedBox(
                                               height: 15,
                                             ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                      controlr: resourceType,
-                                                      onTapDate: () {},
-                                                      hintText: Txt
-                                                          .selectResourceType,
-                                                      keyboadType: TextInputType
-                                                          .visiblePassword,
-                                                      isPwd: false),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20, right: 20),
-                                              child: Container(
-                                                height: 40.sp,
-                                                width: 80.w,
+
+                                            Container(
+                                              height: 5.5.h,
+                                              width: screenWidth(context, dividedBy: 1),
+                                              child: Padding(
+                                                padding: EdgeInsets.only(top: 0, left: 20, right: 20),
                                                 child: DropdownButtonFormField(
+                                                  style: TextStyle(
+                                                      fontFamily: 'SFProRegular',
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 10.sp,
+                                                      color: Colors.grey),
                                                   hint:
                                                       Text('Please choose one'),
                                                   decoration: InputDecoration(
@@ -290,7 +278,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                       borderRadius:
                                                           BorderRadius.all(
                                                               Radius.circular(
-                                                                  10)),
+                                                                  5)),
                                                       borderSide: BorderSide(
                                                           color: Colors.grey),
                                                     ),
@@ -300,7 +288,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                 BorderRadius
                                                                     .all(Radius
                                                                         .circular(
-                                                                            8.0)),
+                                                                            5.0)),
                                                             borderSide:
                                                                 BorderSide(
                                                                     color: Colors
@@ -308,6 +296,11 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     width: 1)),
                                                     contentPadding:
                                                         EdgeInsets.all(8.0),
+                                                    labelStyle: TextStyle(
+                                                        fontFamily: 'SFProRegular',
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 10.sp,
+                                                        color: Colors.grey),
                                                     labelText:
                                                         "Select Resource Type ",
                                                   ),

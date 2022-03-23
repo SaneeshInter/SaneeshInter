@@ -1,18 +1,29 @@
-import 'dart:ffi';
-
 import 'package:rxdart/rxdart.dart';
-import 'package:xpresshealthdev/model/shift_login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xpresshealthdev/model/user_get_response.dart';
 import 'package:xpresshealthdev/resources/respository.dart';
 
-import '../model/shift_list_response.dart';
+import '../Constants/sharedPrefKeys.dart';
 
 class ProfileBloc {
   final _repo = Repository();
-  final _profileUser= PublishSubject< void>();
+  final _profileUser = PublishSubject<void>();
+  final _getUser = PublishSubject<UserGetResponse>();
 
- // Stream<ProfileUser> get loginStream => _profileBloc.stream;
   Stream<void> get profileStream => _profileUser.stream;
 
+  Stream<UserGetResponse> get getProfileStream => _getUser.stream;
+
+  getUserInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString(SharedPrefKey.AUTH_TOKEN);
+    if (null != token) {
+      UserGetResponse response = await _repo.fetchUserInfo(token);
+      _getUser.sink.add(response);
+    } else {
+      print("Not loged in ");
+    }
+  }
 
   ProfileUser(
       String token,
@@ -27,12 +38,8 @@ class ProfileBloc {
       String email,
       String pps_number,
       String bank_iban,
-      String bank_bic
-
-
-      ) async {
+      String bank_bic) async {
     void respo = await _repo.ProfileUser(
-
         token,
         first_name,
         last_name,
@@ -45,9 +52,7 @@ class ProfileBloc {
         email,
         pps_number,
         bank_iban,
-        bank_bic
-
-    );
+        bank_bic);
     _profileUser.sink.add(respo);
   }
 
@@ -56,6 +61,4 @@ class ProfileBloc {
   }
 }
 
-final ProfileBlocc = ProfileBloc();
-
-
+final profileBloc = ProfileBloc();

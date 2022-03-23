@@ -1,11 +1,11 @@
-class LoginShift {
+class LoginUserRespo {
   String? email;
   String? password;
   Response? response;
 
-  LoginShift({this.email, this.password, this.response});
+  LoginUserRespo({this.email, this.password, this.response});
 
-  LoginShift.fromJson(Map<String, dynamic> json) {
+  LoginUserRespo.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     password = json['password'];
     response = json['Response'] != null
@@ -33,7 +33,7 @@ class Response {
   Response.fromJson(Map<String, dynamic> json) {
     data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
     status =
-    json['status'] != null ? new Status.fromJson(json['status']) : null;
+        json['status'] != null ? new Status.fromJson(json['status']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -50,16 +50,19 @@ class Response {
 
 class Data {
   String? token;
+  int? role;
 
-  Data({this.token});
+  Data({this.token, this.role});
 
   Data.fromJson(Map<String, dynamic> json) {
     token = json['token'];
+    role = json['role'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['token'] = this.token;
+    data['role'] = this.role;
     return data;
   }
 }
@@ -85,4 +88,3 @@ class Status {
     return data;
   }
 }
-

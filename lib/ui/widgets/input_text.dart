@@ -11,7 +11,6 @@ class TextInputFileds extends StatefulWidget {
   TextInputType keyboadType;
   bool isPwd;
   Function onTapDate;
-
   TextInputFileds(
       {Key? key,
       required this.hintText,
@@ -24,7 +23,6 @@ class TextInputFileds extends StatefulWidget {
   @override
   _BuildButtonState createState() => _BuildButtonState();
 }
-
 class _BuildButtonState extends State<TextInputFileds> {
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,6 @@ class _BuildButtonState extends State<TextInputFileds> {
       height: 7.3.h,
       width: screenWidth(context, dividedBy: 1),
       padding: EdgeInsets.only(top: 0, left: 20, right: 20),
-
       child: TextFormField(
         cursorWidth: 1.0,
         onTap: () {

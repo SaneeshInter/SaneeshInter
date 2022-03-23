@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/blocs/profile_update.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
 
 import '../../../Constants/strings.dart';
@@ -56,16 +57,14 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   TimeOfDay selectedTime = TimeOfDay.now();
 
   TextEditingController controller = TextEditingController();
-
-  // LoginBloc _loginBloc = LoginBloc();
-  // ToastMsg toastMsg = ToastMsg();
   bool visible = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //_loginResponse();
+    profileBloc.getUserInfo();
+    listner();
   }
 
   @override
@@ -137,20 +136,20 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 children: [
                                                   Stack(
                                                     children: [
-
                                                       Container(
-                                                        width:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .width *
-                                                                0.20,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.20,
                                                         child: ClipRRect(
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  30),
+                                                              BorderRadius
+                                                                  .circular(30),
                                                           child: AspectRatio(
                                                             aspectRatio: 1 / 1,
-                                                            child: Image.network(
+                                                            child:
+                                                                Image.network(
                                                               'https://i.imgur.com/PJpPD6S.png',
                                                               fit: BoxFit.cover,
                                                             ),
@@ -158,24 +157,30 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         ),
                                                       ),
                                                       Column(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
                                                         children: [
                                                           Container(
-
-                                                            width:
-                                                            MediaQuery.of(context)
-                                                                .size
-                                                                .width *
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
                                                                 0.10,
                                                             child: ClipRRect(
                                                               borderRadius:
-                                                              BorderRadius.circular(
-                                                                  30),
-                                                              child: AspectRatio(
-                                                                aspectRatio: 1 / 1,
-                                                                child: Image.network(
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              child:
+                                                                  AspectRatio(
+                                                                aspectRatio:
+                                                                    1 / 1,
+                                                                child: Image
+                                                                    .network(
                                                                   'https://i.imgur.com/PJpPD6S.png',
-                                                                  fit: BoxFit.cover,
+                                                                  fit: BoxFit
+                                                                      .cover,
                                                                 ),
                                                               ),
                                                             ),
@@ -305,50 +310,49 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                       flex: 1,
                                                       child: Padding(
                                                         padding:
-                                                        const EdgeInsets
-                                                            .only(right: 19),
-                                                      child: Container(
-                                                        child:
-                                                            DropdownButtonFormField(
-                                                          hint: Text(
-                                                              'Please choose one'),
-                                                          decoration:
-                                                              InputDecoration(
-                                                            enabledBorder:
-                                                                OutlineInputBorder(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10)),
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                      color: Colors
-                                                                          .grey),
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                right: 19),
+                                                        child: Container(
+                                                          child:
+                                                              DropdownButtonFormField(
+                                                            hint: Text(
+                                                                'Please choose one'),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              enabledBorder:
+                                                                  OutlineInputBorder(
                                                                 borderRadius: BorderRadius
                                                                     .all(Radius
                                                                         .circular(
-                                                                            8.0)),
-                                                                borderSide:
-                                                                    BorderSide(
-                                                                        color: Colors
-                                                                            .grey,
-                                                                        width:
-                                                                            1)),
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                    3.0),
-                                                            labelText:
-                                                                "Select Gender",
+                                                                            10)),
+                                                                borderSide: BorderSide(
+                                                                    color: Colors
+                                                                        .grey),
+                                                              ),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              8.0)),
+                                                                  borderSide: BorderSide(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      width:
+                                                                          1)),
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(3.0),
+                                                              labelText:
+                                                                  "Select Gender",
+                                                            ),
+                                                            items: _genders,
+                                                            onChanged: (value) {
+                                                              setState(() {});
+                                                            },
                                                           ),
-                                                          items: _genders,
-                                                          onChanged: (value) {
-                                                            setState(() {});
-                                                          },
                                                         ),
                                                       ),
-                                                    ),
                                                     ),
                                                   ],
                                                 ),
@@ -733,6 +737,23 @@ class _CreateShiftState extends State<ProfileEditScreen> {
       ],
     );
   }
+
+  void listner() {
+    profileBloc.getProfileStream.listen((event) {
+      print("Profile Stream");
+      print(event.userResponse?.data?.items?[0].email);
+      print(event.userResponse?.data?.items?[0].firstName);
+      print(event.userResponse?.data?.items?[0].lastName);
+
+      if (null != event.userResponse?.data?.items?[0]) {
+        var item = event.userResponse?.data?.items?[0];
+        if (null != item) {
+          first_name.text = item.firstName!;
+          last_name.text = item.lastName!;
+        }
+      }
+    });
+  }
 }
 
 _selectDate(BuildContext context, TextEditingController dateController) async {
@@ -802,7 +823,6 @@ List<DropdownMenuItem<String>> _visa = [
     value: "",
   ),
 ];
-
 
 List<DropdownMenuItem<String>> _genders = [
   DropdownMenuItem(

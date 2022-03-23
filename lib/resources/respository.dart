@@ -1,4 +1,5 @@
-import 'package:xpresshealthdev/model/shift_login.dart';
+import 'package:xpresshealthdev/model/login_response.dart';
+import 'package:xpresshealthdev/model/user_get_response.dart';
 import 'package:xpresshealthdev/resources/api_provider.dart';
 
 import '../model/shift_list_response.dart';
@@ -9,13 +10,10 @@ class Repository {
   Future<SliftListRepso> fetchAllShift(String date) =>
       apiProvider.fetchShiftList(date);
 
-  Future<LoginShift> fetchLogin(String username, password) =>
+  Future<LoginUserRespo> fetchLogin(String username, password) =>
       apiProvider.loginUser(username, password);
 
-
-
-
-
+  Future<UserGetResponse> fetchUserInfo(String token) => apiProvider.getUserInfo(token);
 
   Future<void> ProfileUser(
           String token,
@@ -31,7 +29,6 @@ class Repository {
           String pps_number,
           String bank_iban,
           String bank_bic) =>
-
       apiProvider.ProfileUser(
           token,
           first_name,

@@ -17,7 +17,7 @@ class FindShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FixedExtentScrollController itemController =
-    FixedExtentScrollController();
+        FixedExtentScrollController();
     bloc.fetchAllList("");
     return Scaffold(
       key: _scaffoldKey,
@@ -66,7 +66,7 @@ class FindShiftScreen extends StatelessWidget {
                 itemController: itemController,
                 onDateChange: (date, x) {
                   // New date selected
-              
+
                   bloc.fetchAllList(date.toString());
                 },
               ),
@@ -83,7 +83,6 @@ class FindShiftScreen extends StatelessWidget {
                     return Center(child: CircularProgressIndicator());
                   }),
 
-
               // StreamBuilder(builder: (context,Asy))
             ])),
       ),
@@ -92,18 +91,18 @@ class FindShiftScreen extends StatelessWidget {
 
   Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
     return ListView.builder(
-      itemCount: snapshot.data?.response?.data?.category?.length,
+      itemCount: 10,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        var name;
+        var name = "St . Antony";
         var startTime = "11.00 AM";
         var endTime = "12.00 PM";
         var price = "32";
-        var category = snapshot.data?.response?.data?.category![index];
-        if (category != null) {
-          name = category.categoryname;
-        }
+        // var category = snapshot.data?.response?.data?.category![index];
+        // if (category != null) {
+        //   name = category.categoryname;
+        // }
 
         return Column(
           children: [

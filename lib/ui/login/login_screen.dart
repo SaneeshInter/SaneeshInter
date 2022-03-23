@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/Constants/sharedPrefKeys.dart';
 import 'package:xpresshealthdev/blocs/login_bloc.dart';
+import 'package:xpresshealthdev/ui/manager_dashboard_screen.dart';
 import 'package:xpresshealthdev/utils/utils.dart';
 
 import '../../Constants/strings.dart';
@@ -271,31 +273,37 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-  
-
 
   void _loginResponse() {
     loginBloc.loginStream.listen((event) async {
       if (event.response?.status?.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         var token = event.response?.data?.token;
+        var role = event.response?.data?.role;
         if (token != null) {
-          prefs.setString("TOKEN", token);
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => DashBoard()),
-          );
+          prefs.setString(SharedPrefKey.AUTH_TOKEN, token);
+          if (null != role) {
+            prefs.setInt(SharedPrefKey.USER_TYPE, role);
+            if (role == 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const DashBoard()),
+              );
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ManagerDashBoard()),
+              );
+            }
+          }
         }
       } else {
         showAlertDialoge(context,
             title: "Invalid", message: "Enter a valid Email and Password");
       }
-    }
-    );
+    });
   }
 }
-
 
 class CustColors {
   static const DarkBlue = Color(0xff4e1d56);

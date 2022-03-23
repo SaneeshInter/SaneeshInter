@@ -25,7 +25,7 @@ class _OntapState extends State<Ontapp> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 2),
               child: Container(
                 padding: EdgeInsets.all(12),
                 child: Stack(
