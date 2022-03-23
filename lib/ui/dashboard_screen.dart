@@ -9,6 +9,7 @@ import 'package:xpresshealthdev/UI/user/home/availability_screen.dart';
 import 'package:xpresshealthdev/UI/user/home/find_shift_screen.dart';
 import 'package:xpresshealthdev/UI/user/home/home_screen.dart';
 import 'package:xpresshealthdev/UI/user/home/my_booking_screen.dart';
+import 'package:xpresshealthdev/UI/user/home/my_shift_calendar.dart';
 import 'package:xpresshealthdev/UI/user/home/profile_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/shift_list.dart';
 
@@ -43,7 +44,8 @@ class _DashBoardWidgetState extends State<DashBoard> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static  List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    FindShiftScreen(),
+    //FindShiftScreen(),
+    FindshiftCalendar(),
 
     MyBookingScreen(),
     AvailabilityScreen(),

@@ -18,6 +18,7 @@ class ManagerBookingListWidget extends StatefulWidget {
   final Function onTapCall;
   final Function onTapView;
 
+
   const ManagerBookingListWidget(
       {Key? key,
       required this.name,

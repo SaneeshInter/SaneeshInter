@@ -108,7 +108,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         ),
       ],
     );
-    ;
+
   }
 
   Widget imageCard() {

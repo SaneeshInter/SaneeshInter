@@ -1,17 +1,18 @@
 import 'package:rxdart/rxdart.dart';
+import 'package:xpresshealthdev/model/shift_login.dart';
 import 'package:xpresshealthdev/resources/respository.dart';
 
 import '../model/shift_list_response.dart';
 
 class LoginBloc {
   final _repo = Repository();
-  final _loginbloc = PublishSubject<SliftListRepso>();
+  final _loginbloc = PublishSubject<LoginShift>();
 
-  Stream<SliftListRepso> get allShift => _loginbloc.stream;
+  Stream<LoginShift> get loginStream => _loginbloc.stream;
 
   fetchLogin(String username,String  password) async {
-    SliftListRepso list = await _repo.fetchLogin(username, password);
-    _loginbloc.sink.add(list);
+    LoginShift respo = await _repo.fetchLogin(username, password);
+    _loginbloc.sink.add(respo);
   }
 
   dispose() {
@@ -20,3 +21,5 @@ class LoginBloc {
 }
 
 final loginBloc = LoginBloc();
+
+

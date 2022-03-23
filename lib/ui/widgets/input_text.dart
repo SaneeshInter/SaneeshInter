@@ -18,7 +18,8 @@ class TextInputFileds extends StatefulWidget {
       this.validator,
       required this.controlr,
       required this.keyboadType,
-      required this.isPwd, required this.onTapDate});
+      required this.isPwd,
+      required this.onTapDate});
 
   @override
   _BuildButtonState createState() => _BuildButtonState();
@@ -29,21 +30,22 @@ class _BuildButtonState extends State<TextInputFileds> {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Container(
-      height: 5.5.h,
+      height: 7.3.h,
       width: screenWidth(context, dividedBy: 1),
       padding: EdgeInsets.only(top: 0, left: 20, right: 20),
 
       child: TextFormField(
         cursorWidth: 1.0,
+        onTap: () {
+          print("ontap");
+          widget.onTapDate();
+        },
         controller: widget.controlr,
         validator: widget.validator,
         textAlign: TextAlign.justify,
         obscureText: widget.isPwd,
         maxLines: 1,
         keyboardType: widget.keyboadType,
-        onTap: (){
-          widget.onTapDate();
-        },
         decoration: InputDecoration(
             contentPadding: EdgeInsets.all(5),
             errorBorder: const OutlineInputBorder(

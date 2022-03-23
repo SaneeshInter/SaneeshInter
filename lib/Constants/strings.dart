@@ -94,4 +94,25 @@ class Txt {
   static const timeFrom = "Time From";
   static const timeTo = "Time To";
   static const selectResourceType = "Select resource Type";
+
+
+  static const gender = "Gender";
+  static const dob = "Date of birth";
+  static const addres = "Address";
+  static const phone_number = "Phone number";
+  static const pps_number = "PPS number";
+  static const  permission_to_work_in_ireland= "Permission";
+
+
+  static const first_name = "First name";
+  static const last_name = "Last name";
+  static const nationality = "Nationality";
+  static const visatype = "Visa type";
+  static const bankiban = "Bank iban";
+  static const bankbic = "Bank bic";
+  static const permission = "Permission";
+
+
+
+
 }

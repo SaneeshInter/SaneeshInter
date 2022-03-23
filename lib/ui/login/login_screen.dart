@@ -3,13 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/blocs/login_bloc.dart';
+import 'package:xpresshealthdev/utils/utils.dart';
 
 import '../../Constants/strings.dart';
 import '../../Constants/toast.dart';
 import '../../utils/constants.dart';
 import '../../utils/validator.dart';
+import '../dashboard_screen.dart';
 import '../widgets/buttons/login_button.dart';
 import '../widgets/input_text.dart';
 
@@ -215,22 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (null != validate) {
                         if (validate) {
                           loginBloc.fetchLogin(email.text, pwd.text);
-                          // final prefs = await SharedPreferences.getInstance();
-                          // if (prefs.getBool("user") != null) {
-                          //   if (prefs.getBool("user") == true) {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => DashBoard()),
-                          //     );
-                          //   } else {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => ManagerDashBoard()),
-                          //     );
-                          //   }
-                          // }
                         }
                         // use the information provided
                       }
@@ -284,9 +271,31 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
+  
 
-  void _loginResponse() {}
+
+  void _loginResponse() {
+    loginBloc.loginStream.listen((event) async {
+      if (event.response?.status?.statusCode == 200) {
+        final prefs = await SharedPreferences.getInstance();
+        var token = event.response?.data?.token;
+        if (token != null) {
+          prefs.setString("TOKEN", token);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DashBoard()),
+          );
+        }
+      } else {
+        showAlertDialoge(context,
+            title: "Invalid", message: "Enter a valid Email and Password");
+      }
+    }
+    );
+  }
 }
+
 
 class CustColors {
   static const DarkBlue = Color(0xff4e1d56);

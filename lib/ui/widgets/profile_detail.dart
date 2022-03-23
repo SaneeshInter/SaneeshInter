@@ -4,6 +4,7 @@ import 'package:xpresshealthdev/UI/user/detail/profile_details_row.dart';
 
 import '../../Constants/app_defaults.dart';
 import '../../utils/constants.dart';
+import '../user/home/profile_edit.dart';
 import 'buttons/drawable_button.dart';
 
 class ProfileDetailCard extends StatelessWidget {
@@ -59,7 +60,12 @@ class ProfileDetailCard extends StatelessWidget {
                           ),
                           const Spacer(),
                           DrawableButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ProfileEditScreen()),
+                              );
+                            },
                             label: "Edit",
                             asset: "assets/images/icon/swipe-to-right.svg",
                             backgroundColor: Constants.colors[2],

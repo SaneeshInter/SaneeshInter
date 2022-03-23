@@ -44,7 +44,9 @@ class _HomeScreentate extends State<HomeScreen> {
     pageController = PageController(initialPage: 0);
     pageCount = 3;
     // TODO: implement initState
+   // getPercentage(context);
     super.initState();
+
   }
 
   @override
@@ -72,6 +74,7 @@ class _HomeScreentate extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   AutoSizeText(
                     'Next Shift',
                     style: TextStyle(
@@ -364,6 +367,8 @@ class _HomeScreentate extends State<HomeScreen> {
       ),
     );
   }
+
+
 
   Widget horizontalIndiCator() {
     return Container(
