@@ -1,13 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
-import 'buttons/build_button.dart';
-import 'buttons/home_button.dart';
-import 'buttons/login_button.dart';
 import 'buttons/submit_button.dart';
 
 class AvailabilityListWidget extends StatefulWidget {
@@ -15,6 +11,7 @@ class AvailabilityListWidget extends StatefulWidget {
   final String startTime;
   final String endTime;
   final String price;
+  final int value;
   final Function onTapBooking;
   final Function onTapMap;
   final Function onTapCall;
@@ -29,7 +26,8 @@ class AvailabilityListWidget extends StatefulWidget {
       required this.onTapBooking,
       required this.onTapCall,
       required this.onTapMap,
-      required this.startTime})
+      required this.startTime,
+      required this.value})
       : super(key: key);
 
   @override
@@ -45,140 +43,171 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
           vertical: screenHeight(context, dividedBy: 70)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
+        color: Colors.red,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 1,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        child: SvgPicture.asset(
-                            'assets/images/icon/sunny-day.svg'),
-                      ),
-                      flex: 1,
-                    ),
-                    Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 15),
-                          child: AutoSizeText(
-                            "DAY",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            ),
+      child: GestureDetector(
+        onTap: () {
+          print("dadsd");
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                print("dadsd");
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: SvgPicture.asset(
+                                'assets/images/icon/sunny-day.svg'),
                           ),
+                          flex: 1,
                         ),
-                        flex: 2),
-                    Expanded(
-                        child: Container(
-                          child:
-                              SvgPicture.asset('assets/images/icon/check.svg'),
-                        ),
-                        flex: 1)
-                  ],
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 1,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        child: SvgPicture.asset('assets/images/icon/moon.svg'),
-                      ),
-                      flex: 1,
-                    ),
-                    Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 15),
-                          child: AutoSizeText(
-                            "NIGHT",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
+                        Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 15),
+                              child: AutoSizeText(
+                                "DAY",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        flex: 2),
-                    Expanded(
-                        child: Container(
-                          child:
-                              SvgPicture.asset('assets/images/icon/check.svg'),
-                        ),
-                        flex: 1)
-                  ],
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 1,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        child:
-                            SvgPicture.asset('assets/images/icon/turn-off.svg'),
-                      ),
-                      flex: 1,
-                    ),
-                    Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 15),
-                          //color: Colors.green,
-                          child: AutoSizeText(
-                            "OFF",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
+                            flex: 2),
+                        Expanded(
+                            child: Visibility(
+                              visible: widget.value == 2,
+                              child: Container(
+                                child: SvgPicture.asset(
+                                    'assets/images/icon/check.svg'),
+                              ),
                             ),
+                            flex: 1)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                print("dadsd");
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child:
+                                SvgPicture.asset('assets/images/icon/moon.svg'),
                           ),
+                          flex: 1,
                         ),
-                        flex: 2),
-                    Expanded(
-                        child: Container(
-                          child:
-                              SvgPicture.asset('assets/images/icon/check.svg'),
+                        Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 15),
+                              child: AutoSizeText(
+                                "NIGHT",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            flex: 2),
+                        Expanded(
+                            child: Visibility(
+                              visible: widget.value == 0,
+                              child: Container(
+                                child: SvgPicture.asset(
+                                    'assets/images/icon/check.svg'),
+                              ),
+                            ),
+                            flex: 1)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: SvgPicture.asset(
+                                'assets/images/icon/turn-off.svg'),
+                          ),
+                          flex: 1,
                         ),
-                        flex: 1)
-                  ],
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: screenHeight(context, dividedBy: 50)),
-          SubmitButton(
-              onPressed: () {},
-              label: "Submit",
-              textColors: Constants.colors[0],
-              color1: Constants.colors[3],
-              color2: Constants.colors[4]),
-        ],
+                        Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 15),
+                              //color: Colors.green,
+                              child: AutoSizeText(
+                                "OFF",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            flex: 2),
+                        Expanded(
+                            child: Visibility(
+                              visible: widget.value == 1,
+                              child: Container(
+                                child: SvgPicture.asset(
+                                    'assets/images/icon/check.svg'),
+                              ),
+                            ),
+                            flex: 1)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: screenHeight(context, dividedBy: 50)),
+            SubmitButton(
+                onPressed: () {
+
+
+                  print("jfgf");
+                },
+                label: "Submit",
+                textColors: Constants.colors[0],
+                color1: Constants.colors[3],
+                color2: Constants.colors[4]),
+          ],
+        ),
       ),
     );
   }
