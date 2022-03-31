@@ -4,9 +4,13 @@ import 'package:http/http.dart';
 import 'package:xpresshealthdev/model/login_response.dart';
 
 import '../model/manager_response.dart';
+import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
 import '../model/user_get_response.dart';
+import '../model/user_getschedule_bydate.dart';
+import '../model/user_getschedule_by_month_year.dart';
+import '../model/user_job_request.dart';
 import '../model/viewbooking_response.dart';
 
 class ApiProvider {
@@ -38,7 +42,8 @@ class ApiProvider {
   }
 
   ///// manager remove schedule////
-  Future<RemoveManagerScheduleResponse>removeManager(String token, String rowId) async {
+  Future<RemoveManagerScheduleResponse> removeManager(
+      String token, String rowId) async {
     var uri = Uri.parse(BASE_URL + '/manager/remove-schedule');
     final response = await client.post(uri,
         headers: <String, String>{
@@ -49,7 +54,7 @@ class ApiProvider {
           'row_id': rowId,
         }));
 
-    print("PRINT TOKEN"+token);
+    print("PRINT TOKEN" + token);
 
     print(jsonEncode(<String, String>{
       'row_id': rowId,
@@ -61,8 +66,135 @@ class ApiProvider {
     } else {
       throw Exception('Failed to load post');
     }
+  }
+
+  // USER GET SCHEDULE BY DATE ////
+
+  Future<UserGetScheduleByDate> getUserScheduleByDate(
+      String token, String date) async {
+    var uri = Uri.parse(BASE_URL + '/get-schedule-by-date');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'date': date,
+        }));
+
+    print("PRINT DATE" + token);
+
+    print(jsonEncode(<String, String>{
+      'date': date,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserGetScheduleByDate.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  /// USER GET SCHEDULE MONTH AND YEAR ///
 
 
+  Future<UserGetScheduleByMonthYear> getUserScheduleByMonthYear(
+
+      String token, String month,String year) async {
+    var uri = Uri.parse(BASE_URL + '/get-schedule-by-month');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'month': month,
+          'year': year,
+
+        }));
+
+    print("PRINT MONTH YEAR" + token);
+
+    print(jsonEncode(<String, String>{
+       'month':month,
+      'year': year,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserGetScheduleByMonthYear.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+              ////GET USER  JOB REQUEST /////
+
+
+  Future<UserJobRequestResponse> getUserJobRequest(
+
+      String token, String job_id) async {
+    var uri = Uri.parse(BASE_URL + "/user/job-request");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'job_id': job_id,
+
+
+        }));
+
+    print("PRINT JOB REQUEST" + token);
+
+    print(jsonEncode(<String, String>{
+      'job_id': job_id,
+
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserJobRequestResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+
+/// MANAGER VIEW REQUEST RESPONSES /////
+
+
+
+  Future<ManagerViewRequestResponse> getManagerViewRequest(
+
+      String token, String shift_id) async {
+    var uri = Uri.parse(BASE_URL + "/manager/view-request");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'shift_id': shift_id,
+
+
+        }));
+
+    print("PRINT VIEW REQUEST" + token);
+
+    print(jsonEncode(<String, String>{
+      'shift_id': shift_id,
+
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return ManagerViewRequestResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
   }
 
 
@@ -81,11 +213,7 @@ class ApiProvider {
         }));
 
     print(response.body);
-
-
-
   }
-
 
 
 
@@ -168,11 +296,6 @@ class ApiProvider {
     print(response.toString());
   }
 
-
-
-
-
-
   Future<SliftListRepso> fetchShiftList(String date) async {
     print("date");
     print(date);
@@ -185,9 +308,6 @@ class ApiProvider {
       throw Exception('Failed to load post');
     }
   }
-
-
-
 
   Future<SliftListRepso> fetchNotification() async {
     print("date");
@@ -233,7 +353,8 @@ class ApiProvider {
 
   /////////      MANAGER API LISTS       ///////
 
-  Future<ManagerScheduleListResponse> fetchViewbooking(String token,String date) async {
+  Future<ManagerScheduleListResponse> fetchViewbooking(
+      String token, String date) async {
     print("View Booking");
 
     var uri = Uri.parse(BASE_URL + '/manager/get-schedule-by-date');
@@ -244,7 +365,6 @@ class ApiProvider {
         },
         body: jsonEncode(<String, String>{
           "date": date,
-
         }));
 
     print(response.body);
@@ -256,8 +376,6 @@ class ApiProvider {
       throw Exception('Failed to load post');
     }
   }
-
-
 
   Future<SliftListRepso> fetchTimesheet() async {
     print("Time sheet");
@@ -287,11 +405,11 @@ class ApiProvider {
     }
   }
 
-  Future<ManagerShift>CreateShiftManager(
+  Future<ManagerShift> CreateShiftManager(
     String token,
     String type,
     String category,
-      String user_type,
+    String user_type,
     String job_title,
     String hospital,
     String date,
@@ -309,7 +427,7 @@ class ApiProvider {
         body: jsonEncode(<String, String>{
           "type": type,
           "category": category,
-          "user_type":user_type,
+          "user_type": user_type,
           "job_title": job_title,
           "hospital": hospital,
           "date": date,
@@ -321,12 +439,11 @@ class ApiProvider {
           "assigned_to": ""
         }));
 
-     print("token"+token);
+    print("token" + token);
     print(jsonEncode(<String, String>{
-
       "type": type,
       "category": category,
-      "user_type":user_type,
+      "user_type": user_type,
       "job_title": job_title,
       "hospital": hospital,
       "date": date,
@@ -348,8 +465,4 @@ class ApiProvider {
     print(response.statusCode);
     print(response.toString());
   }
-
-
-
-
-  }
+}

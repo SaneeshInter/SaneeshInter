@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +24,7 @@ class _MyBookingState extends State<MyBookingScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   late DateTime _selectedValue;
   String dateValue = "";
-
+  String? token;
   @override
   void didUpdateWidget(covariant MyBookingScreen oldWidget) {
     // TODO: implement didUpdateWidget
@@ -31,6 +33,9 @@ class _MyBookingState extends State<MyBookingScreen> {
 
   @override
   void initState() {
+
+    observerResponse();
+
     var date = DateTime.now();
     dateValue = formatDate(date);
     getDataFromUi();
@@ -39,10 +44,11 @@ class _MyBookingState extends State<MyBookingScreen> {
 
   Future getDataFromUi() async {
     SharedPreferences shdPre = await SharedPreferences.getInstance();
-    String? token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
+     token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
     print(token);
     print(dateValue);
     viewbookingBloc.fetchViewbooking(token!, dateValue);
+
   }
 
   @override
@@ -166,6 +172,25 @@ class _MyBookingState extends State<MyBookingScreen> {
     final String formatted = formatter.format(date);
     return formatted;
   }
+
+
+  void observerResponse() {
+    viewbookingBloc.removeshift.listen((event) {
+      print("RESPONSE REMOVE MANAGER SHIFT SCREEN");
+      print(event.response?.status?.statusMessage.toString());
+      print(event.response?.status?.statusCode);
+      var message = event?.response?.status?.statusMessage.toString();
+      if (event.response?.status?.statusCode == 200) {
+
+        showAlertDialoge(context, title: "Success", message: message!!);
+
+
+      } else {
+        showAlertDialoge(context,
+            title: "Invalid", message: "Delete failed");
+      }
+    });
+  }
 }
 
 Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
@@ -226,3 +251,7 @@ Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
     },
   );
 }
+
+
+
+

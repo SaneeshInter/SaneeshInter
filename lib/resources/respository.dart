@@ -1,10 +1,14 @@
 import 'package:xpresshealthdev/model/login_response.dart';
 import 'package:xpresshealthdev/model/user_get_response.dart';
+import 'package:xpresshealthdev/model/user_job_request.dart';
 import 'package:xpresshealthdev/resources/api_provider.dart';
 
 import '../model/manager_response.dart';
+import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
+import '../model/user_getschedule_bydate.dart';
+import '../model/user_getschedule_by_month_year.dart';
 import '../model/viewbooking_response.dart';
 
 class Repository {
@@ -19,23 +23,47 @@ class Repository {
 
   Future<SliftListRepso> fetchConfirm() => apiProvider.fetchConfirm();
 
-  Future<ManagerScheduleListResponse> fetchViewbooking(String token,String date) => apiProvider.fetchViewbooking(token,date);
+  Future<ManagerScheduleListResponse> fetchViewbooking(
+          String token, String date) =>
+      apiProvider.fetchViewbooking(token, date);
 
   Future<SliftListRepso> fetchTimesheet() => apiProvider.fetchTimesheet();
 
   Future<SliftListRepso> fetchHomepage() => apiProvider.fetchHomepage();
 
-  Future<LoginUserRespo> fetchLogin(String username,String password) =>
+  Future<LoginUserRespo> fetchLogin(String username, String password) =>
       apiProvider.loginUser(username, password);
 
   Future<UserGetResponse> fetchUserInfo(String token) =>
       apiProvider.getUserInfo(token);
 
-
-
-  Future<RemoveManagerScheduleResponse> fetchRemoveManager(String token,String row_id) =>
+  Future<RemoveManagerScheduleResponse> fetchRemoveManager(
+          String token, String row_id) =>
       apiProvider.removeManager(token, row_id);
 
+
+
+
+
+  Future<UserGetScheduleByDate> fetchGetUserScheduleByDate(
+          String token, String date) =>
+      apiProvider.getUserScheduleByDate(token, date);
+
+
+  Future<UserGetScheduleByMonthYear>fetchGetUserScheduleByMonthYear(
+          String token, String month, String year) =>
+      apiProvider.getUserScheduleByMonthYear(token, month, year);
+
+
+  Future<UserJobRequestResponse> fetchUserJobRequest(
+      String token, String job_id) =>
+      apiProvider.getUserJobRequest(token, job_id);
+
+
+
+  Future<ManagerViewRequestResponse> fetchManagerViewRequest(
+      String token, String shift_id) =>
+      apiProvider.getManagerViewRequest(token, shift_id);
 
 
 
@@ -68,10 +96,6 @@ class Repository {
           pps_number,
           bank_iban,
           bank_bic);
-
-
-
-
 
   Future<ManagerShift> CreateShiftManager(
     String token,

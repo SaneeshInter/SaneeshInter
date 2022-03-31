@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../blocs/shift_viewbooking_bloc.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../manager/home/shift_detail_manager.dart';
@@ -116,14 +117,15 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
               children: [
                 BuildButton(
                   label: "Edit",
-                  onPressed: widget.onTapMap,
+                  onPressed: widget.onTapMap(),
                   key: null,
                 ),
                 SizedBox(width: screenWidth(context, dividedBy: 40)),
                 DeleteButton(
                   label: "Delete",
                   onPressed: () {
-                    widget.onTapBooking();
+                 // widget.onTapCall();
+                    viewbookingBloc.fetchRemoveManager("QS80bVlEa3cyL0RLQmZac0pORloyZz09", "09");
                     print("Cards booking");
                   },
                   key: null,

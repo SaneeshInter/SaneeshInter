@@ -229,6 +229,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               height: 15,
                                             ),
                                             Column(
+
                                               children: [
                                                 Row(
                                                   children: [
@@ -237,8 +238,9 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                       child: Padding(
                                                         padding:
                                                         const EdgeInsets
-                                                            .only(right: 2),
+                                                            .only(right: 2,),
                                                         child: Container(
+
                                                           child: TextInputFileds(
                                                               controlr: dateFrom,
                                                               validator: (dateTo) {
@@ -298,10 +300,10 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         const EdgeInsets
                                                             .only(left: 18),
                                                         child: Container(
+                                                          width: 400,
                                                           child:
                                                           DropdownButtonFormField(
-                                                            hint: Text(
-                                                                'Please choose one'),
+
                                                             decoration:
                                                             InputDecoration(
                                                               enabledBorder:
@@ -330,7 +332,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               labelText:
                                                               "Select User Type",
                                                             ),
-                                                            items: _genders,
+                                                            items: _types,
                                                             onChanged: (value) {
                                                               //setState();
                                                             },
@@ -341,8 +343,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                     Expanded(
                                                       flex: 1,
                                                       child:  DropdownButtonFormField(
-                                                        hint: Text(
-                                                            'Please choose one'),
+
                                                         decoration:
                                                         InputDecoration(
                                                           enabledBorder:
@@ -370,7 +371,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                           labelText:
                                                           "Select Resource Type",
                                                         ),
-                                                        items: _genders,
+                                                        items: _types,
                                                         onChanged: (value) {
                                                           //setState();
                                                         },
@@ -430,7 +431,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               labelText:
                                                               "Select Category",
                                                             ),
-                                                            items: _genders,
+                                                            items: _types,
                                                             onChanged: (value) {
                                                               //setState();
                                                             },
@@ -441,8 +442,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                     Expanded(
                                                       flex: 1,
                                                       child:  DropdownButtonFormField(
-                                                        hint: Text(
-                                                            'Please choose one'),
+
                                                         decoration:
                                                         InputDecoration(
                                                           enabledBorder:
@@ -687,12 +687,31 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   List<DropdownMenuItem<String>> _genders = [
     DropdownMenuItem(
-      child: new Text("Source 1"),
+      child: new Text("Source 1",style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 8.sp,
+          decoration: TextDecoration.none,
+          color: Colors.grey),),
       //value: "Male",
     ),
     DropdownMenuItem(
-      child: new Text("Source 2"),
+      child: new Text("Source 2",style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 8.sp,
+          decoration: TextDecoration.none,
+          color: Colors.grey),),
       value: "",
     ),
   ];
 }
+
+List<DropdownMenuItem<String>> _types = [
+  DropdownMenuItem(
+    child: new Text(" 1"),
+    //value: "Male",
+  ),
+  DropdownMenuItem(
+    child: new Text(" 2"),
+    value: "",
+  ),
+];
