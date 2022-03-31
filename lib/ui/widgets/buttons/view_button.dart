@@ -12,9 +12,16 @@ class ViewButton extends StatefulWidget {
 }
 
 class _ViewButtonState extends State<ViewButton> {
+  bool tapped = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        widget.onPressed();
+        setState(() {
+          tapped = true;
+        });
+      },
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: screenWidth(context, dividedBy: 40),

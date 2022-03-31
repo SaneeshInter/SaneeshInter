@@ -3,6 +3,7 @@ import 'package:xpresshealthdev/model/user_get_response.dart';
 import 'package:xpresshealthdev/resources/api_provider.dart';
 
 import '../model/manager_response.dart';
+import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
 import '../model/viewbooking_response.dart';
 
@@ -29,6 +30,15 @@ class Repository {
 
   Future<UserGetResponse> fetchUserInfo(String token) =>
       apiProvider.getUserInfo(token);
+
+
+
+  Future<RemoveManagerScheduleResponse> fetchRemoveManager(String token,String row_id) =>
+      apiProvider.removeManager(token, row_id);
+
+
+
+
 
   Future<void> ProfileUser(
           String token,

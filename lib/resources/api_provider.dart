@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:xpresshealthdev/model/login_response.dart';
 
 import '../model/manager_response.dart';
+import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
 import '../model/user_get_response.dart';
 import '../model/viewbooking_response.dart';
@@ -36,6 +37,38 @@ class ApiProvider {
     }
   }
 
+  ///// manager remove schedule////
+  Future<RemoveManagerScheduleResponse>removeManager(String token, String rowId) async {
+    var uri = Uri.parse(BASE_URL + '/manager/remove-schedule');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'row_id': rowId,
+        }));
+
+    print("PRINT TOKEN"+token);
+
+    print(jsonEncode(<String, String>{
+      'row_id': rowId,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return RemoveManagerScheduleResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+
+
+  }
+
+
+
+
+
   Future<void> loginUsertst(String username, String password) async {
     var uri = Uri.parse(BASE_URL + '/account/login');
     final response = await client.post(uri,
@@ -48,7 +81,15 @@ class ApiProvider {
         }));
 
     print(response.body);
+
+
+
   }
+
+
+
+
+
 
   Future<UserGetResponse> getUserInfo(String token) async {
     print("token");
@@ -93,9 +134,9 @@ class ApiProvider {
     final response = await client.post(uri,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          "token": token,
         },
         body: jsonEncode(<String, String>{
-          "token": token,
           "first_name": first_name,
           "last_name": last_name,
           "dob": dob,
@@ -110,7 +151,6 @@ class ApiProvider {
         }));
 
     print(jsonEncode(<String, String>{
-      "token": token,
       "first_name": first_name,
       "last_name": last_name,
       "dob": dob,
@@ -308,4 +348,8 @@ class ApiProvider {
     print(response.statusCode);
     print(response.toString());
   }
+
+
+
+
   }
