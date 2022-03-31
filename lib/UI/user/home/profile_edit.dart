@@ -52,6 +52,10 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   TextEditingController nationality = new TextEditingController();
   TextEditingController home_address = new TextEditingController();
   TextEditingController visa_type = new TextEditingController();
+
+
+
+  //updstaes
   TextEditingController permission_to_work_in_ireland =
       new TextEditingController();
   DateTime selectedDate = DateTime.now();
