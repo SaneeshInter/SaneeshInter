@@ -4,15 +4,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/blocs/createshift_manager_bloc.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
 
+import '../../../Constants/sharedPrefKeys.dart';
 import '../../../Constants/strings.dart';
 import '../../../Constants/toast.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/buttons/login_button.dart';
 import '../../widgets/input_text.dart';
+import '../../widgets/input_text_description.dart';
 
 class CreateShiftScreen extends StatefulWidget {
   const CreateShiftScreen({Key? key}) : super(key: key);
@@ -33,7 +37,19 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   TextEditingController date = new TextEditingController();
   TextEditingController dateFrom = new TextEditingController();
   TextEditingController dateTo = new TextEditingController();
+  TextEditingController time_from = new TextEditingController();
+  TextEditingController time_to = new TextEditingController();
+  TextEditingController price = new TextEditingController();
+  TextEditingController job_details = new TextEditingController();
+  TextEditingController token = new TextEditingController();
+  TextEditingController job_title = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
+
+  TextEditingController type = new TextEditingController();
+  TextEditingController user_type = new TextEditingController();
+  TextEditingController category = new TextEditingController();
+  TextEditingController hospital = new TextEditingController();
+  TextEditingController assigned_to = new TextEditingController();
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -46,6 +62,10 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   @override
   void initState() {
+
+
+    observerResponse();
+
     // TODO: implement initState
     super.initState();
     //_loginResponse();
@@ -100,7 +120,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                   const EdgeInsets.fromLTRB(
                                                       16.0, 0, 0, 0),
                                               child: AutoSizeText(
-                                                'Fil the form',
+                                                'Create Shift',
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.black,
@@ -160,7 +180,9 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-                                                  child: TextInputFileds(
+
+                                                  child: TextInputFiledDescription(
+
                                                       controlr: jobDescri,
                                                       onTapDate: () {},
                                                       validator: (jobDescri) {
@@ -208,101 +230,312 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             ),
                                             Column(
                                               children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                      controlr: dateFrom,
-                                                      validator: (dateTo) {
-                                                        if (validDate(dateTo))
-                                                          return null;
-                                                        else
-                                                          return "select time";
-                                                      },
-                                                      onTapDate: () {
-                                                        _selectTime(
-                                                            context, dateFrom);
-                                                      },
-                                                      hintText: Txt.timeFrom,
-                                                      keyboadType:
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(right: 2),
+                                                        child: Container(
+                                                          child: TextInputFileds(
+                                                              controlr: dateFrom,
+                                                              validator: (dateTo) {
+                                                                if (validDate(dateTo))
+                                                                  return null;
+                                                                else
+                                                                  return "select time";
+                                                              },
+                                                              onTapDate: () {
+                                                                _selectTime(
+                                                                    context, dateFrom);
+                                                              },
+                                                              hintText: Txt.timeFrom,
+                                                              keyboadType:
+                                                              TextInputType.none,
+                                                              isPwd: false),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child:  TextInputFileds(
+                                                          controlr: dateTo,
+                                                          validator: (dateTo) {
+                                                            if (validDate(dateTo))
+                                                              return null;
+                                                            else
+                                                              return "select time";
+                                                          },
+                                                          onTapDate: () {
+                                                            FocusScope.of(context)
+                                                                .unfocus();
+                                                            _selectTime(
+                                                                context, dateTo);
+                                                          },
+                                                          hintText: Txt.timeTo,
+                                                          keyboadType:
                                                           TextInputType.none,
-                                                      isPwd: false),
-                                                ),
+                                                          isPwd: false),
+                                                    ),
+                                                  ],
+                                                )
                                               ],
                                             ),
+
                                             const SizedBox(
                                               height: 15,
                                             ),
                                             Column(
                                               children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                      controlr: dateTo,
-                                                      validator: (dateTo) {
-                                                        if (validDate(dateTo))
-                                                          return null;
-                                                        else
-                                                          return "select time";
-                                                      },
-                                                      onTapDate: () {
-                                                        FocusScope.of(context)
-                                                            .unfocus();
-                                                        _selectTime(
-                                                            context, dateTo);
-                                                      },
-                                                      hintText: Txt.timeTo,
-                                                      keyboadType:
-                                                          TextInputType.none,
-                                                      isPwd: false),
-                                                ),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(left: 18),
+                                                        child: Container(
+                                                          child:
+                                                          DropdownButtonFormField(
+                                                            hint: Text(
+                                                                'Please choose one'),
+                                                            decoration:
+                                                            InputDecoration(
+                                                              enabledBorder:
+                                                              OutlineInputBorder(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                    .circular(
+                                                                    5)),
+                                                                borderSide: BorderSide(
+                                                                    color: Colors
+                                                                        .grey),
+                                                              ),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(
+                                                                          8.0)),
+                                                                  borderSide: BorderSide(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      width:
+                                                                      1)),
+                                                              contentPadding:
+                                                              EdgeInsets
+                                                                  .all(3.0),
+                                                              labelText:
+                                                              "Select User Type",
+                                                            ),
+                                                            items: _genders,
+                                                            onChanged: (value) {
+                                                              //setState();
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child:  DropdownButtonFormField(
+                                                        hint: Text(
+                                                            'Please choose one'),
+                                                        decoration:
+                                                        InputDecoration(
+                                                          enabledBorder:
+                                                          OutlineInputBorder(
+                                                            borderRadius: BorderRadius
+                                                                .all(Radius
+                                                                .circular(5)),
+                                                            borderSide: BorderSide(
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                          focusedBorder: OutlineInputBorder(
+                                                              borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      8.0)),
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  width:
+                                                                  1)),
+                                                          contentPadding:
+                                                          EdgeInsets
+                                                              .all(3.0),
+                                                          labelText:
+                                                          "Select Resource Type",
+                                                        ),
+                                                        items: _genders,
+                                                        onChanged: (value) {
+                                                          //setState();
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 15,
+
+
+
+                                            SizedBox(
+                                              height: 20,
                                             ),
 
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(left: 18),
+                                                        child: Container(
+                                                          child:
+                                                          DropdownButtonFormField(
+                                                            hint: Text(
+                                                                'Please choose one'),
+                                                            decoration:
+                                                            InputDecoration(
+                                                              enabledBorder:
+                                                              OutlineInputBorder(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                    .circular(
+                                                                    5)),
+                                                                borderSide: BorderSide(
+                                                                    color: Colors
+                                                                        .grey),
+                                                              ),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(
+                                                                          8.0)),
+                                                                  borderSide: BorderSide(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      width:
+                                                                      1)),
+                                                              contentPadding:
+                                                              EdgeInsets
+                                                                  .all(3.0),
+                                                              labelText:
+                                                              "Select Category",
+                                                            ),
+                                                            items: _genders,
+                                                            onChanged: (value) {
+                                                              //setState();
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child:  DropdownButtonFormField(
+                                                        hint: Text(
+                                                            'Please choose one'),
+                                                        decoration:
+                                                        InputDecoration(
+                                                          enabledBorder:
+                                                          OutlineInputBorder(
+                                                            borderRadius: BorderRadius
+                                                                .all(Radius
+                                                                .circular(5)),
+                                                            borderSide: BorderSide(
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                          focusedBorder: OutlineInputBorder(
+                                                              borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      8.0)),
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  width:
+                                                                  1)),
+                                                          contentPadding:
+                                                          EdgeInsets
+                                                              .all(3.0),
+                                                          labelText:
+                                                          "Select  Hospital",
+                                                        ),
+                                                        items: _genders,
+                                                        onChanged: (value) {
+                                                          //setState();
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+
+                                            SizedBox(
+                                              height: 20,
+                                            ),
                                             Container(
                                               height: 5.5.h,
-                                              width: screenWidth(context, dividedBy: 1),
+                                              width: screenWidth(context,
+                                                  dividedBy: 1),
                                               child: Padding(
-                                                padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+                                                padding: EdgeInsets.only(
+                                                    top: 0,
+                                                    left: 20,
+                                                    right: 20),
                                                 child: DropdownButtonFormField(
                                                   style: TextStyle(
-                                                      fontFamily: 'SFProRegular',
-                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily:
+                                                      'SFProRegular',
+                                                      fontWeight:
+                                                      FontWeight.w500,
                                                       fontSize: 10.sp,
                                                       color: Colors.grey),
                                                   hint:
-                                                      Text('Please choose one'),
+                                                  Text('Please choose one'),
                                                   decoration: InputDecoration(
                                                     enabledBorder:
-                                                        OutlineInputBorder(
+                                                    OutlineInputBorder(
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  5)),
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              5)),
                                                       borderSide: BorderSide(
                                                           color: Colors.grey),
                                                     ),
                                                     focusedBorder:
-                                                        OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            5.0)),
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    width: 1)),
+                                                    OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .all(Radius
+                                                            .circular(
+                                                            5.0)),
+                                                        borderSide:
+                                                        BorderSide(
+                                                            color: Colors
+                                                                .grey,
+                                                            width: 1)),
                                                     contentPadding:
-                                                        EdgeInsets.all(8.0),
+                                                    EdgeInsets.all(8.0),
                                                     labelStyle: TextStyle(
-                                                        fontFamily: 'SFProRegular',
-                                                        fontWeight: FontWeight.w500,
+                                                        fontFamily:
+                                                        'SFProRegular',
+                                                        fontWeight:
+                                                        FontWeight.w500,
                                                         fontSize: 10.sp,
                                                         color: Colors.grey),
                                                     labelText:
-                                                        "Select Resource Type ",
+                                                    "assigned to ",
                                                   ),
                                                   items: _genders,
                                                   onChanged: (value) {
@@ -312,7 +545,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: 15,
+                                              height: 20,
                                             ),
                                             signUpBtn(),
                                             const SizedBox(
@@ -351,10 +584,36 @@ class _CreateShiftState extends State<CreateShiftScreen> {
             child: Stack(
               children: [
                 LoginButton(
-                    onPressed: () {
-                      showFeactureAlert(context, date: "");
-
-                      // use the information provided
+                    onPressed: () async {
+                      var validate = formKey.currentState?.validate();
+                      if (null != validate) {
+                        if (validate) {
+                          // managerBloc.fetchManager(token.text, jobtitle.text, category.text,
+                          //     job_title.text, hospital.text, date.text, time_from.text, time_to.text,
+                          //     job_details.text,price.text);
+                          final prefs = await SharedPreferences.getInstance();
+                          var auth_tokn =
+                              prefs.getString(SharedPrefKey.AUTH_TOKEN);
+                          if (null != auth_tokn) {
+                            managerBloc.createShiftManager(
+                              auth_tokn,
+                              type.text,
+                              category.text,
+                              user_type.text,
+                              jobtitle.text,
+                              hospital.text,
+                              date.text,
+                              time_from.text,
+                              time_to.text,
+                              job_details.text,
+                              price.text,
+                            );
+                          } else {
+                            print("TOKEN NULL");
+                          }
+                        }
+                      }
+                      // showFeactureAlert(context, date: "");
                     },
                     label: "Create Shifts")
               ],
@@ -367,53 +626,73 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       ],
     );
   }
-}
 
+  void observerResponse() {
+    managerBloc.getmanagerStream.listen((event) {
+      print("RESPONSE FROM UI");
+      print(event.response?.status?.statusMessage.toString());
+      print(event.response?.status?.statusCode);
+      var message = event?.response?.status?.statusMessage.toString();
+      if (event.response?.status?.statusCode == 200) {
 
-_selectDate(BuildContext context, TextEditingController dateController) async {
-  print("date");
-  final DateTime? newDate = await showDatePicker(
-    context: context,
-    initialDatePickerMode: DatePickerMode.day,
-    initialDate: DateTime(2020, 11, 17),
-    firstDate: DateTime(2017, 1),
-    lastDate: DateTime(2022, 7),
-    helpText: 'Select a date',
-    fieldHintText: "dd-MM-yyyy",
-  );
+        showAlertDialoge(context, title: "Success", message: message!!);
+        jobtitle.text = "";
+        hospital.text="";
+      date.text="";
 
-  if (newDate != null) {
-    print(newDate);
-
-    var dates = DateFormat('dd-MM-yyyy').format(newDate);
-    dateController.text = dates;
+      } else {
+        showAlertDialoge(context,
+            title: "Invalid", message: "Enter a valid Email and Password");
+      }
+    });
   }
-}
 
-_selectTime(BuildContext context, TextEditingController anycontroller) async {
-  print("time");
+  _selectDate(
+      BuildContext context, TextEditingController dateController) async {
+    print("date");
+    final DateTime? newDate = await showDatePicker(
+      context: context,
+      initialDatePickerMode: DatePickerMode.day,
+      initialDate: DateTime(2020, 11, 17),
+      firstDate: DateTime(2017, 1),
+      lastDate: DateTime(2022, 7),
+      helpText: 'Select a date',
+      fieldHintText: "dd-MM-yyyy",
+    );
 
-  final TimeOfDay? timeOfDay = await showTimePicker(
-    context: context,
-    initialTime: TimeOfDay.now(),
-    initialEntryMode: TimePickerEntryMode.input,
-    confirmText: "CONFIRM",
-    cancelText: "NOT NOW",
-    helpText: "BOOKING TIME",
-  );
+    if (newDate != null) {
+      print(newDate);
 
-  if (timeOfDay != null) {
-    anycontroller.text = timeOfDay.format(context);
+      var dates = DateFormat('dd-MM-yyyy').format(newDate);
+      dateController.text = dates;
+    }
   }
-}
 
-List<DropdownMenuItem<String>> _genders = [
-  DropdownMenuItem(
-    child: new Text("Source 1"),
-    //value: "Male",
-  ),
-  DropdownMenuItem(
-    child: new Text("Source 2"),
-    value: "",
-  ),
-];
+  _selectTime(BuildContext context, TextEditingController anycontroller) async {
+    print("time");
+
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      initialEntryMode: TimePickerEntryMode.input,
+      confirmText: "CONFIRM",
+      cancelText: "NOT NOW",
+      helpText: "BOOKING TIME",
+    );
+
+    if (timeOfDay != null) {
+      anycontroller.text = timeOfDay.format(context);
+    }
+  }
+
+  List<DropdownMenuItem<String>> _genders = [
+    DropdownMenuItem(
+      child: new Text("Source 1"),
+      //value: "Male",
+    ),
+    DropdownMenuItem(
+      child: new Text("Source 2"),
+      value: "",
+    ),
+  ];
+}

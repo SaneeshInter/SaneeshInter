@@ -2,7 +2,9 @@ import 'package:xpresshealthdev/model/login_response.dart';
 import 'package:xpresshealthdev/model/user_get_response.dart';
 import 'package:xpresshealthdev/resources/api_provider.dart';
 
+import '../model/manager_response.dart';
 import '../model/shift_list_response.dart';
+import '../model/viewbooking_response.dart';
 
 class Repository {
   final apiProvider = ApiProvider();
@@ -10,10 +12,23 @@ class Repository {
   Future<SliftListRepso> fetchAllShift(String date) =>
       apiProvider.fetchShiftList(date);
 
-  Future<LoginUserRespo> fetchLogin(String username, password) =>
+  Future<SliftListRepso> fetchNotification() => apiProvider.fetchNotification();
+
+  Future<SliftListRepso> fetchComplete() => apiProvider.fetchcomplete();
+
+  Future<SliftListRepso> fetchConfirm() => apiProvider.fetchConfirm();
+
+  Future<ManagerScheduleListResponse> fetchViewbooking(String token,String date) => apiProvider.fetchViewbooking(token,date);
+
+  Future<SliftListRepso> fetchTimesheet() => apiProvider.fetchTimesheet();
+
+  Future<SliftListRepso> fetchHomepage() => apiProvider.fetchHomepage();
+
+  Future<LoginUserRespo> fetchLogin(String username,String password) =>
       apiProvider.loginUser(username, password);
 
-  Future<UserGetResponse> fetchUserInfo(String token) => apiProvider.getUserInfo(token);
+  Future<UserGetResponse> fetchUserInfo(String token) =>
+      apiProvider.getUserInfo(token);
 
   Future<void> ProfileUser(
           String token,
@@ -43,4 +58,35 @@ class Repository {
           pps_number,
           bank_iban,
           bank_bic);
+
+
+
+
+
+  Future<ManagerShift> CreateShiftManager(
+    String token,
+    String type,
+    String category,
+    String user_type,
+    String job_title,
+    String hospital,
+    String date,
+    String time_from,
+    String time_to,
+    String job_details,
+    String price,
+  ) =>
+      apiProvider.CreateShiftManager(
+        token,
+        type,
+        category,
+        user_type,
+        job_title,
+        hospital,
+        date,
+        time_from,
+        time_to,
+        job_details,
+        price,
+      );
 }

@@ -10,6 +10,7 @@ class LoginBloc {
 
   Stream<LoginUserRespo> get loginStream => _loginbloc.stream;
 
+
   fetchLogin(String username,String  password) async {
     LoginUserRespo respo = await _repo.fetchLogin(username, password);
     _loginbloc.sink.add(respo);

@@ -10,6 +10,9 @@ class ProfileBloc {
   final _profileUser = PublishSubject<void>();
   final _getUser = PublishSubject<UserGetResponse>();
 
+
+
+
   Stream<void> get profileStream => _profileUser.stream;
 
   Stream<UserGetResponse> get getProfileStream => _getUser.stream;

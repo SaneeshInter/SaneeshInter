@@ -20,6 +20,7 @@ class ShiftListWidget extends StatefulWidget {
   final Function onTapCall;
   final Function onTapView;
 
+
   const ShiftListWidget(
       {Key? key,
       required this.name,
@@ -29,6 +30,7 @@ class ShiftListWidget extends StatefulWidget {
       required this.onTapBooking,
       required this.onTapCall,
       required this.onTapMap,
+
       required this.startTime})
       : super(key: key);
 

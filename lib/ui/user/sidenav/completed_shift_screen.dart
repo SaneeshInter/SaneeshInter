@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:xpresshealthdev/blocs/shift_completed_bloc.dart';
 
+import '../../../model/shift_list_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../datepicker/date_picker_widget.dart';
@@ -31,13 +33,15 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
 
   @override
   void initState() {
+    completeBloc.fetchcomplete();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final FixedExtentScrollController itemController =
-        FixedExtentScrollController();
+    FixedExtentScrollController();
+
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -58,48 +62,73 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
                   horizontal: screenWidth(context, dividedBy: 35)),
               child: Column(children: [
                 SizedBox(height: screenHeight(context, dividedBy: 60)),
-                ListView.builder(
-                  itemCount: 20,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: [
-                        TimeSheetListWidget(
-                          name: "JUNE 22",
-                          startTime: "11.00 AM",
-                          endTime: "12.00 PM",
-                          price: "32",
-                          onTapView: () {},
-                          onTapCall: () {},
-                          onTapMap: () {},
-                          onTapBooking: () {
-                            print("Tapped");
-                            showBookingAlert(context,
-                                date: "Saturday 19th February 2022");
-                          },
-                          key: null,
-                        ),
-                        SizedBox(height: screenHeight(context, dividedBy: 100)),
-                      ],
-                    );
-                  },
-                )
+                StreamBuilder(
+                    stream: completeBloc.allShift,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<SliftListRepso> snapshot) {
+                      if (snapshot.hasData) {
+                        return buildList(snapshot);
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    })
               ])),
         ),
       ),
     );
   }
+
+
+
+
+
+  Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.data?.response?.data?.category?.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        var name = "Shift Reminder";
+        var description = "Completed shift";
+        var category = snapshot.data?.response?.data?.category![index];
+        if (category != null) {
+          name = category.categoryname!;
+          name = category.categoryname!;
+        }
+
+        return Column(
+          children: [
+            TimeSheetListWidget(
+              name: name,
+              startTime: "",
+              endTime: description,
+              price: "",
+              onTapView: () {},
+              onTapCall: () {},
+              onTapMap: () {},
+              onTapBooking: () {
+                print("Tapped");
+                showBookingAlert(context, date: "Saturday 19th February 2022");
+              },
+            ),
+            SizedBox(height: screenHeight(context, dividedBy: 100)),
+          ],
+        );
+      },
+    );
+  }
 }
 
-Color getColor(Set<MaterialState> states) {
-  const Set<MaterialState> interactiveStates = <MaterialState>{
-    MaterialState.pressed,
-    MaterialState.hovered,
-    MaterialState.focused,
-  };
-  if (states.any(interactiveStates.contains)) {
-    return Colors.blue;
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.blue;
+    }
+    return Colors.red;
   }
-  return Colors.red;
-}
+

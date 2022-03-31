@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:xpresshealthdev/blocs/shift_notification_bloc.dart';
 
+import '../../../model/shift_list_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
-import '../../datepicker/date_picker_widget.dart';
 import '../../widgets/notification_widget.dart';
-import '../../widgets/shift_list_widget.dart';
 import '../app_bar.dart';
 import '../side_menu.dart';
 
@@ -29,6 +29,7 @@ class _NotificationState extends State<NotificationScreen> {
 
   @override
   void initState() {
+    notificationBloc.fetchNotification();
     super.initState();
   }
 
@@ -40,9 +41,6 @@ class _NotificationState extends State<NotificationScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
           child: SideMenu(),
         ),
         appBar: AppBarCommon(
@@ -56,37 +54,58 @@ class _NotificationState extends State<NotificationScreen> {
                   horizontal: screenWidth(context, dividedBy: 35)),
               child: Column(children: [
                 SizedBox(height: screenHeight(context, dividedBy: 60)),
-                ListView.builder(
-                  itemCount: 20,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: [
-                        NotificationWidget(
-                          name: "Shift Reminder",
-                          startTime:
-                              "Your shift at Beneavin Manor is in  1 hour",
-                          endTime: "12.00 PM",
-                          price: "32",
-                          onTapView: () {},
-                          onTapCall: () {},
-                          onTapMap: () {},
-                          onTapBooking: () {
-                            print("Tapped");
-                            showBookingAlert(context,
-                                date: "Saturday 19th February 2022");
-                          },
-                          key: null,
-                        ),
-                        SizedBox(height: screenHeight(context, dividedBy: 100)),
-                      ],
-                    );
-                  },
-                )
+                StreamBuilder(
+                    stream: notificationBloc.allShift,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<SliftListRepso> snapshot) {
+                      if (snapshot.hasData) {
+                        return buildList(snapshot);
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    })
               ])),
         ),
       ),
+    );
+  }
+
+  Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.data?.response?.data?.category?.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        var name = "Shift Reminder";
+        var description = "Your shift at Beneavin Manor is in  1 hour";
+
+
+        var category = snapshot.data?.response?.data?.category![index];
+        if (category != null) {
+          name = category.categoryname!;
+          name = category.categoryname!;
+        }
+
+        return Column(
+          children: [
+            NotificationWidget(
+              name: name,
+              endTime: description,
+              onTapView: () {},
+              onTapCall: () {},
+              onTapMap: () {},
+              onTapBooking: () {
+                print("Tapped");
+                showBookingAlert(context, date: "Saturday 19th February 2022");
+              },
+              price: '100',
+              startTime: '',
+            ),
+            SizedBox(height: screenHeight(context, dividedBy: 100)),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/user/app_bar.dart';
+import 'package:xpresshealthdev/blocs/shift_completed_bloc.dart';
+import 'package:xpresshealthdev/blocs/shift_confirmed_bloc.dart';
 
+import '../../../model/shift_list_response.dart';
 import '../../../utils/colors_util.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
@@ -37,7 +39,17 @@ class _HomeScreentate extends State<MyBookingScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+
+   print("confirmed_shift");
+   //confirmBloc.fetchConfirm();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    confirmBloc.fetchConfirm();
     pageController = PageController(initialPage: 0);
     pageCount = 3;
     // TODO: implement initState
@@ -74,7 +86,6 @@ class _HomeScreentate extends State<MyBookingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-
                   alignment: Alignment.center,
                   child: SvgPicture.asset(
                     'assets/images/icon/logo.svg',
@@ -88,8 +99,10 @@ class _HomeScreentate extends State<MyBookingScreen> {
             IconButton(
               onPressed: () {},
               icon: SvgPicture.asset(
-                  'assets/images/icon/searchicon.svg', width: 5.w,
-                height: 5.w,), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
+                'assets/images/icon/searchicon.svg',
+                width: 5.w,
+                height: 5.w,
+              ), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
             ),
           ],
           bottom: PreferredSize(
@@ -101,7 +114,6 @@ class _HomeScreentate extends State<MyBookingScreen> {
                 child: TabBar(
                     unselectedLabelColor: Colors.black,
                     indicatorSize: TabBarIndicatorSize.tab,
-
                     labelColor: Colors.white,
                     indicator: BoxDecoration(
                         gradient: LinearGradient(
@@ -144,6 +156,71 @@ class _HomeScreentate extends State<MyBookingScreen> {
   }
 }
 
+Widget bookingList(int position) {
+  return SingleChildScrollView(
+    child: Container(
+        child: Column(children: [
+      StreamBuilder(
+          stream: confirmBloc.allShift,
+          builder:
+              (BuildContext context, AsyncSnapshot<SliftListRepso> snapshot) {
+            if (snapshot.hasData) {
+              return buildList(snapshot);
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            return Center(child: CircularProgressIndicator());
+          })
+    ])),
+  );
+}
+
+Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
+  return ListView.builder(
+    itemCount: snapshot.data?.response?.data?.category?.length,
+    shrinkWrap: true,
+    physics: NeverScrollableScrollPhysics(),
+    itemBuilder: (BuildContext context, int index) {
+
+
+      var name = "Shift Confirmed";
+      var description = " Confirmed";
+
+      var category = snapshot.data?.response?.data?.category![index];
+      if (category != null) {
+        name = category.categoryname!;
+        name = category.categoryname!;
+      }
+
+      return Column(
+        children: [
+          MyBookingListWidget(
+
+            date: name,
+            jobTittle: description,
+            startTime: "11.00 AM",
+            endTime: "12.00 PM",
+            price: "32",
+            position: 10,
+            onTapView: () {
+              showFeactureAlert(context, date: "");
+            },
+            onTapCall: () {},
+            onTapMap: () {
+              showFeactureAlert(context, date: "");
+            },
+            onTapBooking: () {
+              print("Tapped");
+              showAddTimeSheet(context, date: "");
+            },
+            key: null,
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class BodyWidget extends StatelessWidget {
   final Color color;
 
@@ -157,39 +234,4 @@ class BodyWidget extends StatelessWidget {
       alignment: Alignment.center,
     );
   }
-}
-
-Widget bookingList(int position) {
-  return Container(
-    color: Constants.colors[9],
-    child: ListView.builder(
-      itemCount: 10,
-      itemBuilder: (BuildContext context, int index) {
-        return Column(
-          children: [
-            MyBookingListWidget(
-              date: "JUNE 22",
-              jobTittle: "Job tittle",
-              startTime: "11.00 AM",
-              endTime: "12.00 PM",
-              price: "32",
-              position: position,
-              onTapView: () {
-                showFeactureAlert(context, date: "");
-              },
-              onTapCall: () {},
-              onTapMap: () {
-                showFeactureAlert(context, date: "");
-              },
-              onTapBooking: () {
-                print("Tapped");
-                showAddTimeSheet(context, date: "");
-              },
-              key: null,
-            ),
-          ],
-        );
-      },
-    ),
-  );
 }

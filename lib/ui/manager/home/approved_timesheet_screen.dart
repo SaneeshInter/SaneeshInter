@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:xpresshealthdev/blocs/shift_timesheet_bloc.dart';
 
+import '../../../model/shift_list_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/approve_timesheet_list_widget.dart';
@@ -24,6 +26,7 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
 
   @override
   void initState() {
+    timesheetBloc.fetchTimesheet();
     super.initState();
   }
 
@@ -40,35 +43,60 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
                   horizontal: screenWidth(context, dividedBy: 35)),
               child: Column(children: [
                 SizedBox(height: screenHeight(context, dividedBy: 60)),
-                ListView.builder(
-                  itemCount: 10,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: [
-                        TimeSheetApproveListWidget(
-                          name: "At St george Hospital",
-                          startTime: "21/02/2022",
-                          endTime: "12.00 PM - 20:00 PM",
-                          price: "32",
-                          onTapView: () {},
-                          onTapCall: () {},
-                          onTapMap: () {},
-                          onTapBooking: () {
-                            print("Tapped");
-                            showBookingAlert(context, date: "Show Timesheet");
-                          },
-                          key: null,
-                        ),
-                        SizedBox(height: screenHeight(context, dividedBy: 100)),
-                      ],
-                    );
-                  },
-                )
+                StreamBuilder(
+                    stream: timesheetBloc.allShift,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<SliftListRepso> snapshot) {
+                      if (snapshot.hasData) {
+                        return buildList(snapshot);
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    })
               ])),
         ),
       ),
     );
   }
+
+  Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.data?.response?.data?.category?.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        var name = "Approved time sheet";
+        var description = "timesheets";
+
+
+        var category = snapshot.data?.response?.data?.category![index];
+        if (category != null) {
+          name = category.categoryname!;
+          name = category.categoryname!;
+        }
+
+        return Column(
+          children: [
+            TimeSheetApproveListWidget(
+              name: name,
+              startTime: description,
+              endTime: "12.00 PM - 20:00 PM",
+              price: "32",
+              onTapView: () {},
+              onTapCall: () {},
+              onTapMap: () {},
+              onTapBooking: () {
+                print("Tapped");
+                showBookingAlert(context, date: "Show Timesheet");
+              },
+
+            ),
+            SizedBox(height: screenHeight(context, dividedBy: 100)),
+          ],
+        );
+      },
+    );
+  }
 }
+

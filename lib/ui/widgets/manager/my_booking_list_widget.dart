@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
-import '../buttons/book_button.dart';
+import '../../manager/home/shift_detail_manager.dart';
 import '../buttons/build_button.dart';
-import '../buttons/call_button.dart';
 import '../buttons/delete_button.dart';
 import '../buttons/view_button.dart';
 
 class ManagerBookingListWidget extends StatefulWidget {
-  final String name;
+  final String jobTittle;
+  final String userType;
+  final String place;
   final String startTime;
   final String endTime;
-  final String price;
+  final int price;
   final Function onTapBooking;
   final Function onTapMap;
   final Function onTapCall;
   final Function onTapView;
 
-
   const ManagerBookingListWidget(
       {Key? key,
-      required this.name,
+      required this.jobTittle,
+      required this.userType,
+      required this.place,
       required this.price,
       required this.onTapView,
       required this.endTime,
@@ -54,12 +57,23 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
           children: [
             Row(children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(
-                  widget.name,
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700),
+                Row(
+                  children: [
+                    Text(
+                      widget.jobTittle,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      widget.place,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ],
                 ),
                 SizedBox(height: screenHeight(context, dividedBy: 120)),
                 Text(
@@ -71,7 +85,7 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                 ),
                 SizedBox(height: screenHeight(context, dividedBy: 120)),
                 Text(
-                  "HCAs",
+                  widget.userType,
                   style: TextStyle(
                       fontSize: 11.sp,
                       color: Constants.colors[3],
@@ -83,8 +97,15 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   ViewButton(
-                    label: "View",
-                    onPressed: widget.onTapView,
+                    label: "view",
+                    onPressed: (){
+
+                      print("PRINT SHIFTDETAIL SCREEN");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ShiftDetailManagerScreen()),
+                      );
+                    },
                     key: null,
                   )
                 ],

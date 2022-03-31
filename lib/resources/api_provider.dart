@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:xpresshealthdev/model/login_response.dart';
 
+import '../model/manager_response.dart';
 import '../model/shift_list_response.dart';
 import '../model/user_get_response.dart';
+import '../model/viewbooking_response.dart';
 
 class ApiProvider {
   Client client = Client();
@@ -126,6 +128,11 @@ class ApiProvider {
     print(response.toString());
   }
 
+
+
+
+
+
   Future<SliftListRepso> fetchShiftList(String date) async {
     print("date");
     print(date);
@@ -138,52 +145,167 @@ class ApiProvider {
       throw Exception('Failed to load post');
     }
   }
-}
 
-// if (response.statusCode == 200) {
-//   return SliftListRepso.fromJson(json.decode(response.body));
-// } else {
-//   throw Exception('Failed to load post');
-// }
 
-//
-// Future<SliftListRepso> loginUser(String username, String password) async {
-//   loginUsertst(username, password);
-//   var uri = Uri.parse(BASE_URL + '/account/login');
-//   final response = await client.get(uri);
-//   print(response);
-//   if (response.statusCode == 200) {
-//     return SliftListRepso.fromJson(json.decode(response.body));
-//   } else {
-//     throw Exception('Failed to load post');
-//   }
-// // }
 
-// •	Update Profile
-// url :  https://intersmarthosting.in/DEV/ExpressHealth /api/account/update-profile
-// method : POST
-// parameters : token,first_name, last_name, dob, nationality, home_address, permission_to_work_in_ireland (1->Yes, 0-> No) , visa_type, phone_number,email, pps_number, bank_iban, bank_bic
-//
-// •	Get User Details
-// url : https://intersmarthosting.in/DEV/ExpressHealth/api/account/get-user-info
-// method : GET
-// parameters : token
-//
-// •	Get Country list
-// url : https://intersmarthosting.in/DEV/ExpressHealth/api/account/get-country-list
-// method : GET
-//
-// •	Get gender list
-// url : https://intersmarthosting.in/DEV/ExpressHealth/api/account/get-gender-list
-// method : GET
-//
-// •	Get Locations
-// url : https://intersmarthosting.in/DEV/ExpressHealth/api/account/get-location-list
-// method : GET
-//
-// •	Get Visa Types
-// url : https://intersmarthosting.in/DEV/ExpressHealth/api/account/get-visa-type
-// method : GET
-// •	Get User Types
-// url : https://intersmarthosting.in/DEV/ExpressHealth/api/account/get-user-type
-// method : GET
+
+  Future<SliftListRepso> fetchNotification() async {
+    print("date");
+
+    var uri = Uri.parse(
+        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
+    final response = await client.get(uri);
+    print(response);
+    if (response.statusCode == 200) {
+      return SliftListRepso.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<SliftListRepso> fetchcomplete() async {
+    print("COMPLETE");
+
+    var uri = Uri.parse(
+        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
+    final response = await client.get(uri);
+    print(response);
+    if (response.statusCode == 200) {
+      return SliftListRepso.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<SliftListRepso> fetchConfirm() async {
+    print("CONFIRMED");
+
+    var uri = Uri.parse(
+        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
+    final response = await client.get(uri);
+    print(response);
+    if (response.statusCode == 200) {
+      return SliftListRepso.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  /////////      MANAGER API LISTS       ///////
+
+  Future<ManagerScheduleListResponse> fetchViewbooking(String token,String date) async {
+    print("View Booking");
+
+    var uri = Uri.parse(BASE_URL + '/manager/get-schedule-by-date');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "token": token,
+        },
+        body: jsonEncode(<String, String>{
+          "date": date,
+
+        }));
+
+    print(response.body);
+    print(response.statusCode);
+    print(response.toString());
+    if (response.statusCode == 200) {
+      return ManagerScheduleListResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+
+
+  Future<SliftListRepso> fetchTimesheet() async {
+    print("Time sheet");
+
+    var uri = Uri.parse(
+        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
+    final response = await client.get(uri);
+    print(response);
+    if (response.statusCode == 200) {
+      return SliftListRepso.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<SliftListRepso> fetchHomepage() async {
+    print("HomePage");
+
+    var uri = Uri.parse(
+        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
+    final response = await client.get(uri);
+    print(response);
+    if (response.statusCode == 200) {
+      return SliftListRepso.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<ManagerShift>CreateShiftManager(
+    String token,
+    String type,
+    String category,
+      String user_type,
+    String job_title,
+    String hospital,
+    String date,
+    String time_from,
+    String time_to,
+    String job_details,
+    String price,
+  ) async {
+    var uri = Uri.parse(BASE_URL + '/manager/add-schedule');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "token": token,
+        },
+        body: jsonEncode(<String, String>{
+          "type": type,
+          "category": category,
+          "user_type":user_type,
+          "job_title": job_title,
+          "hospital": hospital,
+          "date": date,
+          "time_from": time_from,
+          "time_to": time_to,
+          "job_details": job_details,
+          "price": price,
+          "allowances": "",
+          "assigned_to": ""
+        }));
+
+     print("token"+token);
+    print(jsonEncode(<String, String>{
+
+      "type": type,
+      "category": category,
+      "user_type":user_type,
+      "job_title": job_title,
+      "hospital": hospital,
+      "date": date,
+      "time_from": time_from,
+      "time_to": time_to,
+      "job_details": job_details,
+      "price": price,
+      "allowances": "",
+      "assigned_to": ""
+    }));
+
+    if (response.statusCode == 200) {
+      return ManagerShift.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+
+    print(response.body);
+    print(response.statusCode);
+    print(response.toString());
+  }
+  }

@@ -50,6 +50,8 @@ dependencies:
   flutter_dropdown: ^1.0.0+hotfix.1
   rxdart: ^0.27.3
   json_serializable: ^6.1.5
+  image_picker: ^0.8.4+11
+  clickable_list_wheel_view: ^0.0.4
 
 
 
@@ -121,6 +123,7 @@ flutter:
     - assets/images/icon/location.svg
     - assets/images/icon/price-tag.svg
     - assets/images/icon/time.svg
+    - assets/images/icon/edittool.png
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see

@@ -5,7 +5,7 @@ bool validEmail(String email) {
 }
 
 bool validPassword(String password) {
-  return password.length > 6;
+  return password.length > 5;
 }
 
 bool validJob(String jobtitle) {

@@ -1,12 +1,14 @@
 import 'dart:core';
 
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/blocs/profile_update.dart';
+import 'package:xpresshealthdev/blocs/profile_update_bloc.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
 
 import '../../../Constants/strings.dart';
@@ -36,10 +38,9 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   TextEditingController dateFrom = new TextEditingController();
   TextEditingController dateTo = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
-
   TextEditingController gender = new TextEditingController();
   TextEditingController dob = new TextEditingController();
-
+  TextEditingController controller = TextEditingController();
   TextEditingController phonenumber = new TextEditingController();
   TextEditingController ppsnumber = new TextEditingController();
   TextEditingController bank_iban = new TextEditingController();
@@ -56,15 +57,18 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
 
-  TextEditingController controller = TextEditingController();
+
+  final items=["job visa","visiting visa"];
+  // LoginBloc _loginBloc = LoginBloc();
+  // ToastMsg toastMsg = ToastMsg();
   bool visible = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    profileBloc.getUserInfo();
-    listner();
+    observerResponse();
+    //_loginResponse();
   }
 
   @override
@@ -127,7 +131,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                             ),
 
                                             const SizedBox(
-                                              height: 25,
+                                              height: 20,
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -141,7 +145,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                                     context)
                                                                 .size
                                                                 .width *
-                                                            0.20,
+                                                            0.22,
                                                         child: ClipRRect(
                                                           borderRadius:
                                                               BorderRadius
@@ -156,36 +160,36 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                           ),
                                                         ),
                                                       ),
-                                                      Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Container(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.10,
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30),
-                                                              child:
-                                                                  AspectRatio(
-                                                                aspectRatio:
-                                                                    1 / 1,
-                                                                child: Image
-                                                                    .network(
-                                                                  'https://i.imgur.com/PJpPD6S.png',
-                                                                  fit: BoxFit
-                                                                      .cover,
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                65, 70, 0, 0),
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.05,
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            0),
+                                                                child:
+                                                                    AspectRatio(
+                                                                  aspectRatio:
+                                                                      1 / 1,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/icon/edittool.png'),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -194,7 +198,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                             ),
 
                                             const SizedBox(
-                                              height: 25,
+                                              height: 20,
                                             ),
 
                                             Padding(
@@ -208,15 +212,25 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                                 .size
                                                                 .width *
                                                             0.18,
-                                                    child: DrawableButton(
-                                                      onPressed: () {},
-                                                      label: "Edit",
-                                                      asset:
-                                                          "assets/images/icon/swipe-to-right.svg",
-                                                      backgroundColor:
-                                                          Constants.colors[4],
-                                                      textColors:
-                                                          Constants.colors[0],
+                                                    child: Column(
+                                                      children: [
+                                                        displayImage(),
+                                                        SizedBox(height: 30),
+                                                        DrawableButton(
+                                                          onPressed: () {
+                                                            showOptionsDialog(
+                                                                context);
+                                                          },
+                                                          label: "Edit",
+                                                          asset:
+                                                              "assets/images/icon/swipe-to-right.svg",
+                                                          backgroundColor:
+                                                              Constants
+                                                                  .colors[4],
+                                                          textColors: Constants
+                                                              .colors[0],
+                                                        ),
+                                                      ],
                                                     ),
                                                   )
                                                 ],
@@ -316,8 +330,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         child: Container(
                                                           child:
                                                               DropdownButtonFormField(
-                                                            hint: Text(
-                                                                'Please choose one'),
+
                                                             decoration:
                                                                 InputDecoration(
                                                               enabledBorder:
@@ -348,7 +361,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                             ),
                                                             items: _genders,
                                                             onChanged: (value) {
-                                                              setState(() {});
+                                                              // setState();
                                                             },
                                                           ),
                                                         ),
@@ -376,8 +389,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         child: Container(
                                                           child:
                                                               DropdownButtonFormField(
-                                                            hint: Text(
-                                                                'Please choose one'),
+
                                                             decoration:
                                                                 InputDecoration(
                                                               enabledBorder:
@@ -408,7 +420,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                             ),
                                                             items: _nationality,
                                                             onChanged: (value) {
-                                                              setState(() {});
+                                                              //setState();
                                                             },
                                                           ),
                                                         ),
@@ -472,8 +484,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 height: 40.sp,
                                                 width: 90.w,
                                                 child: DropdownButtonFormField(
-                                                  hint:
-                                                      Text('Please choose one'),
+
                                                   decoration: InputDecoration(
                                                     enabledBorder:
                                                         OutlineInputBorder(
@@ -503,7 +514,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                   ),
                                                   items: _visa,
                                                   onChanged: (value) {
-                                                    setState(() {});
+                                                    //  setState();
                                                   },
                                                 ),
                                               ),
@@ -754,6 +765,12 @@ class _CreateShiftState extends State<ProfileEditScreen> {
       }
     });
   }
+
+  void observerResponse() {
+    profileBloc.profileStream.listen((event) {
+
+    });
+  }
 }
 
 _selectDate(BuildContext context, TextEditingController dateController) async {
@@ -838,3 +855,58 @@ List<DropdownMenuItem<String>> _genders = [
     value: "",
   ),
 ];
+
+final imgPicker = ImagePicker();
+
+Future<void> showOptionsDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Options"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                GestureDetector(
+                  child: Text("Capture Image From Camera"),
+                  onTap: () {
+                    openCamera();
+                  },
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                GestureDetector(
+                  child: Text("Take Image From Gallery"),
+                  onTap: () {
+                    openGallery();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      });
+}
+
+
+var imgFile;
+var imgCamera;
+var imgGallery;
+void openCamera() async {
+   imgCamera = await imgPicker.getImage(source: ImageSource.camera);
+}
+
+void openGallery() async {
+   imgGallery = await imgPicker.getImage(source: ImageSource.gallery);
+}
+
+Widget displayImage() {
+  if (imgFile == null) {
+    return Text(" No images ");
+  } else {
+    return Image.file(
+      imgFile,
+      width: 100,
+      height: 100,
+    );
+  }
+}

@@ -3,9 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/user/detail/home_card_item.dart';
 
+import '../../../Constants/sharedPrefKeys.dart';
+import '../../../blocs/shift_homepage_bloc.dart';
+import '../../../model/shift_list_response.dart';
+import '../../../model/user_get_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/buttons/drawable_button.dart';
@@ -41,12 +46,13 @@ class _HomeScreentate extends State<HomeScreen> {
 
   @override
   void initState() {
+    getToken();
+    homepageBloc.fetchHomepage();
     pageController = PageController(initialPage: 0);
     pageCount = 3;
     // TODO: implement initState
-   // getPercentage(context);
+    // getPercentage(context);
     super.initState();
-
   }
 
   @override
@@ -74,7 +80,6 @@ class _HomeScreentate extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   AutoSizeText(
                     'Next Shift',
                     style: TextStyle(
@@ -288,7 +293,7 @@ class _HomeScreentate extends State<HomeScreen> {
           child: Row(
             children: [
               Expanded(
-                child:  AutoSizeText(
+                child: AutoSizeText(
                   "Premium / Immediate \nShifts",
                   maxLines: 2,
                   style: TextStyle(
@@ -309,67 +314,69 @@ class _HomeScreentate extends State<HomeScreen> {
     );
   }
 
+  
+  
+  
+  
+  
+  
+  
   Widget horizontalList() {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: 110,
-      ),
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: 4,
-        itemBuilder: (_, index) {
-          return GestureDetector(
-            onTap: () {
-              pageController.animateToPage(index,
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.easeInOut);
-            },
-            child: Card(
-              elevation: 0.0,
-              child: Container(
-                width: 65.w,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AutoSizeText(
-                        "Please ensure time sheets are submited befire sunday deadline",
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.sp,
-                          fontFamily: "SFProMedium",
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: Container(
-                            width: screenHeight(context, dividedBy: 2.2),
-                            child: AutoSizeText(
-                              "Jan 18,2022 | 11.00AM-12.00Pm",
-                              maxLines: 1,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 8.sp,
-                              ),
-                            )),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+    return Column(
+      children: [
+        Container(
+
+          child:  ConstrainedBox(
+    constraints: BoxConstraints(
+      maxHeight: 110,
+    ),
+
+            child: StreamBuilder(
+                stream: homepageBloc.allShift,
+                builder:
+                    (BuildContext context, AsyncSnapshot<SliftListRepso> snapshot) {
+                  if (snapshot.hasData) {
+                    return buildList(snapshot);
+                  } else if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  return Center(child: CircularProgressIndicator());
+                }),
+          ),
+        ),
+
+      ],
     );
   }
 
+  Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.data?.response?.data?.category?.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        var name = "Shift Reminder";
+        var description = "Your shift at Beneavin Manor is in  1 hour";
 
+        var category = snapshot.data?.response?.data?.category![index];
+        if (category != null) {
+          name = category.categoryname!;
+          name = category.categoryname!;
+        }
 
+        return Card(
+          child: Column(
+            children: [
+              horizontalList(),
+              SizedBox(height: screenHeight(context, dividedBy: 100)),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  
   Widget horizontalIndiCator() {
     return Container(
       alignment: Alignment.center,
@@ -413,10 +420,18 @@ class _HomeScreentate extends State<HomeScreen> {
         primary: false,
         crossAxisCount: 2,
         children: [
-          HomeCardItem(label: "My\nAvailability ", asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(label: "Submit\nTimeSheets ", asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(label: "Find Shift", asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(label: "My\nBooking", asset: "assets/images/icon/availability.svg")
+          HomeCardItem(
+              label: "My\nAvailability ",
+              asset: "assets/images/icon/availability.svg"),
+          HomeCardItem(
+              label: "Submit\nTimeSheets ",
+              asset: "assets/images/icon/availability.svg"),
+          HomeCardItem(
+              label: "Find Shift",
+              asset: "assets/images/icon/availability.svg"),
+          HomeCardItem(
+              label: "My\nBooking",
+              asset: "assets/images/icon/availability.svg")
         ],
       ),
     );
@@ -430,3 +445,11 @@ class MyBehavior extends ScrollBehavior {
     return child;
   }
 }
+
+
+getToken() async {
+  final prefs= await SharedPreferences.getInstance();
+  var token = prefs.getString(SharedPrefKey.AUTH_TOKEN);
+  print("TOKEN"+token!);
+}
+
