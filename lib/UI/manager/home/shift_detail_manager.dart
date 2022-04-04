@@ -179,92 +179,61 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                                 .hospitalDetails![0]
                                                 .phone
                                                 .toString(),
-                                            asset:
-                                                "assets/images/icon/price-tag.svg",
-                                            textColors: Colors.black,
-                                            size: 9.sp,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Divider(
-                                              thickness: 1,
-                                              indent: 12,
-                                              endIndent: 12,
-                                            ),
-                                          ),
-                                          CustomRowz(
-                                            onPressed: () {},
-                                            label:
-                                                "There are many variations of passages of Lorem\n"
-                                                " Ipsum available, but the majority have suffered \n"
-                                                "alteration in some form, by injected humour,",
-                                            asset:
-                                                "assets/images/icon/check.svg",
-                                            textColors: Colors.black,
-                                          ),
-                                          CustomRowz(
-                                            onPressed: () {},
-                                            label:
-                                                "There are many variations of passages of Lorem\n"
-                                                " Ipsum available, but the majority have suffered \n"
-                                                "alteration in some form, by injected humour,",
-                                            asset:
-                                                "assets/images/icon/check.svg",
-                                            textColors: Colors.black,
-                                          ),
-                                          CustomRowz(
-                                            onPressed: () {},
-                                            label:
-                                                "There are many variations of passages of Lorem\n"
-                                                " Ipsum available, but the majority have suffered \n"
-                                                "alteration in some form, by injected humour,",
-                                            asset:
-                                                "assets/images/icon/check.svg",
-                                            textColors: Colors.black,
-                                          ),
-                                          SizedBox(
-                                            height: 2.h,
-                                          ),
-                                        ],
+                                      asset: "assets/images/icon/price-tag.svg",
+                                      textColors: Colors.black,
+                                      size: 9.sp,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Divider(
+                                        thickness: 1,
+                                        indent: 12,
+                                        endIndent: 12,
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                    CustomRowz(
+                                      onPressed: () {},
+                                      label:
+                                          "There are many variations of passages of Lorem\n"
+                                          " Ipsum available, but the majority have suffered \n"
+                                          "alteration in some form, by injected humour,",
+                                      asset: "assets/images/icon/check.svg",
+                                      textColors: Colors.black,
+                                    ),
+                                    CustomRowz(
+                                      onPressed: () {},
+                                      label:
+                                          "There are many variations of passages of Lorem\n"
+                                          " Ipsum available, but the majority have suffered \n"
+                                          "alteration in some form, by injected humour,",
+                                      asset: "assets/images/icon/check.svg",
+                                      textColors: Colors.black,
+                                    ),
+                                    CustomRowz(
+                                      onPressed: () {},
+                                      label:
+                                          "There are many variations of passages of Lorem\n"
+                                          " Ipsum available, but the majority have suffered \n"
+                                          "alteration in some form, by injected humour,",
+                                      asset: "assets/images/icon/check.svg",
+                                      textColors: Colors.black,
+                                    ),
+                                    SizedBox(
+                                      height: 2.h,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          // padding: EdgeInsets.only(top: 20,left: 20),
-                          width: 60.w,
-                          height: 5.h,
-                          child: SubmitButton(
-                            onPressed: () {},
-                            label: "Book this shift",
-                            textColors: Constants.colors[0],
-                            color1: Constants.colors[3],
-                            color2: Constants.colors[4],
-                          ),
-                        ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: CallButton(
-                            onPressed: () {},
-                            key: null,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                ],
+              ),
+            ),
+
                   SizedBox(
                     height: 2.h,
                   ),

@@ -1,28 +1,28 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpresshealthdev/Constants/sharedPrefKeys.dart';
+import 'package:xpresshealthdev/model/country_list.dart';
+import 'package:xpresshealthdev/model/gender_list.dart';
 import 'package:xpresshealthdev/ui/login/login_screen.dart';
 import 'package:xpresshealthdev/ui/manager_dashboard_screen.dart';
-
 import '../../UI/dashboard_screen.dart';
-
+import '../../blocs/utility_bloc.dart';
+import '../../db/database.dart';
+import '../../model/loctions_list.dart';
+import '../../model/user_type_list.dart';
+import '../../model/visa_type_list.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
-
 class _SplashScreenState extends State<SplashScreen> {
   Future changeScreen() async {
     SharedPreferences shdPre = await SharedPreferences.getInstance();
     bool _isLoggedin = shdPre.getString(SharedPrefKey.AUTH_TOKEN) != null;
     var _loginType = shdPre.getInt(SharedPrefKey.USER_TYPE);
-    print("_loginType");
-    print(_loginType);
-
     if (_isLoggedin && _loginType != null) {
       if (_loginType == 0) {
         Navigator.pushReplacement(
@@ -41,9 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(new Duration(seconds: 2), () {
-      changeScreen();
-    });
+    utility_bloc.fetchUtility();
+    observe();
   }
 
   @override
@@ -68,5 +67,58 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  void observe() {
+    utility_bloc.utilStream.listen((event) {
+      print(event.toString());
+      if (event.response?.status?.statusCode == 200) {
+        var db = Db();
+        db.clearDb();
+
+        var countryList = event.response?.data?.countryList;
+        if (null != countryList) {
+          for (var item in countryList) {
+            var obj =
+                CountryList(rowId: item.rowId, countryName: item.countryName);
+            db.insertCountryList(obj);
+          }
+        }
+
+        var genderList = event.response?.data?.genderList;
+        if (null != genderList) {
+          for (var item in genderList) {
+            var obj = GenderList(rowId: item.rowId, gender: item.gender);
+            db.insertGenderList(obj);
+          }
+        }
+
+        var loctionsList = event.response?.data?.loctionsList;
+        if (null != loctionsList) {
+          for (var item in loctionsList) {
+            var obj = LoctionsList(rowId: item.rowId, location: item.location);
+            db.insertLoctionsList(obj);
+          }
+        }
+
+        var userTypeList = event.response?.data?.userTypeList;
+        if (null != userTypeList) {
+          for (var item in userTypeList) {
+            var obj = UserTypeList(rowId: item.rowId, type: item.type);
+            db.insertUserTypeList(obj);
+          }
+        }
+
+        var visaTypeList = event.response?.data?.visaTypeList;
+        if (null != visaTypeList) {
+          for (var item in visaTypeList) {
+            var obj = VisaTypeList(rowId: item.rowId, type: item.type);
+            db.insertVisaTypeList(obj);
+          }
+        }
+
+        changeScreen();
+      }
+    });
   }
 }

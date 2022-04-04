@@ -17,6 +17,7 @@ import '../Constants/app_defaults.dart';
 import '../utils/colors_util.dart';
 import '../utils/constants.dart';
 import '../utils/utils.dart';
+import 'manager/home/shift_calendar_screen.dart';
 import 'user/side_menu.dart';
 
 class DashBoard extends StatefulWidget {
@@ -46,6 +47,7 @@ class _DashBoardWidgetState extends State<DashBoard> {
     HomeScreen(),
     //FindShiftScreen(),
     FindshiftCalendar(),
+    // ShiftCalendarScreen(),
 
     MyBookingScreen(),
     AvailabilityScreen(),

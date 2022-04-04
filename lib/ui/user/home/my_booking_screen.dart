@@ -9,16 +9,12 @@ import '../../../utils/colors_util.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/my_booking_list_widget.dart';
-
 class MyBookingScreen extends StatefulWidget {
   const MyBookingScreen({Key? key}) : super(key: key);
-
   @override
   _HomeScreentate createState() => _HomeScreentate();
 }
-
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
 class _HomeScreentate extends State<MyBookingScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   int devicePixelRatio = 3;
@@ -29,21 +25,16 @@ class _HomeScreentate extends State<MyBookingScreen> {
   var selected = 0;
   var itemSelected = 0;
   late PageController pageController;
-
   final ScrollController _controller = ScrollController();
-
   @override
   void didUpdateWidget(covariant MyBookingScreen oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
-
   @override
   void dispose() {
     // TODO: implement dispose
 
-   print("confirmed_shift");
-   //confirmBloc.fetchConfirm();
     super.dispose();
   }
 
@@ -52,10 +43,8 @@ class _HomeScreentate extends State<MyBookingScreen> {
     confirmBloc.fetchConfirm();
     pageController = PageController(initialPage: 0);
     pageCount = 3;
-    // TODO: implement initState
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

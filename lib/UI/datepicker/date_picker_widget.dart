@@ -64,7 +64,6 @@ class DatePicker extends StatefulWidget {
   /// Locale for the calendar default: en_us
   final String locale;
 
-
   final FixedExtentScrollController itemController;
 
   DatePicker(
@@ -99,19 +98,15 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   DateTime? _currentDate;
-
   ScrollController _controller = ScrollController();
 
   late final TextStyle selectedDateStyle;
   late final TextStyle selectedMonthStyle;
   late final TextStyle selectedDayStyle;
-
   late final TextStyle deactivatedDateStyle;
   late final TextStyle deactivatedMonthStyle;
   late final TextStyle deactivatedDayStyle;
-
   var itemSelected = 0;
-
   @override
   void initState() {
     // Init the calendar locale
@@ -122,7 +117,6 @@ class _DatePickerState extends State<DatePicker> {
     if (widget.controller != null) {
       widget.controller!.setDatePickerState(this);
     }
-
     this.selectedDateStyle =
         widget.dateTextStyle.copyWith(color: widget.selectedTextColor);
     this.selectedMonthStyle =
@@ -151,7 +145,7 @@ class _DatePickerState extends State<DatePicker> {
             child: RotatedBox(
                 quarterTurns: -1,
                 child: ListWheelScrollView(
-
+                  controller: widget.itemController,
                   diameterRatio: 10,
                   // useMagnifier: true,
                   offAxisFraction: 0,
@@ -165,7 +159,7 @@ class _DatePickerState extends State<DatePicker> {
                       DateTime date =
                           new DateTime(_date.year, _date.month, _date.day);
                       if (widget.onDateChange != null) {
-                        widget.onDateChange!(date,x);
+                        widget.onDateChange!(date, x);
                       }
                     });
                   },

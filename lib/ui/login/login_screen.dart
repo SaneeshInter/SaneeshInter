@@ -120,10 +120,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   child: TextInputFileds(
                                                     controlr: email,
                                                     validator: (email) {
-                                                      if (validEmail(email))
+                                                      if (validEmail(email)) {
                                                         return null;
-                                                      else
+                                                      } else {
                                                         return 'Enter a valid email address';
+                                                      }
                                                     },
                                                     hintText: Txt.email,
                                                     keyboadType: TextInputType
@@ -264,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: EdgeInsets.only(top: 0, bottom: 0),
                         child: CircularProgressIndicator(
                           valueColor: new AlwaysStoppedAnimation<Color>(
-                              CustColors.Green),
+                              Constants.colors[3]),
                         )),
                   )),
             ),
@@ -292,7 +293,8 @@ class _LoginScreenState extends State<LoginScreen> {
             } else {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ManagerDashBoard()),
+                MaterialPageRoute(
+                    builder: (context) => const ManagerDashBoard()),
               );
             }
           }
@@ -303,13 +305,4 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     });
   }
-}
-
-class CustColors {
-  static const DarkBlue = Color(0xff4e1d56);
-  static const Green = Color(0xff6386da);
-  static const Blue1 = Color(0xffa4bcf7);
-  static const Green1 = Color(0xffdaf2a5);
-
-  static const White = Color(0xffffffff);
 }

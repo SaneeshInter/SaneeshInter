@@ -7,6 +7,7 @@ import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
+import '../model/utility_respo.dart';
 import '../model/user_getschedule_bydate.dart';
 import '../model/user_getschedule_by_month_year.dart';
 import '../model/viewbooking_response.dart';
@@ -33,6 +34,8 @@ class Repository {
 
   Future<LoginUserRespo> fetchLogin(String username, String password) =>
       apiProvider.loginUser(username, password);
+
+  Future<UtilityResop> fetchUtility() => apiProvider.fetchUtility();
 
   Future<UserGetResponse> fetchUserInfo(String token) =>
       apiProvider.getUserInfo(token);

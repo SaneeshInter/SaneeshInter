@@ -5,11 +5,13 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/manager/home/approved_timesheet_screen.dart';
 import 'package:xpresshealthdev/UI/manager/home/manager_home_screen.dart';
-import 'package:xpresshealthdev/UI/manager/home/my_booking_screen.dart';
+import 'package:xpresshealthdev/model/user_get_response.dart';
+import 'package:xpresshealthdev/model/viewbooking_response.dart';
 import 'package:xpresshealthdev/utils/constants.dart';
 
 import '../utils/colors_util.dart';
 import 'manager/home/create_shift_screen.dart';
+import 'manager/home/my_shifts_screen.dart';
 
 class ManagerDashBoard extends StatefulWidget {
   const ManagerDashBoard({Key? key}) : super(key: key);
@@ -22,10 +24,10 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static  List<Widget> _widgetOptions = <Widget>[
     ManagerHomeScreen(),
-    CreateShiftScreen(),
-    MyBookingScreen(),
+    CreateShiftScreen(shiftItem: null),
+    ManagerShiftsScreen(),
     ApprovedTimeSheetScreen()
   ];
 
@@ -133,8 +135,10 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
           IconButton(
             onPressed: () {},
             icon: SvgPicture.asset(
-                'assets/images/icon/searchicon.svg', width: 5.w,
-              height: 5.w,), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
+              'assets/images/icon/searchicon.svg',
+              width: 5.w,
+              height: 5.w,
+            ), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
           ),
         ],
       ),
@@ -196,7 +200,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
     ),
     PersistentBottomNavBarItem(
       icon: Icon(CupertinoIcons.calendar),
-      title: ("View Booking"),
+      title: ("View Shift"),
       iconSize: 6.w,
       activeColorPrimary: Constants.colors[6],
       inactiveColorPrimary: CupertinoColors.systemGrey,

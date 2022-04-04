@@ -8,6 +8,7 @@ import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
 import '../model/user_get_response.dart';
+import '../model/utility_respo.dart';
 import '../model/user_getschedule_bydate.dart';
 import '../model/user_getschedule_by_month_year.dart';
 import '../model/user_job_request.dart';
@@ -36,6 +37,22 @@ class ApiProvider {
 
     if (response.statusCode == 200) {
       return LoginUserRespo.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<UtilityResop> fetchUtility() async {
+    var uri = Uri.parse(BASE_URL + '/account/get-utilities');
+    final response = await client.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return UtilityResop.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
     }
@@ -230,9 +247,7 @@ class ApiProvider {
         'Token': token,
       },
     );
-
     print(response.body);
-
     if (response.statusCode == 200) {
       return UserGetResponse.fromJson(json.decode(response.body));
     } else {
@@ -240,9 +255,6 @@ class ApiProvider {
     }
   }
 
-  // token,first_name, last_name, dob, nationality,
-  // home_address, permission_to_work_in_ireland (1->Yes, 0-> No) ,
-  // visa_type, phone_number,email, pps_number, bank_iban, bank_bic
 
   Future<void> ProfileUser(
       String token,

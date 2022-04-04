@@ -34,7 +34,6 @@ class _BuildButtonState extends State<TextInputFileds> {
       child: TextFormField(
         cursorWidth: 1.0,
         onTap: () {
-          print("ontap");
           widget.onTapDate();
         },
         controller: widget.controlr,

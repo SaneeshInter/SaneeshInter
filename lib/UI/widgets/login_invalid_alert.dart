@@ -9,12 +9,9 @@ import 'buttons/book_button.dart';
 class LoginAlertBox extends StatefulWidget {
   final String title;
   final String message;
-
   LoginAlertBox({Key? key,
   required this.title,
   required this.message,
-
-
   }) : super(key: key);
 
   @override

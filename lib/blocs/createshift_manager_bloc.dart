@@ -1,12 +1,32 @@
 import 'package:rxdart/rxdart.dart';
+import 'package:xpresshealthdev/db/database.dart';
 import 'package:xpresshealthdev/resources/respository.dart';
 
+import '../model/gender_list.dart';
 import '../model/manager_response.dart';
 
 class CreateShiftmanagerBloc {
   final _repo = Repository();
+  final _db = Db();
   final _manager = PublishSubject<void>();
   final _getmanager = PublishSubject<ManagerShift>();
+
+  List<String> genders = [];
+
+  final _gender = PublishSubject<List<GenderList>>();
+
+  Stream<List<GenderList>> get genderStream => _gender.stream;
+
+  getDropDownValues() async {
+    var genderList = await _db.getGenderList();
+
+    for (var item in genderList) {
+      print(item.gender);
+      genders.add(item.gender!);
+    }
+
+    _gender.add(genderList);
+  }
 
   Stream<void> get managerStream => _manager.stream;
 

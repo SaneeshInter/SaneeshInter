@@ -17,6 +17,9 @@ class _BuildButtonState extends State<BuildButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        widget.onPressed();
+      },
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: screenWidth(context, dividedBy: 24),

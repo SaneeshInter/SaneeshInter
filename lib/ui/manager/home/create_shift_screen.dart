@@ -7,11 +7,14 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/blocs/createshift_manager_bloc.dart';
+import 'package:xpresshealthdev/model/viewbooking_response.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
 
 import '../../../Constants/sharedPrefKeys.dart';
 import '../../../Constants/strings.dart';
 import '../../../Constants/toast.dart';
+import '../../../blocs/shift_dropdown.dart';
+import '../../../model/gender_list.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/buttons/login_button.dart';
@@ -19,7 +22,9 @@ import '../../widgets/input_text.dart';
 import '../../widgets/input_text_description.dart';
 
 class CreateShiftScreen extends StatefulWidget {
-  const CreateShiftScreen({Key? key}) : super(key: key);
+  final Items? shiftItem;
+
+  const CreateShiftScreen({Key? key, this.shiftItem}) : super(key: key);
 
   @override
   _CreateShiftState createState() => _CreateShiftState();
@@ -62,11 +67,17 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   @override
   void initState() {
-
-
+    if (widget.shiftItem != null) {
+      var item = widget.shiftItem;
+      if (item != null) {
+        jobtitle.text = item.jobTitle!;
+        jobDescri.text = item.jobDetails!;
+      }
+    }
     observerResponse();
-
     // TODO: implement initState
+    dropdownBloc.addItem();
+    managerBloc.getDropDownValues();
     super.initState();
     //_loginResponse();
   }
@@ -79,6 +90,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   @override
   Widget build(BuildContext context) {
+    managerBloc.getDropDownValues();
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Constants.colors[9],
@@ -180,22 +192,24 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             Column(
                                               children: [
                                                 Container(
-
-                                                  child: TextInputFiledDescription(
-
-                                                      controlr: jobDescri,
-                                                      onTapDate: () {},
-                                                      validator: (jobDescri) {
-                                                        if (validDescription(
-                                                            jobDescri))
-                                                          return null;
-                                                        else
-                                                          return "enter job decscription";
-                                                      },
-                                                      hintText: Txt.jobDescri,
-                                                      keyboadType: TextInputType
-                                                          .visiblePassword,
-                                                      isPwd: false),
+                                                  child:
+                                                      TextInputFiledDescription(
+                                                          controlr: jobDescri,
+                                                          onTapDate: () {},
+                                                          validator:
+                                                              (jobDescri) {
+                                                            if (validDescription(
+                                                                jobDescri))
+                                                              return null;
+                                                            else
+                                                              return "enter job decscription";
+                                                          },
+                                                          hintText:
+                                                              Txt.jobDescri,
+                                                          keyboadType:
+                                                              TextInputType
+                                                                  .visiblePassword,
+                                                          isPwd: false),
                                                 ),
                                               ],
                                             ),
@@ -229,7 +243,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               height: 15,
                                             ),
                                             Column(
-
                                               children: [
                                                 Row(
                                                   children: [
@@ -237,57 +250,256 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                       flex: 1,
                                                       child: Padding(
                                                         padding:
-                                                        const EdgeInsets
-                                                            .only(right: 2,),
+                                                            const EdgeInsets
+                                                                .only(right: 2),
                                                         child: Container(
-
-                                                          child: TextInputFileds(
-                                                              controlr: dateFrom,
-                                                              validator: (dateTo) {
-                                                                if (validDate(dateTo))
-                                                                  return null;
-                                                                else
-                                                                  return "select time";
-                                                              },
-                                                              onTapDate: () {
-                                                                _selectTime(
-                                                                    context, dateFrom);
-                                                              },
-                                                              hintText: Txt.timeFrom,
-                                                              keyboadType:
-                                                              TextInputType.none,
-                                                              isPwd: false),
+                                                          child:
+                                                              TextInputFileds(
+                                                                  controlr:
+                                                                      dateFrom,
+                                                                  validator:
+                                                                      (dateTo) {
+                                                                    if (validDate(
+                                                                        dateTo))
+                                                                      return null;
+                                                                    else
+                                                                      return "select time";
+                                                                  },
+                                                                  onTapDate:
+                                                                      () {
+                                                                    _selectTime(
+                                                                        context,
+                                                                        dateFrom);
+                                                                  },
+                                                                  hintText: Txt
+                                                                      .timeFrom,
+                                                                  keyboadType:
+                                                                      TextInputType
+                                                                          .none,
+                                                                  isPwd: false),
                                                         ),
                                                       ),
                                                     ),
                                                     Expanded(
                                                       flex: 1,
-                                                      child:  TextInputFileds(
+                                                      child: TextInputFileds(
                                                           controlr: dateTo,
                                                           validator: (dateTo) {
-                                                            if (validDate(dateTo))
+                                                            if (validDate(
+                                                                dateTo))
                                                               return null;
                                                             else
                                                               return "select time";
                                                           },
                                                           onTapDate: () {
-                                                            FocusScope.of(context)
+                                                            FocusScope.of(
+                                                                    context)
                                                                 .unfocus();
-                                                            _selectTime(
-                                                                context, dateTo);
+                                                            _selectTime(context,
+                                                                dateTo);
                                                           },
                                                           hintText: Txt.timeTo,
                                                           keyboadType:
-                                                          TextInputType.none,
+                                                              TextInputType
+                                                                  .none,
                                                           isPwd: false),
                                                     ),
                                                   ],
                                                 )
                                               ],
                                             ),
-
                                             const SizedBox(
                                               height: 15,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 18),
+                                                        child: Container(
+                                                          width: 400,
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .genderStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                        List<
+                                                                            GenderList>>
+                                                                    snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                      snapshot
+                                                                          .data ||
+                                                                  snapshot.data
+                                                                          ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  enabledBorder:
+                                                                      OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5)),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(Radius.circular(
+                                                                              8.0)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                              1)),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3.0),
+                                                                  labelText:
+                                                                      "Gender",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                  return DropdownMenuItem(
+                                                                    child:
+                                                                        new Text(
+                                                                      item.gender!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 8
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item,
+                                                                  );
+                                                                }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                        value) {},
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(left: 18),
+                                                        child: Container(
+                                                          width: 400,
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .genderStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                    List<
+                                                                        GenderList>>
+                                                                snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                  snapshot
+                                                                      .data ||
+                                                                  snapshot.data
+                                                                      ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                InputDecoration(
+                                                                  enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.all(
+                                                                        Radius.circular(5)),
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color:
+                                                                        Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius.all(Radius.circular(
+                                                                          8.0)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                          1)),
+                                                                  contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      3.0),
+                                                                  labelText:
+                                                                  "Gender",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                      return DropdownMenuItem(
+                                                                        child:
+                                                                        new Text(
+                                                                          item.gender!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 8
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors.grey),
+                                                                        ),
+                                                                        value: item,
+                                                                      );
+                                                                    }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                value) {},
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
                                             ),
                                             Column(
                                               children: [
@@ -301,97 +513,87 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                             .only(left: 18),
                                                         child: Container(
                                                           width: 400,
-                                                          child:
-                                                          DropdownButtonFormField(
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .genderStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                    List<
+                                                                        GenderList>>
+                                                                snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                  snapshot
+                                                                      .data ||
+                                                                  snapshot.data
+                                                                      ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
 
-                                                            decoration:
-                                                            InputDecoration(
-                                                              enabledBorder:
-                                                              OutlineInputBorder(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                    .circular(
-                                                                    5)),
-                                                                borderSide: BorderSide(
-                                                                    color: Colors
-                                                                        .grey),
-                                                              ),
-                                                              focusedBorder: OutlineInputBorder(
-                                                                  borderRadius:
-                                                                  BorderRadius.all(
-                                                                      Radius.circular(
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                InputDecoration(
+                                                                  enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.all(
+                                                                        Radius.circular(5)),
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color:
+                                                                        Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius.all(Radius.circular(
                                                                           8.0)),
-                                                                  borderSide: BorderSide(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      width:
-                                                                      1)),
-                                                              contentPadding:
-                                                              EdgeInsets
-                                                                  .all(3.0),
-                                                              labelText:
-                                                              "Select User Type",
-                                                            ),
-                                                            items: _types,
-                                                            onChanged: (value) {
-                                                              //setState();
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                          1)),
+                                                                  contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      3.0),
+                                                                  labelText:
+                                                                  "Gender",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                      return DropdownMenuItem(
+                                                                        child:
+                                                                        new Text(
+                                                                          item.gender!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 8
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors.grey),
+                                                                        ),
+                                                                        value: item,
+                                                                      );
+                                                                    }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                value) {},
+                                                              );
                                                             },
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child:  DropdownButtonFormField(
-
-                                                        decoration:
-                                                        InputDecoration(
-                                                          enabledBorder:
-                                                          OutlineInputBorder(
-                                                            borderRadius: BorderRadius
-                                                                .all(Radius
-                                                                .circular(5)),
-                                                            borderSide: BorderSide(
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                          focusedBorder: OutlineInputBorder(
-                                                              borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      8.0)),
-                                                              borderSide: BorderSide(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  width:
-                                                                  1)),
-                                                          contentPadding:
-                                                          EdgeInsets
-                                                              .all(3.0),
-                                                          labelText:
-                                                          "Select Resource Type",
-                                                        ),
-                                                        items: _types,
-                                                        onChanged: (value) {
-                                                          //setState();
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-
-
-
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  children: [
                                                     Expanded(
                                                       flex: 1,
                                                       child: Padding(
@@ -399,88 +601,93 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         const EdgeInsets
                                                             .only(left: 18),
                                                         child: Container(
-                                                          child:
-                                                          DropdownButtonFormField(
-                                                            hint: Text(
-                                                                'Please choose one'),
-                                                            decoration:
-                                                            InputDecoration(
-                                                              enabledBorder:
-                                                              OutlineInputBorder(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                    .circular(
-                                                                    5)),
-                                                                borderSide: BorderSide(
-                                                                    color: Colors
-                                                                        .grey),
-                                                              ),
-                                                              focusedBorder: OutlineInputBorder(
-                                                                  borderRadius:
-                                                                  BorderRadius.all(
-                                                                      Radius.circular(
+                                                          width: 400,
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .genderStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                    List<
+                                                                        GenderList>>
+                                                                snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                  snapshot
+                                                                      .data ||
+                                                                  snapshot.data
+                                                                      ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                InputDecoration(
+                                                                  enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.all(
+                                                                        Radius.circular(5)),
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color:
+                                                                        Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius.all(Radius.circular(
                                                                           8.0)),
-                                                                  borderSide: BorderSide(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      width:
-                                                                      1)),
-                                                              contentPadding:
-                                                              EdgeInsets
-                                                                  .all(3.0),
-                                                              labelText:
-                                                              "Select Category",
-                                                            ),
-                                                            items: _types,
-                                                            onChanged: (value) {
-                                                              //setState();
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                          1)),
+                                                                  contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      3.0),
+                                                                  labelText:
+                                                                  "Gender",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                      return DropdownMenuItem(
+                                                                        child:
+                                                                        new Text(
+                                                                          item.gender!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 8
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors.grey),
+                                                                        ),
+                                                                        value: item,
+                                                                      );
+                                                                    }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                value) {},
+                                                              );
                                                             },
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child:  DropdownButtonFormField(
 
-                                                        decoration:
-                                                        InputDecoration(
-                                                          enabledBorder:
-                                                          OutlineInputBorder(
-                                                            borderRadius: BorderRadius
-                                                                .all(Radius
-                                                                .circular(5)),
-                                                            borderSide: BorderSide(
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                          focusedBorder: OutlineInputBorder(
-                                                              borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      8.0)),
-                                                              borderSide: BorderSide(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  width:
-                                                                  1)),
-                                                          contentPadding:
-                                                          EdgeInsets
-                                                              .all(3.0),
-                                                          labelText:
-                                                          "Select  Hospital",
-                                                        ),
-                                                        items: _genders,
-                                                        onChanged: (value) {
-                                                          //setState();
-                                                        },
-                                                      ),
-                                                    ),
                                                   ],
                                                 )
                                               ],
                                             ),
-
                                             SizedBox(
                                               height: 20,
                                             ),
@@ -493,54 +700,71 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                     top: 0,
                                                     left: 20,
                                                     right: 20),
-                                                child: DropdownButtonFormField(
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                      'SFProRegular',
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: 10.sp,
-                                                      color: Colors.grey),
-                                                  hint:
-                                                  Text('Please choose one'),
-                                                  decoration: InputDecoration(
-                                                    enabledBorder:
-                                                    OutlineInputBorder(
-                                                      borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              5)),
-                                                      borderSide: BorderSide(
-                                                          color: Colors.grey),
-                                                    ),
-                                                    focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .all(Radius
-                                                            .circular(
-                                                            5.0)),
-                                                        borderSide:
-                                                        BorderSide(
-                                                            color: Colors
-                                                                .grey,
-                                                            width: 1)),
-                                                    contentPadding:
-                                                    EdgeInsets.all(8.0),
-                                                    labelStyle: TextStyle(
-                                                        fontFamily:
-                                                        'SFProRegular',
-                                                        fontWeight:
-                                                        FontWeight.w500,
-                                                        fontSize: 10.sp,
-                                                        color: Colors.grey),
-                                                    labelText:
-                                                    "assigned to ",
+                                                child: Expanded(
+                                                  flex: 1,
+                                                  child: StreamBuilder(
+                                                    stream: dropdownBloc
+                                                        .genderStrem,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return DropdownButtonFormField(
+                                                        decoration:
+                                                            InputDecoration(
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5)),
+                                                            borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .grey),
+                                                          ),
+                                                          focusedBorder: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(
+                                                                          8.0)),
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      width:
+                                                                          1)),
+                                                          contentPadding:
+                                                              EdgeInsets.all(
+                                                                  3.0),
+                                                          labelText: "Gender",
+                                                        ),
+                                                        value: snapshot.data,
+                                                        items: dropdownBloc
+                                                            .names
+                                                            .map((item) {
+                                                          return DropdownMenuItem(
+                                                            child: new Text(
+                                                              item,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize:
+                                                                      8.sp,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                  color: Colors
+                                                                      .grey),
+                                                            ),
+                                                            value: item,
+                                                          );
+                                                        }).toList(),
+                                                        onChanged:
+                                                            (Object? value) {},
+                                                      );
+                                                    },
                                                   ),
-                                                  items: _genders,
-                                                  onChanged: (value) {
-                                                    setState(() {});
-                                                  },
                                                 ),
                                               ),
                                             ),
@@ -634,12 +858,10 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       print(event.response?.status?.statusCode);
       var message = event?.response?.status?.statusMessage.toString();
       if (event.response?.status?.statusCode == 200) {
-
         showAlertDialoge(context, title: "Success", message: message!!);
         jobtitle.text = "";
-        hospital.text="";
-      date.text="";
-
+        hospital.text = "";
+        date.text = "";
       } else {
         showAlertDialoge(context,
             title: "Invalid", message: "Enter a valid Email and Password");
@@ -687,19 +909,25 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   List<DropdownMenuItem<String>> _genders = [
     DropdownMenuItem(
-      child: new Text("Source 1",style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 8.sp,
-          decoration: TextDecoration.none,
-          color: Colors.grey),),
+      child: new Text(
+        "Source 1",
+        style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 8.sp,
+            decoration: TextDecoration.none,
+            color: Colors.grey),
+      ),
       //value: "Male",
     ),
     DropdownMenuItem(
-      child: new Text("Source 2",style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 8.sp,
-          decoration: TextDecoration.none,
-          color: Colors.grey),),
+      child: new Text(
+        "Source 2",
+        style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 8.sp,
+            decoration: TextDecoration.none,
+            color: Colors.grey),
+      ),
       value: "",
     ),
   ];

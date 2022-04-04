@@ -8,25 +8,27 @@ import 'package:xpresshealthdev/blocs/shift_viewbooking_bloc.dart';
 
 import '../../../Constants/sharedPrefKeys.dart';
 import '../../../model/viewbooking_response.dart';
+import '../../../resources/token_provider.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../datepicker/date_picker_widget.dart';
 import '../../widgets/manager/my_booking_list_widget.dart';
+import 'create_shift_screen.dart';
 
-class MyBookingScreen extends StatefulWidget {
-  const MyBookingScreen({Key? key}) : super(key: key);
+class ManagerShiftsScreen extends StatefulWidget {
+  const ManagerShiftsScreen({Key? key}) : super(key: key);
 
   @override
-  _MyBookingState createState() => _MyBookingState();
+  _ManagerShiftsState createState() => _ManagerShiftsState();
 }
 
-class _MyBookingState extends State<MyBookingScreen> {
+class _ManagerShiftsState extends State<ManagerShiftsScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   late DateTime _selectedValue;
   String dateValue = "";
   String? token;
   @override
-  void didUpdateWidget(covariant MyBookingScreen oldWidget) {
+  void didUpdateWidget(covariant ManagerShiftsScreen oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
@@ -39,6 +41,7 @@ class _MyBookingState extends State<MyBookingScreen> {
     var date = DateTime.now();
     dateValue = formatDate(date);
     getDataFromUi();
+    observerResponse();
     super.initState();
   }
 
@@ -51,6 +54,8 @@ class _MyBookingState extends State<MyBookingScreen> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final FixedExtentScrollController itemController =
@@ -58,52 +63,8 @@ class _MyBookingState extends State<MyBookingScreen> {
     double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        backgroundColor: Constants.colors[9],
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(10.h),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              child: TabBar(
-                  unselectedLabelColor: Constants.colors[1],
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Constants.colors[3], Constants.colors[4]]),
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        // decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(10),
-                        //     backgroundBlendMode: BlendMode.colorDodge,
-                        //     color: Colors.green),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text("HCAs"),
-                        ),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        // decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(10),
-                        //     backgroundBlendMode: BlendMode.colorDodge,
-                        //     color: Constants.colors[0]),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text("Nurses"),
-                        ),
-                      ),
-                    ),
-                  ]),
-            ),
-          ),
-        ),
-        body: TabBarView(children: [bookingList(0), bookingList(1)]),
-      ),
+      child:
+          Scaffold(backgroundColor: Constants.colors[9], body: bookingList(0)),
     );
   }
 
@@ -157,7 +118,11 @@ class _MyBookingState extends State<MyBookingScreen> {
                 builder: (BuildContext context,
                     AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
                   if (snapshot.hasData) {
-                    return buildList(snapshot);
+                    if (snapshot.data?.response?.data?.items?.length != 0) {
+                      return buildList(snapshot);
+                    } else {
+                      return Text("No schedule found for the selected day");
+                    }
                   } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   }
@@ -173,24 +138,19 @@ class _MyBookingState extends State<MyBookingScreen> {
     return formatted;
   }
 
-
   void observerResponse() {
     viewbookingBloc.removeshift.listen((event) {
-      print("RESPONSE REMOVE MANAGER SHIFT SCREEN");
-      print(event.response?.status?.statusMessage.toString());
       print(event.response?.status?.statusCode);
-      var message = event?.response?.status?.statusMessage.toString();
       if (event.response?.status?.statusCode == 200) {
-
-        showAlertDialoge(context, title: "Success", message: message!!);
-
-
+        getDataFromUi();
       } else {
         showAlertDialoge(context,
-            title: "Invalid", message: "Delete failed");
+            title: "Invalid", message: "Remove shift Failed");
       }
     });
   }
+
+
 }
 
 Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
@@ -199,57 +159,37 @@ Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
     itemBuilder: (BuildContext context, int index) {
-      var row_id;
-      String? type = "";
-      String? userType = "";
-      var category;
-      String? jobTitle = "";
-      String? hospital = "";
-      String? date = "";
-      String? timeFrom = "";
-      String? timeTo = "";
-      String? jobDetails = "";
-      var price;
-      var allowances;
-      var description = " boooking";
       var items = snapshot.data?.response?.data?.items![index];
-      if (items != null) {
-        print("RESPONSE");
-        row_id = items.rowId;
-        type = items.type;
-        userType = items.userType;
-        category = items.category;
-        jobTitle = items.jobTitle;
-        hospital = items.hospital;
-        date = items.date;
-        timeFrom = items.timeFrom;
-        timeTo = items.timeTo;
-        jobDetails = items.jobDetails;
-        price = items.price;
-        allowances = items.allowances;
-      }
       return Column(
         children: [
           ManagerBookingListWidget(
-            jobTittle: type!,
-            place: hospital!,
-            userType: userType!,
-            startTime: timeFrom!,
-            endTime: timeTo!,
-            price: price,
+            items: items!,
             onTapView: () {},
-            onTapCall: () {},
-            onTapMap: () {},
-            onTapBooking: () {
-              print("Tapped");
-              showBookingAlert(context, date: "Item deleted");
-            },
             key: null,
+            onTapItem: () {},
+            onTapEdit: (item) {
+              print(item);
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CreateShiftScreen(shiftItem: items,)));
+
+            },
+            onTapDelete: (row_id) {
+              print(row_id);
+              deleteShift(row_id);
+            },
           ),
         ],
       );
     },
   );
+}
+
+Future deleteShift(rowId) async {
+  String? token = await TokenProvider().getToken();
+  viewbookingBloc.fetchRemoveManager(token!, rowId.toString());
 }
 
 

@@ -1,6 +1,5 @@
 import 'dart:core';
 
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +7,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/blocs/profile_update_bloc.dart';
+
+import 'package:xpresshealthdev/model/gender_list.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
 
 import '../../../Constants/strings.dart';
 import '../../../Constants/toast.dart';
+import '../../../blocs/profile_update_bloc.dart';
 import '../../../utils/constants.dart';
 import '../../widgets/buttons/drawable_button.dart';
 import '../../widgets/buttons/login_button.dart';
@@ -24,6 +25,8 @@ class ProfileEditScreen extends StatefulWidget {
   @override
   _CreateShiftState createState() => _CreateShiftState();
 }
+
+ List<GenderList> genderList=[];
 
 class _CreateShiftState extends State<ProfileEditScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -38,6 +41,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   TextEditingController dateFrom = new TextEditingController();
   TextEditingController dateTo = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
+
   TextEditingController gender = new TextEditingController();
   TextEditingController dob = new TextEditingController();
   TextEditingController controller = TextEditingController();
@@ -71,6 +75,9 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    profileBloc.getUserInfo();
+    // profileBloc.getGenderList();
+    listner();
     observerResponse();
     //_loginResponse();
   }
@@ -218,22 +225,22 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                             0.18,
                                                     child: Column(
                                                       children: [
-                                                        displayImage(),
+                                                        // displayImage(),
                                                         SizedBox(height: 30),
-                                                        DrawableButton(
-                                                          onPressed: () {
-                                                            showOptionsDialog(
-                                                                context);
-                                                          },
-                                                          label: "Edit",
-                                                          asset:
-                                                              "assets/images/icon/swipe-to-right.svg",
-                                                          backgroundColor:
-                                                              Constants
-                                                                  .colors[4],
-                                                          textColors: Constants
-                                                              .colors[0],
-                                                        ),
+                                                        // DrawableButton(
+                                                        //   onPressed: () {
+                                                        //     showOptionsDialog(
+                                                        //         context);
+                                                        //   },
+                                                        //   label: "Edit",
+                                                        //   asset:
+                                                        //       "assets/images/icon/swipe-to-right.svg",
+                                                        //   backgroundColor:
+                                                        //       Constants
+                                                        //           .colors[4],
+                                                        //   textColors: Constants
+                                                        //       .colors[0],
+                                                        // ),
                                                       ],
                                                     ),
                                                   )
@@ -334,7 +341,8 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         child: Container(
                                                           child:
                                                               DropdownButtonFormField(
-
+                                                            hint: Text(
+                                                                'Please choose one'),
                                                             decoration:
                                                                 InputDecoration(
                                                               enabledBorder:
@@ -363,9 +371,9 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                               labelText:
                                                                   "Select Gender",
                                                             ),
-                                                            items: _genders,
+                                                            items:  getGender(),
                                                             onChanged: (value) {
-                                                              // setState();
+                                                              setState(() {});
                                                             },
                                                           ),
                                                         ),
@@ -393,7 +401,8 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         child: Container(
                                                           child:
                                                               DropdownButtonFormField(
-
+                                                            hint: Text(
+                                                                'Please choose one'),
                                                             decoration:
                                                                 InputDecoration(
                                                               enabledBorder:
@@ -424,7 +433,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                             ),
                                                             items: _nationality,
                                                             onChanged: (value) {
-                                                              //setState();
+                                                              setState(() {});
                                                             },
                                                           ),
                                                         ),
@@ -488,7 +497,8 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 height: 40.sp,
                                                 width: 90.w,
                                                 child: DropdownButtonFormField(
-
+                                                  hint:
+                                                      Text('Please choose one'),
                                                   decoration: InputDecoration(
                                                     enabledBorder:
                                                         OutlineInputBorder(
@@ -518,7 +528,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                   ),
                                                   items: _visa,
                                                   onChanged: (value) {
-                                                    //  setState();
+                                                    setState(() {});
                                                   },
                                                 ),
                                               ),
@@ -641,49 +651,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 ),
                                               ],
                                             ),
-                                            // Padding(
-                                            //    padding: const EdgeInsets.only(
-                                            //        left: 20, right: 20),
-                                            //    child: Container(
-                                            //      height: 40.sp,
-                                            //      width: 80.w,
-                                            //      child: DropdownButtonFormField(
-                                            //        hint:
-                                            //        Text('Please choose one'),
-                                            //        decoration: InputDecoration(
-                                            //          enabledBorder:
-                                            //          OutlineInputBorder(
-                                            //            borderRadius:
-                                            //            BorderRadius.all(
-                                            //                Radius.circular(
-                                            //                    10)),
-                                            //            borderSide: BorderSide(
-                                            //                color: Colors.grey),
-                                            //          ),
-                                            //          focusedBorder:
-                                            //          OutlineInputBorder(
-                                            //              borderRadius:
-                                            //              BorderRadius
-                                            //                  .all(Radius
-                                            //                  .circular(
-                                            //                  8.0)),
-                                            //              borderSide:
-                                            //              BorderSide(
-                                            //                  color: Colors
-                                            //                      .grey,
-                                            //                  width: 1)),
-                                            //          contentPadding:
-                                            //          EdgeInsets.all(8.0),
-                                            //          labelText:
-                                            //          "Select Resource Type ",
-                                            //        ),
-                                            //        items: _genders,
-                                            //        onChanged: (value) {
-                                            //          setState(() {});
-                                            //        },
-                                            //      ),
-                                            //    ),
-                                            //  ),
+
                                             SizedBox(
                                               height: 15,
                                             ),
@@ -712,6 +680,64 @@ class _CreateShiftState extends State<ProfileEditScreen> {
       ),
     );
   }
+
+  List<DropdownMenuItem<String>> _nationality = [
+    DropdownMenuItem(
+      child: new Text(
+        "indian",
+      ),
+      //value: "Male",
+    ),
+    DropdownMenuItem(
+      child: new Text(
+        "indian",
+      ),
+      value: "",
+    ),
+  ];
+
+  List<DropdownMenuItem<String>> _visa = [
+    DropdownMenuItem(
+      child: new Text(
+        "job visa",
+      ),
+      //value: "Male",
+    ),
+    DropdownMenuItem(
+      child: new Text(
+        "visiting visa",
+      ),
+      value: "",
+    ),
+  ];
+
+  getGender() {
+    List<DropdownMenuItem<String>> _genders = [];
+    if (null != genderList) {
+      for (var item in genderList) {
+        _genders.add(DropdownMenuItem(
+          child: Text(item.gender!),
+          //value: "Male",
+        ));
+      }
+    }
+    return _genders;
+  }
+
+  List<DropdownMenuItem<String>> _genders = [
+    DropdownMenuItem(
+      child: new Text(
+        "male",
+      ),
+      //value: "Male",
+    ),
+    DropdownMenuItem(
+      child: new Text(
+        "female",
+      ),
+      value: "",
+    ),
+  ];
 
   Widget signUpBtn() {
     return Column(
@@ -768,6 +794,10 @@ class _CreateShiftState extends State<ProfileEditScreen> {
         }
       }
     });
+
+    // profileBloc.gender.listen((event) {
+    //   genderList = event;
+    // });
   }
 
   void observerResponse() {
@@ -859,58 +889,3 @@ List<DropdownMenuItem<String>> _genders = [
     value: "",
   ),
 ];
-
-final imgPicker = ImagePicker();
-
-Future<void> showOptionsDialog(BuildContext context) {
-  return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Options"),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                GestureDetector(
-                  child: Text("Capture Image From Camera"),
-                  onTap: () {
-                    openCamera();
-                  },
-                ),
-                Padding(padding: EdgeInsets.all(10)),
-                GestureDetector(
-                  child: Text("Take Image From Gallery"),
-                  onTap: () {
-                    openGallery();
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      });
-}
-
-
-var imgFile;
-var imgCamera;
-var imgGallery;
-void openCamera() async {
-   imgCamera = await imgPicker.getImage(source: ImageSource.camera);
-}
-
-void openGallery() async {
-   imgGallery = await imgPicker.getImage(source: ImageSource.gallery);
-}
-
-Widget displayImage() {
-  if (imgFile == null) {
-    return Text(" No images ");
-  } else {
-    return Image.file(
-      imgFile,
-      width: 100,
-      height: 100,
-    );
-  }
-}
