@@ -5,7 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/manager/home/shift_detail_manager.dart';
-
+import 'package:xpresshealthdev/ui/manager/home/approved_timesheet_screen.dart';
+import 'package:xpresshealthdev/ui/manager/home/create_shift_screen.dart';
+import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
 
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
@@ -91,14 +93,11 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         Expanded(
           child: HomeButton(
               onPressed: () {
-
-
-
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ShiftDetailManagerScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => ShiftDetailManagerScreen()),
                 );
-
               },
               label: "Send Mail",
               asset: "assets/images/icon/email.svg",
@@ -118,7 +117,6 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         ),
       ],
     );
-
   }
 
   Widget imageCard() {
@@ -245,8 +243,6 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
     );
   }
 
-
-
   Widget gridView() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0),
@@ -256,15 +252,42 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         primary: false,
         crossAxisCount: 2,
         children: [
-          HomeCardItem(label: "Create Shifts ", asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(label: "View\nMy Booking ", asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(label: "Approve Timesheets", asset: "assets/images/icon/availability.svg"),
+          GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateShiftScreen()),
+              );
+            },
+              child: HomeCardItem(
+                  label: "Create Shifts ",
+                  asset: "assets/images/icon/availability.svg")),
+          GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyBookingScreen()),
+              );
+            },
+            child: HomeCardItem(
+                label: "View\nMy Booking ",
+                asset: "assets/images/icon/availability.svg"),
+          ),
+          GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ApprovedTimeSheetScreen()),
+              );
+            },
+            child: HomeCardItem(
+                label: "Approve Timesheets",
+                asset: "assets/images/icon/availability.svg"),
+          ),
         ],
       ),
     );
   }
-
-
 }
 
 class MyBehavior extends ScrollBehavior {
