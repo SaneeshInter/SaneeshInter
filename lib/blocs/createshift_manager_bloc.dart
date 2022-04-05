@@ -40,6 +40,8 @@ class CreateShiftmanagerBloc {
   final _hospital = PublishSubject<List<HospitalList>>();
   Stream<List<HospitalList>> get hospitalStream => _hospital.stream;
 
+
+
   getDropDownValues() async {
     var genderList = await _db.getGenderList();
     var usertype = await _db.getUserTypeList();
