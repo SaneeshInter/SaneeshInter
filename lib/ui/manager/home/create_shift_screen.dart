@@ -7,6 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/blocs/createshift_manager_bloc.dart';
+import 'package:xpresshealthdev/model/schedule_categegory_list.dart';
+import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
+import 'package:xpresshealthdev/model/shift_type_list.dart';
 import 'package:xpresshealthdev/model/viewbooking_response.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
 
@@ -14,7 +17,7 @@ import '../../../Constants/sharedPrefKeys.dart';
 import '../../../Constants/strings.dart';
 import '../../../Constants/toast.dart';
 import '../../../blocs/shift_dropdown.dart';
-import '../../../model/gender_list.dart';
+import '../../../model/user_type_list.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/buttons/login_button.dart';
@@ -33,6 +36,12 @@ class CreateShiftScreen extends StatefulWidget {
 class _CreateShiftState extends State<CreateShiftScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  var typeId = 0;
+  var categoryId = 0;
+  var usertypeId = 0;
+
+  var hospitalId = 0;
 
   ToastMsg toastMsg = ToastMsg();
   bool isLoading = false;
@@ -78,6 +87,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     // TODO: implement initState
     dropdownBloc.addItem();
     managerBloc.getDropDownValues();
+
     super.initState();
     //_loginResponse();
   }
@@ -90,7 +100,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   @override
   Widget build(BuildContext context) {
-    managerBloc.getDropDownValues();
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Constants.colors[9],
@@ -146,6 +155,437 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             ),
                                             Column(
                                               children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 18),
+                                                        child: Container(
+                                                          width: 400,
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .typeStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                        List<
+                                                                            ShiftTypeList>>
+                                                                    snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                      snapshot
+                                                                          .data ||
+                                                                  snapshot.data
+                                                                          ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  enabledBorder:
+                                                                      OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5)),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(Radius.circular(
+                                                                              8.0)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                              1)),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3.0),
+                                                                  labelText:
+                                                                      "Type",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                  return DropdownMenuItem(
+                                                                    child:
+                                                                        new Text(
+                                                                      item.type!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 8
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item,
+                                                                  );
+                                                                }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                        value) {
+                                                                  if (value
+                                                                      is ShiftTypeList) {
+                                                                    print(
+                                                                        "value");
+                                                                    print(value
+                                                                        ?.type);
+                                                                    print(value
+                                                                        ?.rowId);
+
+                                                                    typeId = value
+                                                                        .rowId!;
+                                                                  }
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 18),
+                                                        child: Container(
+                                                          width: 400,
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .categoryStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                        List<
+                                                                            ScheduleCategoryList>>
+                                                                    snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                      snapshot
+                                                                          .data ||
+                                                                  snapshot.data
+                                                                          ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  enabledBorder:
+                                                                      OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5)),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(Radius.circular(
+                                                                              8.0)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                              1)),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3.0),
+                                                                  labelText:
+                                                                      "Category",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                  return DropdownMenuItem(
+                                                                    child:
+                                                                        new Text(
+                                                                      item.category!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 8
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item,
+                                                                  );
+                                                                }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                        value) {
+                                                                  if (value
+                                                                      is ScheduleCategoryList) {
+                                                                    print(
+                                                                        "value");
+                                                                    print(value
+                                                                        ?.rowId);
+                                                                    print(value
+                                                                        ?.userType);
+
+                                                                    categoryId =
+                                                                        value
+                                                                            .rowId!;
+                                                                  }
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 18),
+                                                        child: Container(
+                                                          width: 400,
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .usertypeStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                        List<
+                                                                            UserTypeList>>
+                                                                    snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                      snapshot
+                                                                          .data ||
+                                                                  snapshot.data
+                                                                          ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  enabledBorder:
+                                                                      OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5)),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(Radius.circular(
+                                                                              8.0)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                              1)),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3.0),
+                                                                  labelText:
+                                                                      "User Type",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                  return DropdownMenuItem(
+                                                                    child:
+                                                                        new Text(
+                                                                      item.type!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 8
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item,
+                                                                  );
+                                                                }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                        value) {
+                                                                  if (value
+                                                                      is UserTypeList) {
+                                                                    print(
+                                                                        "value");
+                                                                    print(value
+                                                                        ?.rowId);
+                                                                    print(value
+                                                                        ?.type);
+
+                                                                    usertypeId =
+                                                                        value
+                                                                            .rowId!;
+                                                                  }
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 18),
+                                                        child: Container(
+                                                          width: 400,
+                                                          child: StreamBuilder(
+                                                            stream: managerBloc
+                                                                .hospitalStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                        List<
+                                                                            HospitalList>>
+                                                                    snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                      snapshot
+                                                                          .data ||
+                                                                  snapshot.data
+                                                                          ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  enabledBorder:
+                                                                      OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5)),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(Radius.circular(
+                                                                              8.0)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                              1)),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3.0),
+                                                                  labelText:
+                                                                      "Hospital",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                  return DropdownMenuItem(
+                                                                    child:
+                                                                        new Text(
+                                                                      item.name!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 8
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item,
+                                                                  );
+                                                                }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                        value) {
+                                                                  if (value
+                                                                      is HospitalList) {
+                                                                    print(
+                                                                        "value");
+                                                                    print(value
+                                                                        ?.rowId);
+
+                                                                    hospitalId =
+                                                                        value
+                                                                            .rowId!;
+                                                                  }
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Column(
+                                              children: [
                                                 Container(
                                                   child: TextInputFileds(
                                                       controlr: jobtitle,
@@ -160,56 +600,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                           TextInputType.text,
                                                       isPwd: false,
                                                       onTapDate: () {}),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                      controlr: location,
-                                                      onTapDate: () {},
-                                                      validator: (location) {
-                                                        if (validLocation(
-                                                            location))
-                                                          return null;
-                                                        else
-                                                          return "enter your location";
-                                                      },
-                                                      hintText: Txt.location,
-                                                      keyboadType:
-                                                          TextInputType.text,
-                                                      isPwd: false),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  child:
-                                                      TextInputFiledDescription(
-                                                          controlr: jobDescri,
-                                                          onTapDate: () {},
-                                                          validator:
-                                                              (jobDescri) {
-                                                            if (validDescription(
-                                                                jobDescri))
-                                                              return null;
-                                                            else
-                                                              return "enter job decscription";
-                                                          },
-                                                          hintText:
-                                                              Txt.jobDescri,
-                                                          keyboadType:
-                                                              TextInputType
-                                                                  .visiblePassword,
-                                                          isPwd: false),
                                                 ),
                                               ],
                                             ),
@@ -313,463 +703,27 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             ),
                                             Column(
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 18),
-                                                        child: Container(
-                                                          width: 400,
-                                                          child: StreamBuilder(
-                                                            stream: managerBloc
-                                                                .genderStream,
-                                                            builder: (context,
-                                                                AsyncSnapshot<
-                                                                        List<
-                                                                            GenderList>>
-                                                                    snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
-                                                              if (null ==
-                                                                      snapshot
-                                                                          .data ||
-                                                                  snapshot.data
-                                                                          ?.length ==
-                                                                      0) {
-                                                                return Container();
-                                                              }
-
-                                                              return DropdownButtonFormField(
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  enabledBorder:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(5)),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                            color:
-                                                                                Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
-                                                                              8.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                              1)),
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              3.0),
-                                                                  labelText:
-                                                                      "Gender",
-                                                                ),
-                                                                items: snapshot
-                                                                    .data
-                                                                    ?.map(
-                                                                        (item) {
-                                                                  return DropdownMenuItem(
-                                                                    child:
-                                                                        new Text(
-                                                                      item.gender!,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize: 8
-                                                                              .sp,
-                                                                          decoration: TextDecoration
-                                                                              .none,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                    ),
-                                                                    value: item,
-                                                                  );
-                                                                }).toList(),
-                                                                onChanged:
-                                                                    (Object?
-                                                                        value) {},
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(left: 18),
-                                                        child: Container(
-                                                          width: 400,
-                                                          child: StreamBuilder(
-                                                            stream: managerBloc
-                                                                .genderStream,
-                                                            builder: (context,
-                                                                AsyncSnapshot<
-                                                                    List<
-                                                                        GenderList>>
-                                                                snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
-                                                              if (null ==
-                                                                  snapshot
-                                                                      .data ||
-                                                                  snapshot.data
-                                                                      ?.length ==
-                                                                      0) {
-                                                                return Container();
-                                                              }
-
-                                                              return DropdownButtonFormField(
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(5)),
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                        color:
-                                                                        Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(Radius.circular(
-                                                                          8.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                          1)),
-                                                                  contentPadding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                      3.0),
-                                                                  labelText:
-                                                                  "Gender",
-                                                                ),
-                                                                items: snapshot
-                                                                    .data
-                                                                    ?.map(
-                                                                        (item) {
-                                                                      return DropdownMenuItem(
-                                                                        child:
-                                                                        new Text(
-                                                                          item.gender!,
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight
-                                                                                  .w500,
-                                                                              fontSize: 8
-                                                                                  .sp,
-                                                                              decoration: TextDecoration
-                                                                                  .none,
-                                                                              color:
-                                                                              Colors.grey),
-                                                                        ),
-                                                                        value: item,
-                                                                      );
-                                                                    }).toList(),
-                                                                onChanged:
-                                                                    (Object?
-                                                                value) {},
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(left: 18),
-                                                        child: Container(
-                                                          width: 400,
-                                                          child: StreamBuilder(
-                                                            stream: managerBloc
-                                                                .genderStream,
-                                                            builder: (context,
-                                                                AsyncSnapshot<
-                                                                    List<
-                                                                        GenderList>>
-                                                                snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
-                                                              if (null ==
-                                                                  snapshot
-                                                                      .data ||
-                                                                  snapshot.data
-                                                                      ?.length ==
-                                                                      0) {
-                                                                return Container();
-                                                              }
-
-                                                              return DropdownButtonFormField(
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(5)),
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                        color:
-                                                                        Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(Radius.circular(
-                                                                          8.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                          1)),
-                                                                  contentPadding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                      3.0),
-                                                                  labelText:
-                                                                  "Gender",
-                                                                ),
-                                                                items: snapshot
-                                                                    .data
-                                                                    ?.map(
-                                                                        (item) {
-                                                                      return DropdownMenuItem(
-                                                                        child:
-                                                                        new Text(
-                                                                          item.gender!,
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight
-                                                                                  .w500,
-                                                                              fontSize: 8
-                                                                                  .sp,
-                                                                              decoration: TextDecoration
-                                                                                  .none,
-                                                                              color:
-                                                                              Colors.grey),
-                                                                        ),
-                                                                        value: item,
-                                                                      );
-                                                                    }).toList(),
-                                                                onChanged:
-                                                                    (Object?
-                                                                value) {},
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(left: 18),
-                                                        child: Container(
-                                                          width: 400,
-                                                          child: StreamBuilder(
-                                                            stream: managerBloc
-                                                                .genderStream,
-                                                            builder: (context,
-                                                                AsyncSnapshot<
-                                                                    List<
-                                                                        GenderList>>
-                                                                snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
-                                                              if (null ==
-                                                                  snapshot
-                                                                      .data ||
-                                                                  snapshot.data
-                                                                      ?.length ==
-                                                                      0) {
-                                                                return Container();
-                                                              }
-
-                                                              return DropdownButtonFormField(
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(5)),
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                        color:
-                                                                        Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(Radius.circular(
-                                                                          8.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                          1)),
-                                                                  contentPadding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                      3.0),
-                                                                  labelText:
-                                                                  "Gender",
-                                                                ),
-                                                                items: snapshot
-                                                                    .data
-                                                                    ?.map(
-                                                                        (item) {
-                                                                      return DropdownMenuItem(
-                                                                        child:
-                                                                        new Text(
-                                                                          item.gender!,
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight
-                                                                                  .w500,
-                                                                              fontSize: 8
-                                                                                  .sp,
-                                                                              decoration: TextDecoration
-                                                                                  .none,
-                                                                              color:
-                                                                              Colors.grey),
-                                                                        ),
-                                                                        value: item,
-                                                                      );
-                                                                    }).toList(),
-                                                                onChanged:
-                                                                    (Object?
-                                                                value) {},
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                              height: 5.5.h,
-                                              width: screenWidth(context,
-                                                  dividedBy: 1),
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 0,
-                                                    left: 20,
-                                                    right: 20),
-                                                child: Expanded(
-                                                  flex: 1,
-                                                  child: StreamBuilder(
-                                                    stream: dropdownBloc
-                                                        .genderStrem,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      return DropdownButtonFormField(
-                                                        decoration:
-                                                            InputDecoration(
-                                                          enabledBorder:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            5)),
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .grey),
-                                                          ),
-                                                          focusedBorder: OutlineInputBorder(
-                                                              borderRadius:
-                                                                  BorderRadius.all(
-                                                                      Radius.circular(
-                                                                          8.0)),
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      width:
-                                                                          1)),
-                                                          contentPadding:
-                                                              EdgeInsets.all(
-                                                                  3.0),
-                                                          labelText: "Gender",
-                                                        ),
-                                                        value: snapshot.data,
-                                                        items: dropdownBloc
-                                                            .names
-                                                            .map((item) {
-                                                          return DropdownMenuItem(
-                                                            child: new Text(
-                                                              item,
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize:
-                                                                      8.sp,
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .none,
-                                                                  color: Colors
-                                                                      .grey),
-                                                            ),
-                                                            value: item,
-                                                          );
-                                                        }).toList(),
-                                                        onChanged:
-                                                            (Object? value) {},
-                                                      );
-                                                    },
-                                                  ),
+                                                Container(
+                                                  child:
+                                                      TextInputFiledDescription(
+                                                          controlr: jobDescri,
+                                                          onTapDate: () {},
+                                                          validator:
+                                                              (jobDescri) {
+                                                            if (validDescription(
+                                                                jobDescri))
+                                                              return null;
+                                                            else
+                                                              return "enter job decscription";
+                                                          },
+                                                          hintText:
+                                                              Txt.jobDescri,
+                                                          keyboadType:
+                                                              TextInputType
+                                                                  .visiblePassword,
+                                                          isPwd: false),
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
+                                              ],
                                             ),
                                             signUpBtn(),
                                             const SizedBox(
@@ -821,11 +775,11 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                           if (null != auth_tokn) {
                             managerBloc.createShiftManager(
                               auth_tokn,
-                              type.text,
-                              category.text,
-                              user_type.text,
+                              typeId,
+                              categoryId,
+                              usertypeId,
                               jobtitle.text,
-                              hospital.text,
+                              hospitalId,
                               date.text,
                               time_from.text,
                               time_to.text,
@@ -906,40 +860,4 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       anycontroller.text = timeOfDay.format(context);
     }
   }
-
-  List<DropdownMenuItem<String>> _genders = [
-    DropdownMenuItem(
-      child: new Text(
-        "Source 1",
-        style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 8.sp,
-            decoration: TextDecoration.none,
-            color: Colors.grey),
-      ),
-      //value: "Male",
-    ),
-    DropdownMenuItem(
-      child: new Text(
-        "Source 2",
-        style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 8.sp,
-            decoration: TextDecoration.none,
-            color: Colors.grey),
-      ),
-      value: "",
-    ),
-  ];
 }
-
-List<DropdownMenuItem<String>> _types = [
-  DropdownMenuItem(
-    child: new Text(" 1"),
-    //value: "Male",
-  ),
-  DropdownMenuItem(
-    child: new Text(" 2"),
-    value: "",
-  ),
-];

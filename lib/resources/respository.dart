@@ -3,6 +3,7 @@ import 'package:xpresshealthdev/model/user_get_response.dart';
 import 'package:xpresshealthdev/model/user_job_request.dart';
 import 'package:xpresshealthdev/resources/api_provider.dart';
 
+import '../model/accept_job_request.dart';
 import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
@@ -69,6 +70,11 @@ class Repository {
       apiProvider.getManagerViewRequest(token, shift_id);
 
 
+  Future<AcceptJobRequestResponse> fetchAcceptJobRequestResponse(
+      String token, String job_request_row_id) =>
+      apiProvider.AcceptJobRequest(token, job_request_row_id);
+
+
 
 
   Future<void> ProfileUser(
@@ -102,11 +108,11 @@ class Repository {
 
   Future<ManagerShift> CreateShiftManager(
     String token,
-    String type,
-    String category,
-    String user_type,
+    int type,
+      int category,
+      int user_type,
     String job_title,
-    String hospital,
+      int hospital,
     String date,
     String time_from,
     String time_to,
@@ -115,11 +121,11 @@ class Repository {
   ) =>
       apiProvider.CreateShiftManager(
         token,
-        type,
-        category,
-        user_type,
+        type.toString(),
+        category.toString(),
+        user_type.toString(),
         job_title,
-        hospital,
+        hospital.toString(),
         date,
         time_from,
         time_to,

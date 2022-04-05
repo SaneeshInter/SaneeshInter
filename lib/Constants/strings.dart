@@ -89,7 +89,7 @@ class Txt {
 
   static const location = "Location";
   static const jobtitle = "Job Title";
-  static const jobDescri = "Job Description";
+  static const jobDescri = "Job Details";
   static const date = "Date";
   static const timeFrom = "Time From";
   static const timeTo = "Time To";

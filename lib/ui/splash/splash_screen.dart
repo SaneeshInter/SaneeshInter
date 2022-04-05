@@ -1,23 +1,29 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpresshealthdev/Constants/sharedPrefKeys.dart';
 import 'package:xpresshealthdev/model/country_list.dart';
-import 'package:xpresshealthdev/model/gender_list.dart';
+import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
 import 'package:xpresshealthdev/ui/login/login_screen.dart';
 import 'package:xpresshealthdev/ui/manager_dashboard_screen.dart';
+
 import '../../UI/dashboard_screen.dart';
 import '../../blocs/utility_bloc.dart';
 import '../../db/database.dart';
 import '../../model/loctions_list.dart';
+import '../../model/schedule_categegory_list.dart';
+import '../../model/schedule_hospital_list.dart';
 import '../../model/user_type_list.dart';
 import '../../model/visa_type_list.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
+
 class _SplashScreenState extends State<SplashScreen> {
   Future changeScreen() async {
     SharedPreferences shdPre = await SharedPreferences.getInstance();
@@ -85,13 +91,45 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
 
-        var genderList = event.response?.data?.genderList;
-        if (null != genderList) {
-          for (var item in genderList) {
-            var obj = GenderList(rowId: item.rowId, gender: item.gender);
-            db.insertGenderList(obj);
+        var categroryList = event.response?.data?.scheduleCategoryList;
+        if (null != categroryList) {
+          for (var item in categroryList) {
+            var obj = ScheduleCategoryList(
+                rowId: item.rowId,
+                userType: item.userType,
+                category: item.category);
+            db.insertCategegoryList(obj);
           }
         }
+
+        //HOSPITAL
+        var hospitaist = event.response?.data?.hospitalList;
+        if (null != hospitaist) {
+          for (var item in hospitaist) {
+            var obj = HospitalList(
+                rowId: item.rowId,
+                name: item.name,
+                email: item.email,
+                phone: item.phone,
+                address: item.address,
+                province: item.province,
+                city: item.city,
+                longitude: item.longitude,
+                latitude: item.latitude,
+                photo: item.photo);
+
+            db.inserthospitalList(obj);
+          }
+        }
+
+        //
+        // var genderList = event.response?.data?.genderList;
+        // if (null != genderList) {
+        //   for (var item in genderList) {
+        //     var obj = GenderList(rowId: item.rowId, gender: item.gender);
+        //     db.insertGenderList(obj);
+        //   }
+        // }
 
         var loctionsList = event.response?.data?.loctionsList;
         if (null != loctionsList) {

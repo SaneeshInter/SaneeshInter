@@ -8,9 +8,9 @@ import '../../../../utils/constants.dart';
 import '../../../Constants/sharedPrefKeys.dart';
 import '../../../blocs/manager_view_detail.dart';
 import '../../../model/manager_view_request.dart';
-import '../../Widgets/buttons/call_button.dart';
-import '../../Widgets/buttons/submit_button.dart';
+import '../../../utils/utils.dart';
 import '../../user/detail/drawable_custom_row.dart';
+import '../../widgets/request_user_list.dart';
 
 class ShiftDetailManagerScreen extends StatefulWidget {
   const ShiftDetailManagerScreen({Key? key}) : super(key: key);
@@ -22,6 +22,7 @@ class ShiftDetailManagerScreen extends StatefulWidget {
 class _CreateShiftState extends State<ShiftDetailManagerScreen> {
   String? token;
   String? shift_id = "1";
+  String? job_request_row_id;
 
   @override
   void initState() {
@@ -36,13 +37,16 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
     print("token inn deta");
     print(token);
     print(shift_id);
-    managerviewrequestBloc.fetchManagerViewBooking(token!, shift_id!);
+    managerviewrequestBloc.fetchManagerViewRequest(token!, shift_id!);
+    acceptjobrequestBloc.fetchAcceptJobRequestResponse(
+        token!, job_request_row_id!);
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    getData();
     return Scaffold(
       backgroundColor: Constants.colors[9],
       body: SingleChildScrollView(
@@ -99,13 +103,14 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                             padding: const EdgeInsets.only(
                                                 left: 14, top: 10),
                                             child: Text(
-                                              snapshot!
-                                                  .data!
-                                                  .response!
-                                                  .data!
-                                                  .hospitalDetails![0]
-                                                  .hospitalRowId
-                                                  .toString(),
+                                              "At. " +
+                                                  snapshot!
+                                                      .data!
+                                                      .response!
+                                                      .data!
+                                                      .hospitalDetails![0]
+                                                      .hospitalName
+                                                      .toString(),
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 16.sp,
@@ -120,7 +125,7 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                                 .response!
                                                 .data!
                                                 .hospitalDetails![0]
-                                                .province
+                                                .address
                                                 .toString(),
                                             asset:
                                                 "assets/images/icon/location.svg",
@@ -129,13 +134,15 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                           ),
                                           CustomRow(
                                             onPressed: () {},
-                                            label: snapshot!
-                                                .data!
-                                                .response!
-                                                .data!
-                                                .hospitalDetails![0]
-                                                .longitude
-                                                .toString(),
+                                            label: "From " +
+                                                snapshot!.data!.response!.data!
+                                                    .shiftDetails![0].timeFrom
+                                                    .toString() +
+                                                "AM To " +
+                                                snapshot!.data!.response!.data!
+                                                    .shiftDetails![0].timeFrom
+                                                    .toString() +
+                                                " PM",
                                             asset:
                                                 "assets/images/icon/time.svg",
                                             textColors: Colors.black,
@@ -143,7 +150,7 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                           ),
                                           CustomRow(
                                             onPressed: () {},
-                                            label:snapshot!
+                                            label: snapshot!
                                                 .data!
                                                 .response!
                                                 .data!
@@ -157,13 +164,8 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                           ),
                                           CustomRow(
                                             onPressed: () {},
-                                            label:
-                                            snapshot!
-                                                .data!
-                                                .response!
-                                                .data!
-                                                .hospitalDetails![0]
-                                                .email
+                                            label: snapshot!.data!.response!
+                                                .data!.hospitalDetails![0].email
                                                 .toString(),
                                             asset:
                                                 "assets/images/icon/email.svg",
@@ -172,70 +174,159 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                           ),
                                           CustomRow(
                                             onPressed: () {},
-                                            label:  snapshot!
+                                            label: snapshot!.data!.response!
+                                                .data!.hospitalDetails![0].phone
+                                                .toString(),
+                                            asset:
+                                                "assets/images/icon/price-tag.svg",
+                                            textColors: Colors.black,
+                                            size: 9.sp,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Divider(
+                                              thickness: 1,
+                                              indent: 12,
+                                              endIndent: 12,
+                                            ),
+                                          ),
+                                          CustomRowz(
+                                            onPressed: () {},
+                                            label: snapshot!
                                                 .data!
                                                 .response!
                                                 .data!
-                                                .hospitalDetails![0]
-                                                .phone
+                                                .shiftDetails![0]
+                                                .jobDetails
                                                 .toString(),
-                                      asset: "assets/images/icon/price-tag.svg",
-                                      textColors: Colors.black,
-                                      size: 9.sp,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Divider(
-                                        thickness: 1,
-                                        indent: 12,
-                                        endIndent: 12,
+                                            asset:
+                                                "assets/images/icon/check.svg",
+                                            textColors: Colors.black,
+                                          ),
+                                          CustomRowz(
+                                            onPressed: () {},
+                                            label: snapshot!
+                                                .data!
+                                                .response!
+                                                .data!
+                                                .shiftDetails![0]
+                                                .jobDetails
+                                                .toString(),
+                                            asset:
+                                                "assets/images/icon/check.svg",
+                                            textColors: Colors.black,
+                                          ),
+                                          CustomRowz(
+                                            onPressed: () {},
+                                            label: snapshot!
+                                                .data!
+                                                .response!
+                                                .data!
+                                                .shiftDetails![0]
+                                                .jobDetails
+                                                .toString(),
+                                            asset:
+                                                "assets/images/icon/check.svg",
+                                            textColors: Colors.black,
+                                          ),
+                                          SizedBox(
+                                            height: 3.h,
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              "Request Shift",
+                                              style: TextStyle(
+                                                  fontSize: 13.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          Card(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            elevation: 0,
+                                            color: Colors.greenAccent[100],
+                                            child: SizedBox(
+                                              height: 35.h,
+                                              child: Padding(
+
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: ListView.builder(
+
+                                                  itemCount: snapshot
+                                                      .data!
+                                                      .response!
+                                                      .data!
+                                                      .jobRequestDetails!
+                                                      .length,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    var name =
+                                                        "Approved time sheet";
+                                                    var description =
+                                                        "timesheets";
+                                                    return Column(
+                                                      children: [
+                                                        RequestuserListWidget(
+                                                          onTapView: () {},
+                                                          onTapCall: () {},
+                                                          onTapMap: () {},
+                                                          onTapBooking:
+                                                              (JobRequestDetails
+                                                                  item) {
+                                                            print("Tapped");
+                                                            print(item.jobId);
+                                                            print(
+                                                                item.userName);
+                                                            print(item.userId);
+
+                                                            acceptjobrequestBloc
+                                                                .fetchAcceptJobRequestResponse(
+                                                                    token!,
+                                                                    item.jobId
+                                                                        .toString());
+                                                            // showBookingAlert(context, date: "Show Timesheet");
+                                                          },
+                                                          item: snapshot
+                                                                  .data!
+                                                                  .response!
+                                                                  .data!
+                                                                  .jobRequestDetails![
+                                                              index],
+                                                        ),
+                                                        SizedBox(
+                                                            height:
+                                                                screenHeight(
+                                                                    context,
+                                                                    dividedBy:
+                                                                        100)),
+                                                      ],
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    CustomRowz(
-                                      onPressed: () {},
-                                      label:
-                                          "There are many variations of passages of Lorem\n"
-                                          " Ipsum available, but the majority have suffered \n"
-                                          "alteration in some form, by injected humour,",
-                                      asset: "assets/images/icon/check.svg",
-                                      textColors: Colors.black,
-                                    ),
-                                    CustomRowz(
-                                      onPressed: () {},
-                                      label:
-                                          "There are many variations of passages of Lorem\n"
-                                          " Ipsum available, but the majority have suffered \n"
-                                          "alteration in some form, by injected humour,",
-                                      asset: "assets/images/icon/check.svg",
-                                      textColors: Colors.black,
-                                    ),
-                                    CustomRowz(
-                                      onPressed: () {},
-                                      label:
-                                          "There are many variations of passages of Lorem\n"
-                                          " Ipsum available, but the majority have suffered \n"
-                                          "alteration in some form, by injected humour,",
-                                      asset: "assets/images/icon/check.svg",
-                                      textColors: Colors.black,
-                                    ),
-                                    SizedBox(
-                                      height: 2.h,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-
-                  SizedBox(
-                    height: 2.h,
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                   ),
                 ],
               );

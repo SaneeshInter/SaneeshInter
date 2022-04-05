@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/UI/splash/splash_screen.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(const MyApp());
 }
 

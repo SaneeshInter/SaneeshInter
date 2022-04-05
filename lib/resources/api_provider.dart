@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:xpresshealthdev/model/login_response.dart';
 
+import '../model/accept_job_request.dart';
 import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
@@ -141,6 +142,37 @@ class ApiProvider {
 
     if (response.statusCode == 200) {
       return UserGetScheduleByMonthYear.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+
+
+
+             ///ACEEPT JOB REQUEST ////
+
+  Future<AcceptJobRequestResponse> AcceptJobRequest(String token,
+      String job_request_row_id ) async {
+    var uri = Uri.parse(BASE_URL + "/manager/accept-job-request");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'job_request_row_id': job_request_row_id,
+        }));
+
+    print("PRINT ACCEPT VIEW JOB REQUEST" + token);
+
+    print(jsonEncode(<String, String>{
+      'job_request_row_id': job_request_row_id,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return AcceptJobRequestResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
     }
