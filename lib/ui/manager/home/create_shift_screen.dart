@@ -582,7 +582,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               ],
                                             ),
                                             SizedBox(
-                                              height: 20,
+                                              height: 12,
                                             ),
                                             Column(
                                               children: [
