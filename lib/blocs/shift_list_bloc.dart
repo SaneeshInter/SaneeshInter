@@ -1,26 +1,18 @@
-
 import 'package:rxdart/rxdart.dart';
 import 'package:xpresshealthdev/resources/respository.dart';
 
 import '../model/shift_list_response.dart';
 import '../model/user_getschedule_bydate.dart';
 import '../model/user_job_request.dart';
-
-
-
-
 class ShiftListBloc {
   final _repo = Repository();
   final _shiftList = PublishSubject<SliftListRepso>();
   final _scheduledate = PublishSubject<UserGetScheduleByDate>();
   final _jobrequest= PublishSubject<UserJobRequestResponse >();
 
-
-
   Stream<SliftListRepso> get allShift => _shiftList.stream;
   Stream<UserGetScheduleByDate> get shiftbydate => _scheduledate.stream;
   Stream<UserJobRequestResponse> get jobrequest => _jobrequest.stream;
-
 
 
   fetchAllList(String date) async {

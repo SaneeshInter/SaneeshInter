@@ -312,7 +312,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                   children: [
                                                     Expanded(
                                                       flex: 1,
-                                                      child: TextInputFileds(
+                                                             child: TextInputFileds(
                                                           controlr: date,
                                                           validator: (dob) {
                                                             if (validDate(dob))

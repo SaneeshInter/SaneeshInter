@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/UI/manager/home/shift_detail_manager.dart';
 
 
 import '../../../utils/constants.dart';
@@ -89,7 +90,16 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
       children: <Widget>[
         Expanded(
           child: HomeButton(
-              onPressed: () {},
+              onPressed: () {
+
+
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShiftDetailManagerScreen()),
+                );
+
+              },
               label: "Send Mail",
               asset: "assets/images/icon/email.svg",
               textColors: Constants.colors[0],

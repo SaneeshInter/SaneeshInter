@@ -5,6 +5,8 @@ import 'package:xpresshealthdev/model/visa_type_list.dart';
 import '../model/country_list.dart';
 import '../model/gender_list.dart';
 import '../model/loctions_list.dart';
+import '../model/schedule_categegory_list.dart';
+import '../model/schedule_hospital_list.dart';
 import '../model/user_type_list.dart';
 
 class Db {
@@ -12,7 +14,7 @@ class Db {
     // Set the path to the database. Note: Using the `join` function from the
     // `path` package is best practice to ensure the path is correctly
     // constructed for each platform.
-    join('xpress_database.db'),
+    join('xpresss_database.db'),
     // When the database is first created, create a table to store dogs.
     onCreate: (db, version) {
       // Run the CREATE TABLE statement on the database.
@@ -32,13 +34,46 @@ class Db {
         'CREATE TABLE visatype(row_id INTEGER , type TEXT)',
       );
 
+      db.execute(
+        'CREATE TABLE schedulecategorylist(row_id INTEGER , user_type INTEGER , category TEXT)',
+      );
+
+      db.execute(
+        'CREATE TABLE  hospitals(row_id INTEGER , name TEXT,email TEXT,phone TEXT,address TEXT,province INTEGER,city INTEGER ,longitude TEXT ,latitude TEXT'
+            ', photo TEXT)',
+      );
+
       return db.execute(
         'CREATE TABLE country(row_id INTEGER , country_name TEXT)',
       );
+
+
+
+
     },
 
     version: 1,
   );
+
+
+
+
+  //HOSPITAL
+  Future<void> inserthospitalList(HospitalList dog) async {
+    // Get a reference to the database.
+    final db = await database;
+
+    // Insert the Dog into the correct table. You might also specify the
+    // `conflict algorithm` to use in case the same dog is inserted twice.
+    //
+    // In this case, replace any previous data.
+    await db.insert(
+      'hospitals',
+      dog.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
 
   // Define a function that inserts dogs into the database
   Future<void> insertCountryList(CountryList dog) async {
@@ -51,6 +86,23 @@ class Db {
     // In this case, replace any previous data.
     await db.insert(
       'country',
+      dog.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+
+  // Define a function that inserts dogs into the database
+  Future<void> insertCategegoryList(ScheduleCategoryList dog) async {
+    // Get a reference to the database.
+    final db = await database;
+
+    // Insert the Dog into the correct table. You might also specify the
+    // `conflict algorithm` to use in case the same dog is inserted twice.
+    //
+    // In this case, replace any previous data.
+    await db.insert(
+      'schedulecategorylist',
       dog.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -72,6 +124,7 @@ class Db {
   }
 
   Future<List<GenderList>> getGenderList() async {
+
     final db = await database;
     // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('gender');
@@ -82,7 +135,93 @@ class Db {
     });
   }
 
-  // Define a function that inserts dogs into the database
+
+  Future<List<ScheduleCategoryList>> getCategory() async {
+    final db = await database;
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('schedulecategorylist');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return ScheduleCategoryList(rowId: maps[i]['row_id'], category: maps[i]['category'],userType: maps[i]['user_type']);
+    });
+  }
+
+  Future<List<HospitalList>> getHospitalList() async {
+    final db = await database;
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('hospitals');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+
+
+
+      var city = maps[i]['city'];
+      var prov = maps[i]['province'];
+      print("city");
+      print(city);
+
+      print("prov");
+      print(prov);
+      int cityvalue =0;
+      int provvalue =0;
+
+      // if(city!=null)
+      //   {
+      //     cityvalue= city as int;
+      //   }
+      // if(prov!=null)
+      // {
+      //   provvalue= prov as int;
+      // }
+      print("cityvalue");
+      print(cityvalue);
+      print("cityvalue");
+      print(cityvalue);
+      return HospitalList(rowId: maps[i]['row_id'], name: maps[i]['name'],email: maps[i]['email'],
+          phone: maps[i]['phone'], address: maps[i]['address'],province: provvalue,
+          city: cityvalue, longitude: maps[i]['longitude'],latitude: maps[i]['latitude'],
+          photo: maps[i]['photo']
+
+      );
+    });
+  }
+
+
+
+
+  Future<List<UserTypeList>> getUserTypeList() async {
+  final db = await database;
+  // Query the table for all The Dogs.
+  final List<Map<String, dynamic>> maps = await db.query('usertype');
+
+  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  return List.generate(maps.length, (i) {
+    return UserTypeList(rowId: maps[i]['row_id'], type: maps[i]['type']);
+  });
+}
+
+
+
+
+  Future<List<CountryList>> getGetCountryList() async {
+    final db = await database;
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('country');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return CountryList(rowId: maps[i]['row_id'], countryName: maps[i]['country_name']);
+    });
+  }
+
+
+
+
+
+
+// Define a function that inserts dogs into the database
   Future<void> insertLoctionsList(LoctionsList dog) async {
     // Get a reference to the database.
     final db = await database;
@@ -138,5 +277,7 @@ class Db {
     db.delete("locations");
     db.delete("visatype");
     db.delete("usertype");
+    db.delete("schedulecategorylist");
+    db.delete("hospitals");
   }
 }

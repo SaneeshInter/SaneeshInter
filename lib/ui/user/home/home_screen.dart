@@ -13,6 +13,7 @@ import '../../../model/shift_list_response.dart';
 import '../../../model/user_get_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
+import '../../manager/home/shift_detail_manager.dart';
 import '../../widgets/buttons/drawable_button.dart';
 import '../../widgets/buttons/home_button.dart';
 import '../app_bar.dart';
@@ -257,10 +258,14 @@ class _HomeScreentate extends State<HomeScreen> {
         Expanded(
           child: HomeButton(
               onPressed: () {
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ShiftDetailScreen()),
                 );
+
+
+
               },
               label: "Shift Details",
               asset: "assets/images/icon/availability.svg",
@@ -280,7 +285,7 @@ class _HomeScreentate extends State<HomeScreen> {
         ),
       ],
     );
-    ;
+
   }
 
   Widget imageCard() {
@@ -314,12 +319,6 @@ class _HomeScreentate extends State<HomeScreen> {
     );
   }
 
-  
-  
-  
-  
-  
-  
   
   Widget horizontalList() {
     return Column(
