@@ -246,6 +246,8 @@ class VisaTypeList {
 }
 
 
+
+
 class UserTypeList {
   int? rowId;
   String? type;
