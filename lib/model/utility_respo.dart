@@ -1,5 +1,3 @@
-import 'package:xpresshealthdev/model/visa_type_list.dart';
-
 class UtilityResop {
   Response? response;
 
@@ -45,6 +43,7 @@ class Response {
 }
 
 class Data {
+  List<GenderList>? genderList;
   List<CountryList>? countryList;
   List<UserTypeList>? userTypeList;
   List<VisaTypeList>? visaTypeList;
@@ -58,7 +57,8 @@ class Data {
   String? timeZone;
 
   Data(
-      {this.countryList,
+      {this.genderList,
+        this.countryList,
         this.userTypeList,
         this.visaTypeList,
         this.loctionsList,
@@ -71,6 +71,12 @@ class Data {
         this.timeZone});
 
   Data.fromJson(Map<String, dynamic> json) {
+    if (json['gender_list'] != null) {
+      genderList = <GenderList>[];
+      json['gender_list'].forEach((v) {
+        genderList!.add(new GenderList.fromJson(v));
+      });
+    }
     if (json['country_list'] != null) {
       countryList = <CountryList>[];
       json['country_list'].forEach((v) {
@@ -136,6 +142,9 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.genderList != null) {
+      data['gender_list'] = this.genderList!.map((v) => v.toJson()).toList();
+    }
     if (this.countryList != null) {
       data['country_list'] = this.countryList!.map((v) => v.toJson()).toList();
     }
@@ -143,10 +152,10 @@ class Data {
       data['user_type_list'] =
           this.userTypeList!.map((v) => v.toJson()).toList();
     }
-    // if (this.visaTypeList != null) {
-    //   data['visa_type_list'] =
-    //       this.visaTypeList!.map((v) => v.toJson()).toList();
-    // }
+    if (this.visaTypeList != null) {
+      data['visa_type_list'] =
+          this.visaTypeList!.map((v) => v.toJson()).toList();
+    }
     if (this.loctionsList != null) {
       data['loctions_list'] =
           this.loctionsList!.map((v) => v.toJson()).toList();
@@ -179,6 +188,25 @@ class Data {
   }
 }
 
+class GenderList {
+  int? rowId;
+  String? gender;
+
+  GenderList({this.rowId, this.gender});
+
+  GenderList.fromJson(Map<String, dynamic> json) {
+    rowId = json['row_id'];
+    gender = json['gender'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['row_id'] = this.rowId;
+    data['gender'] = this.gender;
+    return data;
+  }
+}
+
 class CountryList {
   int? rowId;
   String? countryName;
@@ -197,6 +225,26 @@ class CountryList {
     return data;
   }
 }
+
+class VisaTypeList {
+  int? rowId;
+  String? type;
+
+  VisaTypeList({required this.rowId, required this.type});
+
+  VisaTypeList.fromJson(Map<String, dynamic> json) {
+    rowId = json['row_id'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['row_id'] = this.rowId;
+    data['type'] = this.type;
+    return data;
+  }
+}
+
 
 class UserTypeList {
   int? rowId;

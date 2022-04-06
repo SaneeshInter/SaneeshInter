@@ -25,48 +25,41 @@ class _HomeCardState extends State<HomeCardItem> {
   bool tapped = false;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          tapped = true;
-        });
-      },
-      child: Card(
-        elevation: 0.0,
+    return Card(
+      elevation: 0.0,
 
-        child: Container(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: AutoSizeText(
-                    widget.label,
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.sp,
-                      fontFamily: "SFProMedium",
-                    ),
+      child: Container(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: AutoSizeText(
+                  widget.label,
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.sp,
+                    fontFamily: "SFProMedium",
                   ),
                 ),
-                Container(
+              ),
+              Container(
 
-                  alignment: Alignment.topRight,
-                  child: CircleAvatar(
-                    backgroundColor: Constants.colors[12],
-                    child: SvgPicture.asset(
-                      widget.asset,
-                      height: 5.w,
-                      width: 5.w,
-                      color: Colors.white,
-                    ),
+                alignment: Alignment.topRight,
+                child: CircleAvatar(
+                  backgroundColor: Constants.colors[12],
+                  child: SvgPicture.asset(
+                    widget.asset,
+                    height: 5.w,
+                    width: 5.w,
+                    color: Colors.white,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

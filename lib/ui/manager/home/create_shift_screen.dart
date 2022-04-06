@@ -162,9 +162,9 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .only(left: 18),
+                                                                .only(left: 18,right: 18),
                                                         child: Container(
-                                                          width: 400,
+                                                          width: 300,
                                                           child: StreamBuilder(
                                                             stream: managerBloc
                                                                 .typeStream,
@@ -818,7 +818,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         date.text = "";
       } else {
         showAlertDialoge(context,
-            title: "Invalid", message: "Enter a valid Email and Password");
+            title: "Invalid", message: message!);
       }
     });
   }

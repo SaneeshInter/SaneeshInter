@@ -9,6 +9,7 @@ import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
 import '../model/user_get_response.dart';
+import '../model/user_profile_update.dart';
 import '../model/utility_respo.dart';
 import '../model/user_getschedule_bydate.dart';
 import '../model/user_getschedule_by_month_year.dart';
@@ -288,11 +289,12 @@ class ApiProvider {
   }
 
 
-  Future<void> ProfileUser(
+  Future<ProfileUpdateRespo> ProfileUser(
       String token,
       String first_name,
       String last_name,
       String dob,
+      String gender,
       String nationality,
       String home_address,
       String permission_to_work_in_ireland,
@@ -309,9 +311,11 @@ class ApiProvider {
           "token": token,
         },
         body: jsonEncode(<String, String>{
+
           "first_name": first_name,
           "last_name": last_name,
           "dob": dob,
+          "gender": gender,
           "nationality": nationality,
           "home_address": home_address,
           "permission_to_work_in_ireland": permission_to_work_in_ireland,
@@ -319,6 +323,7 @@ class ApiProvider {
           "phone_number": phone_number,
           "email": email,
           "pps_number": pps_number,
+          "bank_iban": bank_iban,
           "bank_bic": bank_bic,
         }));
 
@@ -333,12 +338,21 @@ class ApiProvider {
       "phone_number": phone_number,
       "email": email,
       "pps_number": pps_number,
+      "bank_iban": bank_iban,
       "bank_bic": bank_bic,
     }).toString());
     print(response.body);
     print(response.statusCode);
     print(response.toString());
+
+    print(response.body);
+    if (response.statusCode == 200) {
+      return ProfileUpdateRespo.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
   }
+
 
   Future<SliftListRepso> fetchShiftList(String date) async {
     print("date");

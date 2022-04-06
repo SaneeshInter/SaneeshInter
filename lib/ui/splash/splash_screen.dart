@@ -13,6 +13,7 @@ import 'package:xpresshealthdev/ui/manager_dashboard_screen.dart';
 import '../../UI/dashboard_screen.dart';
 import '../../blocs/utility_bloc.dart';
 import '../../db/database.dart';
+import '../../model/gender_list.dart';
 import '../../model/loctions_list.dart';
 import '../../model/schedule_categegory_list.dart';
 import '../../model/schedule_hospital_list.dart';
@@ -102,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
 
-        //HOSPITAL
+        //HOSPITALpost
         var hospitaist = event.response?.data?.hospitalList;
         if (null != hospitaist) {
           for (var item in hospitaist) {
@@ -122,14 +123,14 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
 
-        //
-        // var genderList = event.response?.data?.genderList;
-        // if (null != genderList) {
-        //   for (var item in genderList) {
-        //     var obj = GenderList(rowId: item.rowId, gender: item.gender);
-        //     db.insertGenderList(obj);
-        //   }
-        // }
+
+        var genderList = event.response?.data?.genderList;
+        if (null != genderList) {
+          for (var item in genderList) {
+            var obj = GenderList(rowId: item.rowId, gender: item.gender);
+            db.insertGenderList(obj);
+          }
+        }
 
         var loctionsList = event.response?.data?.loctionsList;
         if (null != loctionsList) {

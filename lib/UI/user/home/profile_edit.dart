@@ -3,19 +3,20 @@ import 'dart:core';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-
-import 'package:xpresshealthdev/model/gender_list.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
 
+import '../../../Constants/sharedPrefKeys.dart';
 import '../../../Constants/strings.dart';
 import '../../../Constants/toast.dart';
 import '../../../blocs/profile_update_bloc.dart';
+import '../../../model/country_list.dart';
+import '../../../model/gender_list.dart';
+import '../../../model/visa_type_list.dart';
 import '../../../utils/constants.dart';
-import '../../widgets/buttons/drawable_button.dart';
+import '../../../utils/utils.dart';
 import '../../widgets/buttons/login_button.dart';
 import '../../widgets/input_text.dart';
 
@@ -26,11 +27,15 @@ class ProfileEditScreen extends StatefulWidget {
   _CreateShiftState createState() => _CreateShiftState();
 }
 
- List<GenderList> genderList=[];
+List<GenderList> genderList = [];
 
 class _CreateShiftState extends State<ProfileEditScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  var genderId ;
+  var nationalityId ;
+  var visatypeId ;
 
   ToastMsg toastMsg = ToastMsg();
   bool isLoading = false;
@@ -57,16 +62,14 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   TextEditingController home_address = new TextEditingController();
   TextEditingController visa_type = new TextEditingController();
 
-
-
   //updstaes
   TextEditingController permission_to_work_in_ireland =
       new TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
 
+  final items = ["job visa", "visiting visa"];
 
-  final items=["job visa","visiting visa"];
   // LoginBloc _loginBloc = LoginBloc();
   // ToastMsg toastMsg = ToastMsg();
   bool visible = false;
@@ -76,6 +79,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
     // TODO: implement initState
     super.initState();
     profileBloc.getUserInfo();
+    profileBloc.getDropDownValues();
     // profileBloc.getGenderList();
     listner();
     observerResponse();
@@ -312,7 +316,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                   children: [
                                                     Expanded(
                                                       flex: 1,
-                                                             child: TextInputFileds(
+                                                      child: TextInputFileds(
                                                           controlr: date,
                                                           validator: (dob) {
                                                             if (validDate(dob))
@@ -337,43 +341,103 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         padding:
                                                             const EdgeInsets
                                                                     .only(
-                                                                right: 19),
+                                                                left: 18,
+                                                                right: 18),
                                                         child: Container(
-                                                          child:
-                                                              DropdownButtonFormField(
-                                                            hint: Text(
-                                                                'Please choose one'),
-                                                            decoration:
-                                                                InputDecoration(
-                                                              enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10)),
-                                                                borderSide: BorderSide(
-                                                                    color: Colors
-                                                                        .grey),
-                                                              ),
-                                                              focusedBorder: OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              8.0)),
-                                                                  borderSide: BorderSide(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      width:
-                                                                          1)),
-                                                              contentPadding:
-                                                                  EdgeInsets
-                                                                      .all(3.0),
-                                                              labelText:
-                                                                  "Select Gender",
-                                                            ),
-                                                            items:  getGender(),
-                                                            onChanged: (value) {
-                                                              setState(() {});
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
+                                                          child: StreamBuilder(
+                                                            stream: profileBloc
+                                                                .genderStream,
+                                                            builder: (context,
+                                                                AsyncSnapshot<
+                                                                        List<
+                                                                            GenderList>>
+                                                                    snapshot) {
+                                                              print(
+                                                                  "snapshot.data?.length");
+                                                              print(snapshot
+                                                                  .data
+                                                                  ?.length);
+                                                              if (null ==
+                                                                      snapshot
+                                                                          .data ||
+                                                                  snapshot.data
+                                                                          ?.length ==
+                                                                      0) {
+                                                                return Container();
+                                                              }
+
+                                                              return DropdownButtonFormField(
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  enabledBorder:
+                                                                      OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5)),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Colors.grey),
+                                                                  ),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(Radius.circular(
+                                                                              5.0)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          width:
+                                                                              1)),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3.0),
+                                                                  labelText:
+                                                                      "Gender",
+                                                                ),
+                                                                items: snapshot
+                                                                    .data
+                                                                    ?.map(
+                                                                        (item) {
+                                                                  return DropdownMenuItem(
+                                                                    child:
+                                                                        new Text(
+                                                                      item.gender!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 8
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item,
+                                                                  );
+                                                                }).toList(),
+                                                                onChanged:
+                                                                    (Object?
+                                                                        value) {
+                                                                  if (value
+                                                                      is GenderList) {
+                                                                    print(
+                                                                        "value");
+                                                                    print(value
+                                                                        ?.rowId);
+                                                                    print(value
+                                                                        ?.gender);
+
+                                                                    genderId = value
+                                                                        .rowId!;
+                                                                  }
+                                                                },
+                                                              );
                                                             },
                                                           ),
                                                         ),
@@ -393,54 +457,105 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 Row(
                                                   children: [
                                                     Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 18),
-                                                        child: Container(
-                                                          child:
-                                                              DropdownButtonFormField(
-                                                            hint: Text(
-                                                                'Please choose one'),
-                                                            decoration:
-                                                                InputDecoration(
-                                                              enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10)),
-                                                                borderSide: BorderSide(
-                                                                    color: Colors
-                                                                        .grey),
-                                                              ),
-                                                              focusedBorder: OutlineInputBorder(
+
+
+                                                      child: Container(
+                                                        //  width: MediaQuery.of(context).size.width * 0.5,
+                                                        child: StreamBuilder(
+                                                          stream: profileBloc
+                                                              .countryStream,
+                                                          builder: (context,
+                                                              AsyncSnapshot<
+                                                                      List<
+                                                                          CountryList>>
+                                                                  snapshot) {
+                                                            print(
+                                                                "snapshot.data?.length");
+                                                            print(snapshot
+                                                                .data
+                                                                ?.length);
+                                                            if (null ==
+                                                                    snapshot
+                                                                        .data ||
+                                                                snapshot.data
+                                                                        ?.length ==
+                                                                    0) {
+                                                              return Container();
+                                                            }
+
+                                                            return DropdownButtonFormField(
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                enabledBorder:
+                                                                    OutlineInputBorder(
                                                                   borderRadius:
                                                                       BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              8.0)),
-                                                                  borderSide: BorderSide(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      width:
-                                                                          1)),
-                                                              contentPadding:
-                                                                  EdgeInsets
-                                                                      .all(3.0),
-                                                              labelText:
-                                                                  "Select Nationality",
-                                                            ),
-                                                            items: _nationality,
-                                                            onChanged: (value) {
-                                                              setState(() {});
-                                                            },
-                                                          ),
+                                                                          Radius.circular(5)),
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                          color:
+                                                                              Colors.grey),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            5.0)),
+                                                                    borderSide: BorderSide(
+                                                                        color: Colors
+                                                                            .grey,
+                                                                        width:
+                                                                            1)),
+                                                                contentPadding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            3.0),
+                                                                labelText:
+                                                                    "Nationality",
+                                                              ),
+                                                              items: snapshot
+                                                                  .data
+                                                                  ?.map(
+                                                                      (item) {
+                                                                return DropdownMenuItem(
+                                                                  child:
+                                                                      new Text(
+                                                                    item.countryName!,
+                                                                    style: TextStyle(
+                                                                        fontWeight: FontWeight
+                                                                            .w500,
+                                                                        fontSize: 8
+                                                                            .sp,
+                                                                        decoration: TextDecoration
+                                                                            .none,
+                                                                        color:
+                                                                            Colors.grey),
+                                                                  ),
+                                                                  value: item,
+                                                                );
+                                                              }).toList(),
+                                                              onChanged:
+                                                                  (Object?
+                                                                      value) {
+                                                                if (value
+                                                                    is CountryList) {
+                                                                  print(
+                                                                      "value");
+                                                                  print(value
+                                                                      ?.rowId);
+                                                                  print(value
+                                                                      ?.countryName);
+
+                                                                  nationalityId =
+                                                                      value
+                                                                          .rowId!;
+                                                                }
+                                                              },
+                                                            );
+                                                          },
                                                         ),
                                                       ),
                                                     ),
                                                     Expanded(
-                                                      flex: 1,
                                                       child: TextInputFileds(
                                                           controlr: phonenumber,
                                                           onTapDate: () {},
@@ -494,23 +609,41 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                               padding: const EdgeInsets.only(
                                                   left: 20, right: 20),
                                               child: Container(
-                                                height: 40.sp,
-                                                width: 90.w,
-                                                child: DropdownButtonFormField(
-                                                  hint:
-                                                      Text('Please choose one'),
-                                                  decoration: InputDecoration(
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10)),
-                                                      borderSide: BorderSide(
-                                                          color: Colors.grey),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
+                                                width: 400,
+                                                child: StreamBuilder(
+                                                  stream: profileBloc
+                                                      .visatypeStream,
+                                                  builder: (context,
+                                                      AsyncSnapshot<
+                                                              List<
+                                                                  VisaTypeList>>
+                                                          snapshot) {
+                                                    print(
+                                                        "snapshot.data?.length");
+                                                    print(
+                                                        snapshot.data?.length);
+                                                    if (null == snapshot.data ||
+                                                        snapshot.data?.length ==
+                                                            0) {
+                                                      return Container();
+                                                    }
+
+                                                    return DropdownButtonFormField(
+                                                      decoration:
+                                                          InputDecoration(
+                                                        enabledBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5)),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .grey),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .all(Radius
@@ -521,14 +654,42 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                                     color: Colors
                                                                         .grey,
                                                                     width: 1)),
-                                                    contentPadding:
-                                                        EdgeInsets.all(8.0),
-                                                    labelText:
-                                                        "Select Visa Type ",
-                                                  ),
-                                                  items: _visa,
-                                                  onChanged: (value) {
-                                                    setState(() {});
+                                                        contentPadding:
+                                                            EdgeInsets.all(3.0),
+                                                        labelText: "Visa Type ",
+                                                      ),
+                                                      items: snapshot.data
+                                                          ?.map((item) {
+                                                        return DropdownMenuItem(
+                                                          child: new Text(
+                                                            item.type!,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 8.sp,
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                          value: item,
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (Object? value) {
+                                                        if (value
+                                                            is VisaTypeList) {
+                                                          print("value");
+                                                          print(value?.rowId);
+                                                          print(value?.type);
+
+                                                          visatypeId =
+                                                              value.rowId!;
+                                                        }
+                                                      },
+                                                    );
                                                   },
                                                 ),
                                               ),
@@ -681,64 +842,6 @@ class _CreateShiftState extends State<ProfileEditScreen> {
     );
   }
 
-  List<DropdownMenuItem<String>> _nationality = [
-    DropdownMenuItem(
-      child: new Text(
-        "indian",
-      ),
-      //value: "Male",
-    ),
-    DropdownMenuItem(
-      child: new Text(
-        "indian",
-      ),
-      value: "",
-    ),
-  ];
-
-  List<DropdownMenuItem<String>> _visa = [
-    DropdownMenuItem(
-      child: new Text(
-        "job visa",
-      ),
-      //value: "Male",
-    ),
-    DropdownMenuItem(
-      child: new Text(
-        "visiting visa",
-      ),
-      value: "",
-    ),
-  ];
-
-  getGender() {
-    List<DropdownMenuItem<String>> _genders = [];
-    if (null != genderList) {
-      for (var item in genderList) {
-        _genders.add(DropdownMenuItem(
-          child: Text(item.gender!),
-          //value: "Male",
-        ));
-      }
-    }
-    return _genders;
-  }
-
-  List<DropdownMenuItem<String>> _genders = [
-    DropdownMenuItem(
-      child: new Text(
-        "male",
-      ),
-      //value: "Male",
-    ),
-    DropdownMenuItem(
-      child: new Text(
-        "female",
-      ),
-      value: "",
-    ),
-  ];
-
   Widget signUpBtn() {
     return Column(
       children: <Widget>[
@@ -751,16 +854,38 @@ class _CreateShiftState extends State<ProfileEditScreen> {
               children: [
                 LoginButton(
                     onPressed: () async {
+
+
                       final prefs = await SharedPreferences.getInstance();
-                      var token = prefs.getString(
-                        "TOKEN",
-                      );
+                      var auth_tokn =
+                      prefs.getString(SharedPrefKey.AUTH_TOKEN);
+                      print("for validation");
+                      print(auth_tokn);
+
 
                       var validate = formKey.currentState?.validate();
                       if (null != validate) {
                         if (validate) {
-                          //   ProfileBlocc.ProfileUser(
-                          //       gender.text, first_name.text, last_name, dob, nationality, home_address, permission_to_work_in_ireland, visa_type, phone_number, email, pps_number, bank_iban, bank_bic)
+                          if (null != auth_tokn) {
+                            print("after validation");
+                            profileBloc.ProfileUser(
+
+                                auth_tokn,
+
+                                first_name.text,
+                                last_name.text,
+                                date.text,
+                                genderId.toString(),
+                                nationalityId.toString(),
+                                home_address.text,
+                                permission_to_work_in_ireland.text,
+                                visatypeId.toString(),
+                                phonenumber.text,
+                                email.text,
+                                ppsnumber.text,
+                                bank_iban.text,
+                                bank_bic.text);
+                          }
                         }
                         // use the information provided
                       }
@@ -791,6 +916,19 @@ class _CreateShiftState extends State<ProfileEditScreen> {
         if (null != item) {
           first_name.text = item.firstName!;
           last_name.text = item.lastName!;
+          date.text = item.dob!;
+          email.text =item.email!;
+          genderId = item.gender!;
+          nationalityId =item.nationality!;
+          permission_to_work_in_ireland.text = item.firstName!;
+          visatypeId = item.visaType!;
+          phonenumber.text = item.phoneNumber!;
+          ppsnumber.text = item.ppsNumber!;
+          bank_iban.text = item.bankIban!;
+          bank_bic.text = item.bankBic!;
+
+
+
         }
       }
     });
@@ -802,6 +940,34 @@ class _CreateShiftState extends State<ProfileEditScreen> {
 
   void observerResponse() {
     profileBloc.profileStream.listen((event) {
+      print("RESPONSE FROM UI");
+      print(event.response?.status?.statusMessage.toString());
+      print(event.response?.status?.statusCode);
+      var message = event?.response?.status?.statusMessage.toString();
+      if (event.response?.status?.statusCode == 200) {
+
+
+        first_name.text = "";
+        last_name.text = "";
+        date.text = "";
+        genderId = "";
+        nationalityId = "";
+        home_address.text = "";
+        permission_to_work_in_ireland.text = "";
+        visatypeId = "";
+        phonenumber.text = "";
+        email.text = "";
+        ppsnumber.text = "";
+        bank_iban.text = "";
+        bank_bic.text = "";
+
+        showAlertDialoge(context, title: "Success", message: message!);
+
+
+      } else {
+        showAlertDialoge(context,
+            title: "Invalid", message: message!);
+      }
 
     });
   }
@@ -845,47 +1011,3 @@ _selectDate(BuildContext context, TextEditingController dateController) async {
 //   }
 // }
 //
-List<DropdownMenuItem<String>> _nationality = [
-  DropdownMenuItem(
-    child: new Text(
-      "indian",
-    ),
-    //value: "Male",
-  ),
-  DropdownMenuItem(
-    child: new Text(
-      "indian",
-    ),
-    value: "",
-  ),
-];
-
-List<DropdownMenuItem<String>> _visa = [
-  DropdownMenuItem(
-    child: new Text(
-      "job visa",
-    ),
-    //value: "Male",
-  ),
-  DropdownMenuItem(
-    child: new Text(
-      "visiting visa",
-    ),
-    value: "",
-  ),
-];
-
-List<DropdownMenuItem<String>> _genders = [
-  DropdownMenuItem(
-    child: new Text(
-      "male",
-    ),
-    //value: "Male",
-  ),
-  DropdownMenuItem(
-    child: new Text(
-      "female",
-    ),
-    value: "",
-  ),
-];

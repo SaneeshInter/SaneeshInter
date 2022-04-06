@@ -8,6 +8,7 @@ import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
+import '../model/user_profile_update.dart';
 import '../model/utility_respo.dart';
 import '../model/user_getschedule_bydate.dart';
 import '../model/user_getschedule_by_month_year.dart';
@@ -77,11 +78,12 @@ class Repository {
 
 
 
-  Future<void> ProfileUser(
+  Future<ProfileUpdateRespo> ProfileUser(
           String token,
           String first_name,
           String last_name,
           String dob,
+          String gender,
           String nationality,
           String home_address,
           String permission_to_work_in_ireland,
@@ -96,6 +98,7 @@ class Repository {
           first_name,
           last_name,
           dob,
+          gender,
           nationality,
           home_address,
           permission_to_work_in_ireland,

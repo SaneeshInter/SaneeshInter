@@ -69,18 +69,18 @@ class Items {
   String? firstName;
   String? lastName;
   String? employeeNo;
-  Null? hourlyRate;
-  Null? dob;
+  String? hourlyRate;
+  String? dob;
   String? email;
   String? phoneNumber;
   String? nationality;
   String? gender;
   String? visaType;
   String? userType;
-  Null? homeAddress;
-  Null? ppsNumber;
-  Null? bankIban;
-  Null? bankBic;
+  String? homeAddress;
+  String? ppsNumber;
+  String? bankIban;
+  String? bankBic;
 
   Items(
       {this.firstName,

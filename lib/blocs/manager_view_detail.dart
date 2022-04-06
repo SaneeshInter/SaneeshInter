@@ -31,9 +31,6 @@ class ManagerViewRequestBloc {
     _managerviewrequest.close();
     _shiftAcceptJobRequest.close();
   }
-
-
-
 }
 
 final managerviewrequestBloc = ManagerViewRequestBloc();

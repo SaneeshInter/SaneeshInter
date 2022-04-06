@@ -14,7 +14,7 @@ class Db {
     // Set the path to the database. Note: Using the `join` function from the
     // `path` package is best practice to ensure the path is correctly
     // constructed for each platform.
-    join('xpresss_database.db'),
+    join('xpressss_database.db'),
     // When the database is first created, create a table to store dogs.
     onCreate: (db, version) {
       // Run the CREATE TABLE statement on the database.
@@ -216,6 +216,16 @@ class Db {
     });
   }
 
+  Future<List<VisaTypeList>> getGetVisaTypeList() async {
+    final db = await database;
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('visatype');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return VisaTypeList(rowId: maps[i]['row_id'], type: maps[i]['type']);
+    });
+  }
 
 
 
