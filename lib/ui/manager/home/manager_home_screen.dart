@@ -10,6 +10,9 @@ import 'package:xpresshealthdev/ui/manager/home/approved_timesheet_screen.dart';
 import 'package:xpresshealthdev/ui/manager/home/create_shift_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
 
+import '../../../blocs/manager_home_bloc.dart';
+import '../../../model/manager_home_response.dart';
+import '../../../resources/token_provider.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../user/detail/home_card_item.dart';
@@ -29,6 +32,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
   int pageCount = 0;
   int selectedIndex = 0;
   int lastPageItemLength = 0;
+  var token;
 
   late PageController pageController;
 
@@ -38,8 +42,18 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
     super.didUpdateWidget(oldWidget);
   }
 
+
+  Future getData() async {
+    token = await TokenProvider().getToken();
+    managerhomeBloc.fetchManagerHome(token);
+  }
+
   @override
   void initState() {
+
+    getData();
+
+
     pageController = PageController(initialPage: 0);
     pageCount = 3;
     // TODO: implement initState
@@ -156,57 +170,95 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
       constraints: BoxConstraints(
         maxHeight: 110,
       ),
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: 4,
-        itemBuilder: (_, index) {
-          return GestureDetector(
-            onTap: () {
-              pageController.animateToPage(index,
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.easeInOut);
-            },
-            child: Card(
-              elevation: 0.0,
-              child: Container(
-                width: 65.w,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AutoSizeText(
-                        "Please ensure time sheets are submited befire sunday deadline",
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.sp,
-                          fontFamily: "SFProMedium",
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: Container(
-                            width: screenHeight(context, dividedBy: 2.2),
-                            child: AutoSizeText(
-                              "Jan 18,2022 | 11.00AM-12.00Pm",
-                              maxLines: 1,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 8.sp,
-                              ),
-                            )),
-                      ),
-                    ],
+
+
+      child: StreamBuilder(
+          stream: managerhomeBloc.managerhomeStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<ManagerHomeResponse> snapshot) {
+            if (snapshot.hasData) {
+              return buildList(snapshot);
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            return Center(child: CircularProgressIndicator());
+          }),
+
+
+
+    );
+  }
+
+  Widget buildList(AsyncSnapshot<ManagerHomeResponse> snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.data?.response?.data?.importantUpdates!.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        var name = "Shift Reminder";
+        var date = "Your shift at Beneavin Manor is in  1 hour";
+        var description = "Your shift at Beneavin Manor is in  1 hour";
+
+
+
+        var manager = snapshot.data?.response?.data?.importantUpdates![index];
+        if (manager != null) {
+          name = manager.title!;
+          date = manager.date!;
+          description = manager.description!;
+        }
+
+
+        return Card(
+          elevation: 0.0,
+          child: Container(
+            width: 65.w,
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AutoSizeText(
+                    name,
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.sp,
+                      fontFamily: "SFProMedium",
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: Container(
+                        width: screenHeight(context, dividedBy: 2.2),
+                        child: AutoSizeText(description,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 8.sp,
+                          ),
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: Container(
+                        width: screenHeight(context, dividedBy: 2.2),
+                        child: AutoSizeText(
+                          date,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 8.sp,
+                          ),
+                        )),
+                  ),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

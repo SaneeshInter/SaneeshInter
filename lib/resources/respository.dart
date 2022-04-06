@@ -1,13 +1,16 @@
 import 'package:xpresshealthdev/model/login_response.dart';
 import 'package:xpresshealthdev/model/user_get_response.dart';
+import 'package:xpresshealthdev/model/user_home_response.dart';
 import 'package:xpresshealthdev/model/user_job_request.dart';
 import 'package:xpresshealthdev/resources/api_provider.dart';
 
 import '../model/accept_job_request.dart';
+import '../model/manager_home_response.dart';
 import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
+import '../model/user_home_response.dart';
 import '../model/user_profile_update.dart';
 import '../model/utility_respo.dart';
 import '../model/user_getschedule_bydate.dart';
@@ -32,7 +35,6 @@ class Repository {
 
   Future<SliftListRepso> fetchTimesheet() => apiProvider.fetchTimesheet();
 
-  Future<SliftListRepso> fetchHomepage() => apiProvider.fetchHomepage();
 
   Future<LoginUserRespo> fetchLogin(String username, String password) =>
       apiProvider.loginUser(username, password);
@@ -64,8 +66,6 @@ class Repository {
       String token, String job_id) =>
       apiProvider.getUserJobRequest(token, job_id);
 
-
-
   Future<ManagerViewRequestResponse> fetchManagerViewRequest(
       String token, String shift_id) =>
       apiProvider.getManagerViewRequest(token, shift_id);
@@ -74,6 +74,17 @@ class Repository {
   Future<AcceptJobRequestResponse> fetchAcceptJobRequestResponse(
       String token, String job_request_row_id) =>
       apiProvider.AcceptJobRequest(token, job_request_row_id);
+
+
+  Future<UserHomeResponse> fetchUserHomeResponse(
+      String token) =>
+      apiProvider.getUserHome(token);
+
+  Future<ManagerHomeResponse> fetchManagerHomeResponse(
+      String token) =>
+      apiProvider.getManagerHome(token);
+
+
 
 
 

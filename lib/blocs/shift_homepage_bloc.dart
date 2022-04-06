@@ -1,19 +1,31 @@
 import 'package:rxdart/rxdart.dart';
+import 'package:xpresshealthdev/model/user_home_response.dart';
 
 import '../model/shift_list_response.dart';
 import '../resources/respository.dart';
 
 class ShiftHomepageBloc{
   final _repo = Repository();
-  final _shifthomepage= PublishSubject<SliftListRepso>();
-  Stream<SliftListRepso> get allShift => _shifthomepage.stream;
-  fetchHomepage() async {
-    SliftListRepso list = await _repo.fetchHomepage();
-    _shifthomepage.sink.add(list);
+
+  final _userhome= PublishSubject<UserHomeResponse>();
+
+
+  Stream<UserHomeResponse> get userhomeStream => _userhome.stream;
+  fetchUserHomepage(token) async {
+    UserHomeResponse list = await _repo.fetchUserHomeResponse(token);
+    _userhome.sink.add(list);
   }
+
+
+
+
+
+
   dispose() {
-    _shifthomepage.close();
+    _userhome.close();
   }
 }
 
 final  homepageBloc= ShiftHomepageBloc();
+
+

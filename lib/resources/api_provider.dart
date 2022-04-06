@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:xpresshealthdev/model/login_response.dart';
+import 'package:xpresshealthdev/model/user_home_response.dart';
 
 import '../model/accept_job_request.dart';
+import '../model/manager_home_response.dart';
 import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
@@ -180,8 +182,6 @@ class ApiProvider {
   }
 
               ////GET USER  JOB REQUEST /////
-
-
   Future<UserJobRequestResponse> getUserJobRequest(
 
       String token, String job_id) async {
@@ -207,6 +207,39 @@ class ApiProvider {
 
     if (response.statusCode == 200) {
       return UserJobRequestResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+
+
+
+    //// MANAGER HOME RESPONSE ////
+  Future<ManagerHomeResponse> getManagerHome(
+
+      String token) async {
+    var uri = Uri.parse(BASE_URL + "/home/get-manager-updates");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+
+
+        }));
+
+    print("PRINT MANAGERHOME RESPONSE" + token);
+
+    print(jsonEncode(<String, String>{
+
+
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return ManagerHomeResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
     }
@@ -449,19 +482,39 @@ class ApiProvider {
     }
   }
 
-  Future<SliftListRepso> fetchHomepage() async {
-    print("HomePage");
 
-    var uri = Uri.parse(
-        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
-    final response = await client.get(uri);
-    print(response);
+
+  ///  USER HOME RESPONSE ///
+  Future<UserHomeResponse> getUserHome(
+
+      String token) async {
+    var uri = Uri.parse(BASE_URL + "/home/get-user-updates");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+
+
+        }));
+
+    print("PRINT USERHOME RESPONSE" + token);
+
+    print(jsonEncode(<String, String>{
+
+
+    }).toString());
+    print(response.body);
+
     if (response.statusCode == 200) {
-      return SliftListRepso.fromJson(json.decode(response.body));
+      return UserHomeResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
     }
   }
+
+
 
   Future<ManagerShift> CreateShiftManager(
     String token,
