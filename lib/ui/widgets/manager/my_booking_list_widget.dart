@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/model/viewbooking_response.dart';
@@ -52,13 +53,19 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(
                     children: [
-                      Text(
+
+                      AutoSizeText(
                         widget.items.jobTitle!,
+                        textAlign: TextAlign.start,
+                        maxLines: 3,
                         style: TextStyle(
-                            fontSize: 12.sp,
                             color: Colors.black,
-                            fontWeight: FontWeight.w700),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "SFProBold"),
                       ),
+
+
                       // Text(
                       //   widget.place,
                       //   style: TextStyle(

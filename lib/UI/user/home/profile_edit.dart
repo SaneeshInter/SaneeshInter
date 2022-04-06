@@ -33,45 +33,32 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  var genderId ;
-  var nationalityId ;
-  var visatypeId ;
-
+  var genderId = 1 ;
+  var nationalityId = 1;
+  var visatypeId =1;
   ToastMsg toastMsg = ToastMsg();
   bool isLoading = false;
-  TextEditingController location = new TextEditingController();
-  TextEditingController jobtitle = new TextEditingController();
-  TextEditingController jobDescri = new TextEditingController();
-  TextEditingController date = new TextEditingController();
-  TextEditingController dateFrom = new TextEditingController();
-  TextEditingController dateTo = new TextEditingController();
-  TextEditingController resourceType = new TextEditingController();
-
-  TextEditingController gender = new TextEditingController();
-  TextEditingController dob = new TextEditingController();
+  TextEditingController date =  TextEditingController();
+  TextEditingController gender =  TextEditingController();
+  TextEditingController dob =  TextEditingController();
   TextEditingController controller = TextEditingController();
-  TextEditingController phonenumber = new TextEditingController();
-  TextEditingController ppsnumber = new TextEditingController();
-  TextEditingController bank_iban = new TextEditingController();
-  TextEditingController bank_bic = new TextEditingController();
-  TextEditingController email = new TextEditingController();
-  TextEditingController bank_details = new TextEditingController();
-  TextEditingController first_name = new TextEditingController();
-  TextEditingController last_name = new TextEditingController();
-  TextEditingController nationality = new TextEditingController();
-  TextEditingController home_address = new TextEditingController();
-  TextEditingController visa_type = new TextEditingController();
-
+  TextEditingController phonenumber =  TextEditingController();
+  TextEditingController ppsnumber =  TextEditingController();
+  TextEditingController bank_iban =  TextEditingController();
+  TextEditingController bank_bic =  TextEditingController();
+  TextEditingController email =  TextEditingController();
+  TextEditingController bank_details =  TextEditingController();
+  TextEditingController first_name =  TextEditingController();
+  TextEditingController last_name =  TextEditingController();
+  TextEditingController nationality =  TextEditingController();
+  TextEditingController home_address = TextEditingController();
+  TextEditingController visa_type = TextEditingController();
   //updstaes
   TextEditingController permission_to_work_in_ireland =
       new TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
 
-  final items = ["job visa", "visiting visa"];
-
-  // LoginBloc _loginBloc = LoginBloc();
-  // ToastMsg toastMsg = ToastMsg();
   bool visible = false;
 
   @override
@@ -80,15 +67,15 @@ class _CreateShiftState extends State<ProfileEditScreen> {
     super.initState();
     profileBloc.getUserInfo();
     profileBloc.getDropDownValues();
-    // profileBloc.getGenderList();
     listner();
     observerResponse();
-    //_loginResponse();
+
+
   }
 
   @override
   void dispose() {
-    // _loginBloc.dispose();
+
     super.dispose();
   }
 
@@ -148,12 +135,11 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                             const SizedBox(
                                               height: 20,
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 150),
+                                            Center(
                                               child: Column(
                                                 children: [
                                                   Stack(
+
                                                     children: [
                                                       Container(
                                                         width: MediaQuery.of(
@@ -164,7 +150,11 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         child: ClipRRect(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(30),
+                                                                  .circular(MediaQuery.of(
+                                                                  context)
+                                                                  .size
+                                                                  .width *
+                                                                  0.22),
                                                           child: AspectRatio(
                                                             aspectRatio: 1 / 1,
                                                             child:
@@ -213,312 +203,126 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                             ),
 
                                             const SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 150),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.18,
-                                                    child: Column(
-                                                      children: [
-                                                        // displayImage(),
-                                                        SizedBox(height: 30),
-                                                        // DrawableButton(
-                                                        //   onPressed: () {
-                                                        //     showOptionsDialog(
-                                                        //         context);
-                                                        //   },
-                                                        //   label: "Edit",
-                                                        //   asset:
-                                                        //       "assets/images/icon/swipe-to-right.svg",
-                                                        //   backgroundColor:
-                                                        //       Constants
-                                                        //           .colors[4],
-                                                        //   textColors: Constants
-                                                        //       .colors[0],
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-
-                                            const SizedBox(
                                               height: 25,
                                             ),
 
-                                            ////TextFeilds//////////
 
-                                            Column(
+                                            Row(
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                        flex: 1,
-                                                        child: TextInputFileds(
-                                                            controlr:
-                                                                first_name,
-                                                            onTapDate: () {},
-                                                            validator: (name) {
-                                                              if (validfirstname(
-                                                                  name))
-                                                                return null;
-                                                              else {
-                                                                return "enter firstname";
-                                                              }
-                                                            },
-                                                            hintText:
-                                                                Txt.first_name,
-                                                            keyboadType:
-                                                                TextInputType
-                                                                    .text,
-                                                            isPwd: false)),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: TextInputFileds(
-                                                        controlr: last_name,
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: TextInputFileds(
+                                                        controlr:
+                                                            first_name,
+                                                        onTapDate: () {},
                                                         validator: (name) {
-                                                          if (validlastname(
+                                                          if (validfirstname(
                                                               name))
                                                             return null;
                                                           else {
-                                                            return "enter last name";
+                                                            return "enter firstname";
                                                           }
                                                         },
-                                                        hintText: Txt.last_name,
+                                                        hintText:
+                                                            Txt.first_name,
                                                         keyboadType:
-                                                            TextInputType.text,
-                                                        isPwd: false,
-                                                        onTapDate: () {},
-                                                      ),
-                                                    ),
-                                                  ],
+                                                            TextInputType
+                                                                .text,
+                                                        isPwd: false)),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: TextInputFileds(
+                                                    controlr: last_name,
+                                                    validator: (name) {
+                                                      if (validlastname(
+                                                          name))
+                                                        return null;
+                                                      else {
+                                                        return "enter last name";
+                                                      }
+                                                    },
+                                                    hintText: Txt.last_name,
+                                                    keyboadType:
+                                                        TextInputType.text,
+                                                    isPwd: false,
+                                                    onTapDate: () {},
+                                                  ),
                                                 ),
                                               ],
                                             ),
 
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
 
-                                            Column(
+                                            Row(
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: TextInputFileds(
-                                                          controlr: date,
-                                                          validator: (dob) {
-                                                            if (validDate(dob))
-                                                              return null;
-                                                            else
-                                                              return "select dob";
-                                                          },
-                                                          onTapDate: () {
-                                                            _selectDate(
-                                                                context, date);
-                                                            print("values");
-                                                          },
-                                                          hintText: Txt.dob,
-                                                          keyboadType:
-                                                              TextInputType
-                                                                  .none,
-                                                          isPwd: false),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 18,
-                                                                right: 18),
-                                                        child: Container(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.5,
-                                                          child: StreamBuilder(
-                                                            stream: profileBloc
-                                                                .genderStream,
-                                                            builder: (context,
-                                                                AsyncSnapshot<
-                                                                        List<
-                                                                            GenderList>>
-                                                                    snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
-                                                              if (null ==
-                                                                      snapshot
-                                                                          .data ||
-                                                                  snapshot.data
-                                                                          ?.length ==
-                                                                      0) {
-                                                                return Container();
-                                                              }
 
-                                                              return DropdownButtonFormField(
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  enabledBorder:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(5)),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                            color:
-                                                                                Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
-                                                                              5.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                              1)),
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              3.0),
-                                                                  labelText:
-                                                                      "Gender",
-                                                                ),
-                                                                items: snapshot
-                                                                    .data
-                                                                    ?.map(
-                                                                        (item) {
-                                                                  return DropdownMenuItem(
-                                                                    child:
-                                                                        new Text(
-                                                                      item.gender!,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize: 8
-                                                                              .sp,
-                                                                          decoration: TextDecoration
-                                                                              .none,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                    ),
-                                                                    value: item,
-                                                                  );
-                                                                }).toList(),
-                                                                onChanged:
-                                                                    (Object?
-                                                                        value) {
-                                                                  if (value
-                                                                      is GenderList) {
-                                                                    print(
-                                                                        "value");
-                                                                    print(value
-                                                                        ?.rowId);
-                                                                    print(value
-                                                                        ?.gender);
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Container(
+                                                    width: 50.w,
+                                                    child: StreamBuilder(
+                                                      stream: profileBloc
+                                                          .countryStream,
+                                                      builder: (context,
+                                                          AsyncSnapshot<
+                                                              List<
+                                                                  CountryList>>
+                                                          snapshot) {
+                                                        print(
+                                                            "snapshot.data?.length");
+                                                        print(snapshot
+                                                            .data
+                                                            ?.length);
+                                                        if (null ==
+                                                            snapshot
+                                                                .data ||
+                                                            snapshot.data
+                                                                ?.length ==
+                                                                0) {
+                                                          return Container();
+                                                        }
 
-                                                                    genderId = value
-                                                                        .rowId!;
-                                                                  }
-                                                                },
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-
-
-                                                      child: Container(
-                                                        //  width: MediaQuery.of(context).size.width * 0.5,
-                                                        child: StreamBuilder(
-                                                          stream: profileBloc
-                                                              .countryStream,
-                                                          builder: (context,
-                                                              AsyncSnapshot<
-                                                                      List<
-                                                                          CountryList>>
-                                                                  snapshot) {
-                                                            print(
-                                                                "snapshot.data?.length");
-                                                            print(snapshot
-                                                                .data
-                                                                ?.length);
-                                                            if (null ==
-                                                                    snapshot
-                                                                        .data ||
-                                                                snapshot.data
-                                                                        ?.length ==
-                                                                    0) {
-                                                              return Container();
-                                                            }
-
-                                                            return DropdownButtonFormField(
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(5)),
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                          color:
-                                                                              Colors.grey),
-                                                                ),
-                                                                focusedBorder: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(Radius.circular(
-                                                                            5.0)),
-                                                                    borderSide: BorderSide(
-                                                                        color: Colors
-                                                                            .grey,
-                                                                        width:
-                                                                            1)),
-                                                                contentPadding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            3.0),
-                                                                labelText:
-                                                                    "Nationality",
+                                                        return DropdownButtonFormField(
+                                                          value: nationalityId,
+                                                          decoration:
+                                                          InputDecoration(
+                                                              enabledBorder:
+                                                              OutlineInputBorder(
+                                                                borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(5)),
+                                                                borderSide:
+                                                                BorderSide(
+                                                                    color:
+                                                                    Colors.grey),
                                                               ),
-                                                              items: snapshot
-                                                                  .data
-                                                                  ?.map(
-                                                                      (item) {
+                                                              focusedBorder: OutlineInputBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.all(Radius.circular(
+                                                                      5.0)),
+                                                                  borderSide: BorderSide(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      width:
+                                                                      1)),
+                                                              contentPadding:
+                                                              EdgeInsets
+                                                                  .all(
+                                                                  3.0),
+                                                              labelText:
+                                                              "Nationality",
+                                                              labelStyle:
+                                                              TextStyle(fontSize: 10.sp)
+                                                          ),
+                                                          items: snapshot
+                                                              .data
+                                                              ?.map(
+                                                                  (item) {
                                                                 return DropdownMenuItem(
                                                                   child:
-                                                                      new Text(
+                                                                  new Text(
                                                                     item.countryName!,
                                                                     style: TextStyle(
                                                                         fontWeight: FontWeight
@@ -528,26 +332,127 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                                         decoration: TextDecoration
                                                                             .none,
                                                                         color:
-                                                                            Colors.grey),
+                                                                        Colors.grey),
                                                                   ),
-                                                                  value: item,
+                                                                  value: item.rowId,
                                                                 );
                                                               }).toList(),
+                                                          onChanged:
+                                                              (Object?
+                                                          value) {
+                                                            if (value
+                                                            is CountryList) {
+                                                              print(
+                                                                  "value");
+                                                              print(value
+                                                                  ?.rowId);
+                                                              print(value
+                                                                  ?.countryName);
+
+                                                              nationalityId =
+                                                              value
+                                                                  .rowId!;
+                                                            }
+                                                          },
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        child: StreamBuilder(
+                                                          stream: profileBloc
+                                                              .genderStream,
+                                                          builder: (context,
+                                                              AsyncSnapshot<
+                                                                  List<
+                                                                      GenderList>>
+                                                              snapshot) {
+                                                            print(
+                                                                "snapshot.data?.length");
+                                                            print(snapshot
+                                                                .data
+                                                                ?.length);
+                                                            if (null ==
+                                                                snapshot
+                                                                    .data ||
+                                                                snapshot.data
+                                                                    ?.length ==
+                                                                    0) {
+                                                              return Container();
+                                                            }
+
+                                                            return DropdownButtonFormField(
+value: genderId,
+                                                              decoration:
+                                                              InputDecoration(
+                                                                enabledBorder:
+                                                                OutlineInputBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(5)),
+                                                                  borderSide:
+                                                                  BorderSide(
+                                                                      color:
+                                                                      Colors.grey),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.all(Radius.circular(
+                                                                        5.0)),
+                                                                    borderSide: BorderSide(
+                                                                        color: Colors
+                                                                            .grey,
+                                                                        width:
+                                                                        1)),
+                                                                contentPadding:
+                                                                EdgeInsets
+                                                                    .all(
+                                                                    3.0),
+                                                                labelText:
+                                                                "Gender",
+                                                              ),
+                                                              items: snapshot
+                                                                  .data
+                                                                  ?.map(
+                                                                      (item) {
+                                                                    return DropdownMenuItem(
+                                                                      child:
+                                                                      new Text(
+                                                                        item.gender!,
+                                                                        style: TextStyle(
+                                                                            fontWeight: FontWeight
+                                                                                .w500,
+                                                                            fontSize: 8
+                                                                                .sp,
+                                                                            decoration: TextDecoration
+                                                                                .none,
+                                                                            color:
+                                                                            Colors.grey),
+                                                                      ),
+                                                                      value: item.rowId,
+                                                                    );
+                                                                  }).toList(),
                                                               onChanged:
                                                                   (Object?
-                                                                      value) {
+                                                              value) {
                                                                 if (value
-                                                                    is CountryList) {
-                                                                  print(
-                                                                      "value");
-                                                                  print(value
-                                                                      ?.rowId);
-                                                                  print(value
-                                                                      ?.countryName);
-
-                                                                  nationalityId =
-                                                                      value
-                                                                          .rowId!;
+                                                                is GenderList) {
+                                                                  genderId = value
+                                                                      .rowId!;
                                                                 }
                                                               },
                                                             );
@@ -555,23 +460,99 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                         ),
                                                       ),
                                                     ),
+
+
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
                                                     Expanded(
-                                                      child: TextInputFileds(
-                                                          controlr: phonenumber,
-                                                          onTapDate: () {},
-                                                          validator: (number) {
-                                                            if (validphonenumber(
-                                                                number))
-                                                              return null;
-                                                            else
-                                                              return "enter phone number";
+                                                      flex: 1,
+                                                      child: Container(
+                                                        width: 50.w,
+                                                        child: StreamBuilder(
+                                                          stream: profileBloc
+                                                              .visatypeStream,
+                                                          builder: (context,
+                                                              AsyncSnapshot<
+                                                                  List<
+                                                                      VisaTypeList>>
+                                                              snapshot) {
+                                                            print(
+                                                                "snapshot.data?.length");
+                                                            print(
+                                                                snapshot.data?.length);
+                                                            if (null == snapshot.data ||
+                                                                snapshot.data?.length ==
+                                                                    0) {
+                                                              return Container();
+                                                            }
+
+                                                            return DropdownButtonFormField(
+                                                              value: visatypeId,
+                                                              decoration:
+                                                              InputDecoration(
+                                                                enabledBorder:
+                                                                OutlineInputBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius
+                                                                          .circular(
+                                                                          5)),
+                                                                  borderSide:
+                                                                  BorderSide(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .all(Radius
+                                                                        .circular(
+                                                                        8.0)),
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color: Colors
+                                                                            .grey,
+                                                                        width: 1)),
+                                                                contentPadding:
+                                                                EdgeInsets.all(3.0),
+                                                                labelText: "Visa Type ",
+                                                              ),
+                                                              items: snapshot.data
+                                                                  ?.map((item) {
+                                                                return DropdownMenuItem(
+                                                                  child: new Text(
+                                                                    item.type!,
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                        fontSize: 8.sp,
+                                                                        decoration:
+                                                                        TextDecoration
+                                                                            .none,
+                                                                        color: Colors
+                                                                            .grey),
+                                                                  ),
+                                                                  value: item.rowId,
+                                                                );
+                                                              }).toList(),
+                                                              onChanged:
+                                                                  (Object? value) {
+                                                                if (value
+                                                                is VisaTypeList) {
+                                                                  print("value");
+                                                                  print(value?.rowId);
+                                                                  print(value?.type);
+
+                                                                  visatypeId =
+                                                                  value.rowId!;
+                                                                }
+                                                              },
+                                                            );
                                                           },
-                                                          hintText:
-                                                              Txt.phone_number,
-                                                          keyboadType:
-                                                              TextInputType
-                                                                  .number,
-                                                          isPwd: false),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ],
                                                 )
@@ -581,6 +562,44 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                             const SizedBox(
                                               height: 15,
                                             ),
+
+
+                                            TextInputFileds(
+                                                controlr: phonenumber,
+                                                onTapDate: () {},
+                                                validator: (number) {
+                                                  if (validphonenumber(
+                                                      number))
+                                                    return null;
+                                                  else
+                                                    return "enter phone number";
+                                                },
+                                                hintText:
+                                                Txt.phone_number,
+                                                keyboadType:
+                                                TextInputType
+                                                    .number,
+                                                isPwd: false),
+                                            TextInputFileds(
+                                                controlr: date,
+                                                validator: (dob) {
+                                                  if (validDate(dob))
+                                                    return null;
+                                                  else
+                                                    return "select dob";
+                                                },
+                                                onTapDate: () {
+                                                  _selectDate(
+                                                      context, date);
+                                                  print("values");
+                                                },
+                                                hintText: Txt.dob,
+                                                keyboadType:
+                                                TextInputType
+                                                    .none,
+                                                isPwd: false),
+
+
                                             Column(
                                               children: [
                                                 Container(
@@ -601,103 +620,12 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
 
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20, right: 20),
-                                              child: Container(
-                                                width: 400,
-                                                child: StreamBuilder(
-                                                  stream: profileBloc
-                                                      .visatypeStream,
-                                                  builder: (context,
-                                                      AsyncSnapshot<
-                                                              List<
-                                                                  VisaTypeList>>
-                                                          snapshot) {
-                                                    print(
-                                                        "snapshot.data?.length");
-                                                    print(
-                                                        snapshot.data?.length);
-                                                    if (null == snapshot.data ||
-                                                        snapshot.data?.length ==
-                                                            0) {
-                                                      return Container();
-                                                    }
 
-                                                    return DropdownButtonFormField(
-                                                      decoration:
-                                                          InputDecoration(
-                                                        enabledBorder:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          5)),
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .grey),
-                                                        ),
-                                                        focusedBorder: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8.0)),
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    width: 1)),
-                                                        contentPadding:
-                                                            EdgeInsets.all(3.0),
-                                                        labelText: "Visa Type ",
-                                                      ),
-                                                      items: snapshot.data
-                                                          ?.map((item) {
-                                                        return DropdownMenuItem(
-                                                          child: new Text(
-                                                            item.type!,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 8.sp,
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .none,
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                          value: item,
-                                                        );
-                                                      }).toList(),
-                                                      onChanged:
-                                                          (Object? value) {
-                                                        if (value
-                                                            is VisaTypeList) {
-                                                          print("value");
-                                                          print(value?.rowId);
-                                                          print(value?.type);
 
-                                                          visatypeId =
-                                                              value.rowId!;
-                                                        }
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            ),
 
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
+
+
                                             Column(
                                               children: [
                                                 Container(
@@ -717,9 +645,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
+
                                             Column(
                                               children: [
                                                 Container(
@@ -742,9 +668,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
+
                                             Column(
                                               children: [
                                                 Container(
@@ -765,9 +689,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
+
                                             Column(
                                               children: [
                                                 Container(
@@ -787,9 +709,6 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                       isPwd: false),
                                                 ),
                                               ],
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
                                             ),
 
                                             Column(
@@ -813,9 +732,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                               ],
                                             ),
 
-                                            SizedBox(
-                                              height: 15,
-                                            ),
+
                                             signUpBtn(),
                                             const SizedBox(
                                               height: 15,
@@ -847,55 +764,76 @@ class _CreateShiftState extends State<ProfileEditScreen> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 5),
-          child: Center(
-              child: Padding(
-            padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-            child: Stack(
-              children: [
-                LoginButton(
-                    onPressed: () async {
+          child: Visibility(
+            visible: !visible,
+            child: Center(
+                child: Padding(
+              padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+              child: Stack(
+                children: [
+                  LoginButton(
+                      onPressed: () async {
 
 
-                      final prefs = await SharedPreferences.getInstance();
-                      var auth_tokn =
-                      prefs.getString(SharedPrefKey.AUTH_TOKEN);
-                      print("for validation");
-                      print(auth_tokn);
+                        final prefs = await SharedPreferences.getInstance();
+                        var auth_tokn =
+                        prefs.getString(SharedPrefKey.AUTH_TOKEN);
+                        print("for validation");
+                        print(auth_tokn);
 
 
-                      var validate = formKey.currentState?.validate();
-                      if (null != validate) {
-                        if (validate) {
-                          if (null != auth_tokn) {
-                            print("after validation");
-                            profileBloc.ProfileUser(
+                        var validate = formKey.currentState?.validate();
+                        if (null != validate) {
+                          if (validate) {
+                            if (null != auth_tokn) {
 
-                                auth_tokn,
 
-                                first_name.text,
-                                last_name.text,
-                                date.text,
-                                genderId.toString(),
-                                nationalityId.toString(),
-                                home_address.text,
-                                permission_to_work_in_ireland.text,
-                                visatypeId.toString(),
-                                phonenumber.text,
-                                email.text,
-                                ppsnumber.text,
-                                bank_iban.text,
-                                bank_bic.text);
+                              setState(() {
+                                visible = true;
+                              });
+                              print("after validation");
+                              profileBloc.ProfileUser(
+
+                                  auth_tokn,
+
+                                  first_name.text,
+                                  last_name.text,
+                                  date.text,
+                                  genderId.toString(),
+                                  nationalityId.toString(),
+                                  home_address.text,
+                                  permission_to_work_in_ireland.text,
+                                  visatypeId.toString(),
+                                  phonenumber.text,
+                                  email.text,
+                                  ppsnumber.text,
+                                  bank_iban.text,
+                                  bank_bic.text);
+                            }
                           }
+                          // use the information provided
                         }
+                        //showFeactureAlert(context, date: "");
                         // use the information provided
-                      }
-                      //showFeactureAlert(context, date: "");
-                      // use the information provided
-                    },
-                    label: "SUBMIT")
-              ],
-            ),
-          )),
+                      },
+                      label: "SUBMIT"),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Visibility(
+                        visible: visible,
+                        child: Center(
+                          child: Container(
+                              margin: EdgeInsets.only(top: 0, bottom: 0),
+                              child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Constants.colors[3]),
+                              )),
+                        )),
+                  ),
+                ],
+              ),
+            )),
+          ),
         ),
         SizedBox(
           height: 5,
@@ -907,68 +845,87 @@ class _CreateShiftState extends State<ProfileEditScreen> {
   void listner() {
     profileBloc.getProfileStream.listen((event) {
       print("Profile Stream");
-      print(event.userResponse?.data?.items?[0].email);
-      print(event.userResponse?.data?.items?[0].firstName);
-      print(event.userResponse?.data?.items?[0].lastName);
-
       if (null != event.userResponse?.data?.items?[0]) {
         var item = event.userResponse?.data?.items?[0];
         if (null != item) {
+
+          if(item.genderId!=0)
+          {
+            setState(() {
+              genderId = item.genderId!;
+            });
+          }
+          if(item.visaTypeId !=0)
+          {
+            setState(() {
+              visatypeId = item.visaTypeId!;
+            });
+          }
+
+
+          if(item.nationalityId!=0)
+          {
+            setState(() {
+              nationalityId =item.nationalityId!;
+            });
+          }
+
+
           first_name.text = item.firstName!;
           last_name.text = item.lastName!;
           date.text = item.dob!;
           email.text =item.email!;
-          genderId = item.gender!;
-          nationalityId =item.nationality!;
+
+
+
           permission_to_work_in_ireland.text = item.firstName!;
-          visatypeId = item.visaType!;
+
           phonenumber.text = item.phoneNumber!;
           ppsnumber.text = item.ppsNumber!;
           bank_iban.text = item.bankIban!;
           bank_bic.text = item.bankBic!;
+          ppsnumber.text = item.ppsNumber!;
+          home_address.text = item.homeAddress!;
 
 
 
         }
       }
     });
-
-    // profileBloc.gender.listen((event) {
-    //   genderList = event;
-    // });
   }
 
   void observerResponse() {
     profileBloc.profileStream.listen((event) {
       print("RESPONSE FROM UI");
+
+      setState(() {
+        visible = false;
+      });
       print(event.response?.status?.statusMessage.toString());
       print(event.response?.status?.statusCode);
       var message = event?.response?.status?.statusMessage.toString();
       if (event.response?.status?.statusCode == 200) {
 
+        Navigator.pop(context);
 
-        first_name.text = "";
-        last_name.text = "";
-        date.text = "";
-        genderId = "";
-        nationalityId = "";
-        home_address.text = "";
-        permission_to_work_in_ireland.text = "";
-        visatypeId = "";
-        phonenumber.text = "";
-        email.text = "";
-        ppsnumber.text = "";
-        bank_iban.text = "";
-        bank_bic.text = "";
-
-        showAlertDialoge(context, title: "Success", message: message!);
-
-
+        // first_name.text = "";
+        // last_name.text = "";
+        // date.text = "";
+        // genderId = 0;
+        // nationalityId = 0;
+        // home_address.text = "";
+        // permission_to_work_in_ireland.text = "";
+        // visatypeId = 0;
+        // phonenumber.text = "";
+        // email.text = "";
+        // ppsnumber.text = "";
+        // bank_iban.text = "";
+        // bank_bic.text = "";
+        // showAlertDialoge(context, title: "Success", message: message!);
       } else {
         showAlertDialoge(context,
             title: "Invalid", message: message!);
       }
-
     });
   }
 }
@@ -976,38 +933,17 @@ class _CreateShiftState extends State<ProfileEditScreen> {
 _selectDate(BuildContext context, TextEditingController dateController) async {
   print("date");
   final DateTime? newDate = await showDatePicker(
-    context: context,
-    initialDatePickerMode: DatePickerMode.day,
-    initialDate: DateTime(2020, 11, 17),
-    firstDate: DateTime(2017, 1),
-    lastDate: DateTime(2022, 7),
-    helpText: 'Select a date',
-    fieldHintText: "dd-MM-yyyy",
+  context: context,
+  initialDatePickerMode: DatePickerMode.day,
+  initialDate: DateTime.now(),
+  firstDate: DateTime.now(),
+  lastDate: DateTime(2025),
+  helpText: 'Select a date',
+  fieldHintText: "dd-MM-yyyy",
   );
-
   if (newDate != null) {
     print(newDate);
-
     var dates = DateFormat('dd-MM-yyyy').format(newDate);
     dateController.text = dates;
   }
 }
-
-//
-// _selectTime(BuildContext context, TextEditingController anycontroller) async {
-//   print("time");
-//
-//   final TimeOfDay? timeOfDay = await showTimePicker(
-//     context: context,
-//     initialTime: TimeOfDay.now(),
-//     initialEntryMode: TimePickerEntryMode.input,
-//     confirmText: "CONFIRM",
-//     cancelText: "NOT NOW",
-//     helpText: "BOOKING TIME",
-//   );
-//
-//   if (timeOfDay != null) {
-//     anycontroller.text = timeOfDay.format(context);
-//   }
-// }
-//

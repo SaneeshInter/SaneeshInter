@@ -122,7 +122,9 @@ class Repository {
 
   Future<ManagerShift> CreateShiftManager(
     String token,
+      int row_id,
     int type,
+
       int category,
       int user_type,
     String job_title,
@@ -136,6 +138,7 @@ class Repository {
       apiProvider.CreateShiftManager(
         token,
         type.toString(),
+        row_id,
         category.toString(),
         user_type.toString(),
         job_title,

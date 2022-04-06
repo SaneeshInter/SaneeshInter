@@ -215,17 +215,25 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: EdgeInsets.only(top: 10, left: 20, right: 20),
             child: Stack(
               children: [
-                LoginButton(
-                    onPressed: () async {
-                      var validate = formKey.currentState?.validate();
-                      if (null != validate) {
-                        if (validate) {
-                          loginBloc.fetchLogin(email.text, pwd.text);
+                Visibility(
+                  visible: !visible,
+                  child: LoginButton(
+                      onPressed: () async {
+                        var validate = formKey.currentState?.validate();
+                        if (null != validate) {
+                          if (validate) {
+                            setState(() {
+                              visible = true;
+                            });
+                            loginBloc.fetchLogin(email.text, pwd.text);
+                          }
+                          // use the information provided
                         }
-                        // use the information provided
-                      }
-                    },
-                    label: "Login")
+                      },
+                      label: "Login"),
+                ),
+
+
               ],
             ),
           )),
@@ -244,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Stack(
           children: [
             Visibility(
-              visible: true,
+              visible: !visible,
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 10, left: 0, right: 0, bottom: 0),
@@ -277,6 +285,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _loginResponse() {
     loginBloc.loginStream.listen((event) async {
+
+      setState(() {
+        visible = false;
+      });
       if (event.response?.status?.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         var token = event.response?.data?.token;

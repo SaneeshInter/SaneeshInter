@@ -36,12 +36,15 @@ class CreateShiftScreen extends StatefulWidget {
 class _CreateShiftState extends State<CreateShiftScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  var row_id = -1;
   var typeId = 0;
   var categoryId = 0;
   var usertypeId = 0;
 
   var hospitalId = 0;
+
+
+  var shiftItem;
 
   ToastMsg toastMsg = ToastMsg();
   bool isLoading = false;
@@ -51,10 +54,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   TextEditingController date = new TextEditingController();
   TextEditingController dateFrom = new TextEditingController();
   TextEditingController dateTo = new TextEditingController();
-  TextEditingController time_from = new TextEditingController();
-  TextEditingController time_to = new TextEditingController();
   TextEditingController price = new TextEditingController();
-  TextEditingController job_details = new TextEditingController();
   TextEditingController token = new TextEditingController();
   TextEditingController job_title = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
@@ -76,17 +76,23 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   @override
   void initState() {
-    if (widget.shiftItem != null) {
-      var item = widget.shiftItem;
-      if (item != null) {
-        jobtitle.text = item.jobTitle!;
-        jobDescri.text = item.jobDetails!;
-      }
-    }
+
     observerResponse();
     // TODO: implement initState
     dropdownBloc.addItem();
     managerBloc.getDropDownValues();
+
+    if (widget.shiftItem != null) {
+      var item = widget.shiftItem;
+      if (item != null) {
+        jobtitle.text = item.jobTitle!;
+        row_id = item.rowId!;
+        date.text = item.date!;
+        dateTo.text = item.timeTo!;
+        dateFrom.text = item.timeFrom!;
+        jobDescri.text = item.jobDetails!;
+      }
+    }
 
     super.initState();
     //_loginResponse();
@@ -153,18 +159,17 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                             const SizedBox(
                                               height: 25,
                                             ),
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 18,right: 18),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0, right: 20),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 1,
                                                         child: Container(
-                                                          width: 300,
+                                                          width: 50.w,
                                                           child: StreamBuilder(
                                                             stream: managerBloc
                                                                 .typeStream,
@@ -190,32 +195,28 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               return DropdownButtonFormField(
                                                                 decoration:
                                                                     InputDecoration(
-                                                                  enabledBorder:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(5)),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                            color:
-                                                                                Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
-                                                                              8.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                              1)),
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              3.0),
-                                                                  labelText:
-                                                                      "Type",
-                                                                ),
+                                                                        enabledBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(5)),
+                                                                          borderSide:
+                                                                              BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        focusedBorder: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.all(Radius.circular(
+                                                                                8.0)),
+                                                                            borderSide: BorderSide(
+                                                                                color: Colors
+                                                                                    .grey,
+                                                                                width:
+                                                                                    1)),
+                                                                        contentPadding:
+                                                                            EdgeInsets.all(
+                                                                                3.0),
+                                                                        labelText:
+                                                                            "Type",
+                                                                        labelStyle:
+                                                                            TextStyle(fontSize: 10.sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
@@ -227,7 +228,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .w500,
-                                                                          fontSize: 8
+                                                                          fontSize: 10
                                                                               .sp,
                                                                           decoration: TextDecoration
                                                                               .none,
@@ -258,15 +259,13 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 18),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Expanded(
+                                                        flex: 1,
                                                         child: Container(
-                                                          width: 400,
+                                                          width: 50.w,
                                                           child: StreamBuilder(
                                                             stream: managerBloc
                                                                 .categoryStream,
@@ -315,6 +314,10 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                       EdgeInsets
                                                                           .all(
                                                                               3.0),
+                                                                  labelStyle:
+                                                                      TextStyle(
+                                                                          fontSize:
+                                                                              10.sp),
                                                                   labelText:
                                                                       "Category",
                                                                 ),
@@ -329,7 +332,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .w500,
-                                                                          fontSize: 8
+                                                                          fontSize: 10
                                                                               .sp,
                                                                           decoration: TextDecoration
                                                                               .none,
@@ -361,26 +364,25 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                            SizedBox(
-                                              height: 20,
+                                            const SizedBox(
+                                              height: 15,
                                             ),
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 18),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0, right: 20),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 1,
                                                         child: Container(
-                                                          width: 400,
+                                                          width: 50.w,
                                                           child: StreamBuilder(
                                                             stream: managerBloc
                                                                 .usertypeStream,
@@ -406,32 +408,28 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               return DropdownButtonFormField(
                                                                 decoration:
                                                                     InputDecoration(
-                                                                  enabledBorder:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(5)),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                            color:
-                                                                                Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
-                                                                              8.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                              1)),
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              3.0),
-                                                                  labelText:
-                                                                      "User Type",
-                                                                ),
+                                                                        enabledBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(5.0)),
+                                                                          borderSide:
+                                                                              BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        focusedBorder: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.all(Radius.circular(
+                                                                                8.0)),
+                                                                            borderSide: BorderSide(
+                                                                                color: Colors
+                                                                                    .grey,
+                                                                                width:
+                                                                                    1)),
+                                                                        contentPadding:
+                                                                            EdgeInsets.all(
+                                                                                3.0),
+                                                                        labelText:
+                                                                            "User Type",
+                                                                        labelStyle:
+                                                                            TextStyle(fontSize: 10.sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
@@ -443,7 +441,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .w500,
-                                                                          fontSize: 8
+                                                                          fontSize: 10
                                                                               .sp,
                                                                           decoration: TextDecoration
                                                                               .none,
@@ -475,15 +473,13 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 18),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Expanded(
+                                                        flex: 1,
                                                         child: Container(
-                                                          width: 400,
+                                                          width: 50.w,
                                                           child: StreamBuilder(
                                                             stream: managerBloc
                                                                 .hospitalStream,
@@ -509,32 +505,28 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               return DropdownButtonFormField(
                                                                 decoration:
                                                                     InputDecoration(
-                                                                  enabledBorder:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(5)),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                            color:
-                                                                                Colors.grey),
-                                                                  ),
-                                                                  focusedBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
-                                                                              8.0)),
-                                                                      borderSide: BorderSide(
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          width:
-                                                                              1)),
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              3.0),
-                                                                  labelText:
-                                                                      "Hospital",
-                                                                ),
+                                                                        enabledBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(5)),
+                                                                          borderSide:
+                                                                              BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        focusedBorder: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.all(Radius.circular(
+                                                                                8.0)),
+                                                                            borderSide: BorderSide(
+                                                                                color: Colors
+                                                                                    .grey,
+                                                                                width:
+                                                                                    1)),
+                                                                        contentPadding:
+                                                                            EdgeInsets.all(
+                                                                                3.0),
+                                                                        labelText:
+                                                                            "Hospital",
+                                                                        labelStyle:
+                                                                            TextStyle(fontSize: 10.sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
@@ -546,7 +538,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .w500,
-                                                                          fontSize: 8
+                                                                          fontSize: 10
                                                                               .sp,
                                                                           decoration: TextDecoration
                                                                               .none,
@@ -576,13 +568,13 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                            SizedBox(
-                                              height: 12,
+                                            const SizedBox(
+                                              height: 15,
                                             ),
                                             Column(
                                               children: [
@@ -602,9 +594,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                       onTapDate: () {}),
                                                 ),
                                               ],
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
                                             ),
                                             Column(
                                               children: [
@@ -628,9 +617,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                       isPwd: false),
                                                 ),
                                               ],
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
                                             ),
                                             Column(
                                               children: [
@@ -698,9 +684,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 )
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
                                             Column(
                                               children: [
                                                 Container(
@@ -756,47 +739,65 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 5),
-          child: Center(
-              child: Padding(
-            padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-            child: Stack(
-              children: [
-                LoginButton(
-                    onPressed: () async {
-                      var validate = formKey.currentState?.validate();
-                      if (null != validate) {
-                        if (validate) {
-                          // managerBloc.fetchManager(token.text, jobtitle.text, category.text,
-                          //     job_title.text, hospital.text, date.text, time_from.text, time_to.text,
-                          //     job_details.text,price.text);
-                          final prefs = await SharedPreferences.getInstance();
-                          var auth_tokn =
-                              prefs.getString(SharedPrefKey.AUTH_TOKEN);
-                          if (null != auth_tokn) {
-                            managerBloc.createShiftManager(
-                              auth_tokn,
-                              typeId,
-                              categoryId,
-                              usertypeId,
-                              jobtitle.text,
-                              hospitalId,
-                              date.text,
-                              time_from.text,
-                              time_to.text,
-                              job_details.text,
-                              price.text,
-                            );
-                          } else {
-                            print("TOKEN NULL");
+          child: Visibility(
+            visible: !visible,
+            child: Center(
+                child: Padding(
+              padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+              child: Stack(
+                children: [
+                  LoginButton(
+                      onPressed: () async {
+                        var validate = formKey.currentState?.validate();
+                        if (null != validate) {
+                          if (validate) {
+                            setState(() {
+                              visible = true;
+                            });
+
+                            final prefs = await SharedPreferences.getInstance();
+                            var auth_tokn =
+                                prefs.getString(SharedPrefKey.AUTH_TOKEN);
+                            if (null != auth_tokn) {
+                              managerBloc.createShiftManager(
+                                auth_tokn,
+                                row_id,
+                                typeId,
+                                categoryId,
+                                usertypeId,
+                                jobtitle.text,
+                                hospitalId,
+                                date.text,
+                                dateFrom.text,
+                                dateTo.text,
+                                jobDescri.text,
+                                price.text,
+                              );
+                            } else {
+                              print("TOKEN NULL");
+                            }
                           }
                         }
-                      }
-                      // showFeactureAlert(context, date: "");
-                    },
-                    label: "Create Shifts")
-              ],
-            ),
-          )),
+                        // showFeactureAlert(context, date: "");
+                      },
+                      label: "Create Shifts")
+                ],
+              ),
+            )),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Visibility(
+              visible: visible,
+              child: Center(
+                child: Container(
+                    margin: EdgeInsets.only(top: 0, bottom: 0),
+                    child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                          Constants.colors[3]),
+                    )),
+              )),
         ),
         SizedBox(
           height: 5,
@@ -810,15 +811,22 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       print("RESPONSE FROM UI");
       print(event.response?.status?.statusMessage.toString());
       print(event.response?.status?.statusCode);
-      var message = event?.response?.status?.statusMessage.toString();
+      var message = event.response?.status?.statusMessage.toString();
+      setState(() {
+        visible = false;
+      });
       if (event.response?.status?.statusCode == 200) {
-        showAlertDialoge(context, title: "Success", message: message!!);
+        showAlertDialoge(context, title: "Success", message: message!);
         jobtitle.text = "";
         hospital.text = "";
         date.text = "";
+        date.text = "";
+        dateTo.text = "";
+        dateFrom.text = "";
+        jobDescri.text = "";
+        price.text = "";
       } else {
-        showAlertDialoge(context,
-            title: "Invalid", message: message!);
+        showAlertDialoge(context, title: "Failed", message: message!);
       }
     });
   }
@@ -829,9 +837,9 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     final DateTime? newDate = await showDatePicker(
       context: context,
       initialDatePickerMode: DatePickerMode.day,
-      initialDate: DateTime(2020, 11, 17),
-      firstDate: DateTime(2017, 1),
-      lastDate: DateTime(2022, 7),
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
       helpText: 'Select a date',
       fieldHintText: "dd-MM-yyyy",
     );

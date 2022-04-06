@@ -82,6 +82,7 @@ class CreateShiftmanagerBloc {
   Stream<ManagerShift> get getmanagerStream => _getmanager.stream;
 
   createShiftManager(String token,
+      int row_id,
       int type,
       int category,
       int user_type,
@@ -91,9 +92,13 @@ class CreateShiftmanagerBloc {
       String time_from,
       String time_to,
       String job_details,
-      String price,) async {
+      String price,
+      ) async {
+
+
     ManagerShift respo = await _repo.CreateShiftManager(
       token,
+      row_id,
       type,
       category,
       user_type,
@@ -105,7 +110,8 @@ class CreateShiftmanagerBloc {
       job_details,
       price,
     );
-    _manager.sink.add(respo);
+
+    _getmanager.sink.add(respo);
   }
 
   dispose() {

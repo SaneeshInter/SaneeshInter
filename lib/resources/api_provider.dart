@@ -519,6 +519,7 @@ class ApiProvider {
   Future<ManagerShift> CreateShiftManager(
     String token,
     String type,
+    int row_id,
     String category,
     String user_type,
     String job_title,
@@ -529,30 +530,65 @@ class ApiProvider {
     String job_details,
     String price,
   ) async {
-    var uri = Uri.parse(BASE_URL + '/manager/add-schedule');
-    final response = await client.post(uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          "token": token,
-        },
-        body: jsonEncode(<String, String>{
-          "type": type,
-          "category": category,
-          "user_type": user_type,
-          "job_title": job_title,
-          "hospital": hospital,
-          "date": date,
-          "time_from": time_from,
-          "time_to": time_to,
-          "job_details": job_details,
-          "price": price,
-          "allowances": "",
-          "assigned_to": ""
-        }));
 
-    print("token" + token);
+    var response;
+    var uri = Uri.parse(BASE_URL + '/manager/add-schedule');
+
+    if(row_id != -1)
+      {
+        uri = Uri.parse(BASE_URL + '/manager/edit-schedule');
+         response = await client.post(uri,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              "token": token,
+            },
+
+            body: jsonEncode(<String, String>{
+              "type": type,
+              "row_id": row_id.toString(),
+              "category": category,
+              "user_type": user_type,
+              "job_title": job_title,
+              "hospital": hospital,
+              "date": date,
+              "time_from": time_from,
+              "time_to": time_to,
+              "job_details": job_details,
+              "price": price,
+              "allowances": "",
+              "assigned_to": ""
+            }));
+
+      }else{
+       response = await client.post(uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            "token": token,
+          },
+
+          body: jsonEncode(<String, String>{
+            "type": type,
+            "category": category,
+            "user_type": user_type,
+            "job_title": job_title,
+            "hospital": hospital,
+            "date": date,
+            "time_from": time_from,
+            "time_to": time_to,
+            "job_details": job_details,
+            "price": price,
+            "allowances": "",
+            "assigned_to": ""
+          }));
+    }
+
+
+
+
+
     print(jsonEncode(<String, String>{
       "type": type,
+      "row_id": row_id.toString(),
       "category": category,
       "user_type": user_type,
       "job_title": job_title,
@@ -565,6 +601,9 @@ class ApiProvider {
       "allowances": "",
       "assigned_to": ""
     }));
+    print(response.body);
+    print(response.statusCode);
+    print(response.toString());
 
     if (response.statusCode == 200) {
       return ManagerShift.fromJson(json.decode(response.body));
@@ -572,8 +611,6 @@ class ApiProvider {
       throw Exception('Failed to load post');
     }
 
-    print(response.body);
-    print(response.statusCode);
-    print(response.toString());
+
   }
 }
