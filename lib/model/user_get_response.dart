@@ -27,7 +27,7 @@ class UserResponse {
   UserResponse.fromJson(Map<String, dynamic> json) {
     data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
     status =
-        json['status'] != null ? new Status.fromJson(json['status']) : null;
+    json['status'] != null ? new Status.fromJson(json['status']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -69,35 +69,43 @@ class Items {
   String? firstName;
   String? lastName;
   String? employeeNo;
-  String? hourlyRate;
+  Null? hourlyRate;
   String? dob;
   String? email;
   String? phoneNumber;
   String? nationality;
+  int? nationalityId;
   String? gender;
+  int? genderId;
   String? visaType;
+  int? visaTypeId;
   String? userType;
-  String? homeAddress;
+  int? userTypeId;
+  Null? homeAddress;
   String? ppsNumber;
   String? bankIban;
   String? bankBic;
 
   Items(
       {this.firstName,
-      this.lastName,
-      this.employeeNo,
-      this.hourlyRate,
-      this.dob,
-      this.email,
-      this.phoneNumber,
-      this.nationality,
-      this.gender,
-      this.visaType,
-      this.userType,
-      this.homeAddress,
-      this.ppsNumber,
-      this.bankIban,
-      this.bankBic});
+        this.lastName,
+        this.employeeNo,
+        this.hourlyRate,
+        this.dob,
+        this.email,
+        this.phoneNumber,
+        this.nationality,
+        this.nationalityId,
+        this.gender,
+        this.genderId,
+        this.visaType,
+        this.visaTypeId,
+        this.userType,
+        this.userTypeId,
+        this.homeAddress,
+        this.ppsNumber,
+        this.bankIban,
+        this.bankBic});
 
   Items.fromJson(Map<String, dynamic> json) {
     firstName = json['first_name'];
@@ -108,9 +116,13 @@ class Items {
     email = json['email'];
     phoneNumber = json['phone_number'];
     nationality = json['nationality'];
+    nationalityId = json['nationality_id'];
     gender = json['gender'];
+    genderId = json['gender_id'];
     visaType = json['visa_type'];
+    visaTypeId = json['visa_type_id'];
     userType = json['user_type'];
+    userTypeId = json['user_type_id'];
     homeAddress = json['home_address'];
     ppsNumber = json['pps_number'];
     bankIban = json['bank_iban'];
@@ -127,9 +139,13 @@ class Items {
     data['email'] = this.email;
     data['phone_number'] = this.phoneNumber;
     data['nationality'] = this.nationality;
+    data['nationality_id'] = this.nationalityId;
     data['gender'] = this.gender;
+    data['gender_id'] = this.genderId;
     data['visa_type'] = this.visaType;
+    data['visa_type_id'] = this.visaTypeId;
     data['user_type'] = this.userType;
+    data['user_type_id'] = this.userTypeId;
     data['home_address'] = this.homeAddress;
     data['pps_number'] = this.ppsNumber;
     data['bank_iban'] = this.bankIban;
@@ -159,3 +175,4 @@ class Status {
     return data;
   }
 }
+
