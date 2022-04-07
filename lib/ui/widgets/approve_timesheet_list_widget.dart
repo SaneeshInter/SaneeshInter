@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/widgets/buttons/delete_button.dart';
+import 'package:xpresshealthdev/ui/widgets/buttons/delete_button.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 import 'buttons/book_button.dart';

@@ -10,7 +10,7 @@ import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
 import 'package:xpresshealthdev/ui/login/login_screen.dart';
 import 'package:xpresshealthdev/ui/manager_dashboard_screen.dart';
 
-import '../../UI/dashboard_screen.dart';
+import '../../ui/dashboard_screen.dart';
 import '../../blocs/utility_bloc.dart';
 import '../../db/database.dart';
 import '../../model/gender_list.dart';

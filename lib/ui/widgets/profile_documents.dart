@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/user/detail/profile_doc_row.dart';
+import 'package:xpresshealthdev/ui/user/detail/profile_doc_row.dart';
 
 import '../../Constants/app_defaults.dart';
 import '../../utils/constants.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/splash/splash_screen.dart';
+import 'package:xpresshealthdev/ui/splash/splash_screen.dart';
 import 'package:flutter/services.dart';
 
 void main() {

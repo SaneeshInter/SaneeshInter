@@ -2,14 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/user/home/home_screen.dart';
-import 'package:xpresshealthdev/UI/user/home/profile_screen.dart';
-import 'package:xpresshealthdev/UI/user/sidenav/completed_shift_screen.dart';
-import 'package:xpresshealthdev/UI/user/sidenav/notification_screen.dart';
 
-import '../../Constants/app_defaults.dart';
 import '../../utils/colors_util.dart';
-import '../../utils/utils.dart';
 
 class AppBarCommon extends StatelessWidget implements PreferredSizeWidget {
   GlobalKey<ScaffoldState> scaffoldKey;

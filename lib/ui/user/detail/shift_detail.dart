@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/user/detail/shift_rows.dart';
+import 'package:xpresshealthdev/ui/user/detail/shift_rows.dart';
 
 import '../../../utils/constants.dart';
 import '../../Widgets/buttons/call_button.dart';

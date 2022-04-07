@@ -4,11 +4,11 @@ import 'package:http/http.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/blocs/shift_list_bloc.dart';
 
-import '../../../UI/datepicker/date_picker_widget.dart';
-import '../../../UI/user/app_bar.dart';
-import '../../../UI/user/detail/shift_detail.dart';
-import '../../../UI/user/side_menu.dart';
-import '../../../UI/widgets/shift_list_widget.dart';
+import '../../../ui/datepicker/date_picker_widget.dart';
+import '../../../ui/user/app_bar.dart';
+import '../../../ui/user/detail/shift_detail.dart';
+import '../../../ui/user/side_menu.dart';
+import '../../../ui/widgets/shift_list_widget.dart';
 import '../../../model/shift_list_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';

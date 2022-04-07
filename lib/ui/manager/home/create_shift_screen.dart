@@ -852,7 +852,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
   void observerResponse() {
     managerBloc.getmanagerStream.listen((event) {
-      print("RESPONSE FROM UI");
+      print("RESPONSE FROM ui");
       print(event.response?.status?.statusMessage.toString());
       print(event.response?.status?.statusCode);
       var message = event.response?.status?.statusMessage.toString();

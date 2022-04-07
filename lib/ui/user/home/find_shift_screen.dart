@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/user/app_bar.dart';
-import 'package:xpresshealthdev/UI/user/detail/shift_detail.dart';
+import 'package:xpresshealthdev/ui/user/app_bar.dart';
+import 'package:xpresshealthdev/ui/user/detail/shift_detail.dart';
 
 import '../../../blocs/shift_list_bloc.dart';
 import '../../../model/shift_list_response.dart';

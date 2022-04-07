@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../UI/Widgets/booking_alert_box.dart';
-import '../UI/widgets/add_time_sheet_alert_box.dart';
-import '../UI/widgets/feacture_implementation_dialog.dart';
-import '../UI/widgets/login_invalid_alert.dart';
+import '../ui/Widgets/booking_alert_box.dart';
+import '../ui/widgets/add_time_sheet_alert_box.dart';
+import '../ui/widgets/feacture_implementation_dialog.dart';
+import '../ui/widgets/login_invalid_alert.dart';
 
 double screenHeight(context, {required double dividedBy}) {
   getPercentage(context);
