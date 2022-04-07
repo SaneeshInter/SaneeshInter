@@ -30,7 +30,6 @@ class _BuildButtonState extends State<TextInputFileds> {
         child: Container(
       height: 7.3.h,
       width: screenWidth(context, dividedBy: 1),
-      padding: EdgeInsets.only(top: 0, left: 20, right: 20),
       child: TextFormField(
         cursorWidth: 1.0,
         onTap: () {
