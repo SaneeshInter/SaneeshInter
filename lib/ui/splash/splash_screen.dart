@@ -44,6 +44,12 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+
+  @override
+  void dispose() {
+    utility_bloc.dispose();
+    super.dispose();
+  }
   @override
   void initState() {
     // TODO: implement initState

@@ -289,6 +289,8 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         visible = false;
       });
+
+    var message =  event.response?.status?.statusMessage;
       if (event.response?.status?.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         var token = event.response?.data?.token;
@@ -313,7 +315,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       } else {
         showAlertDialoge(context,
-            title: "Invalid", message: "Enter a valid Email and Password");
+            title: "Login Failed", message: message!);
       }
     });
   }

@@ -61,6 +61,12 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    managerhomeBloc.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(

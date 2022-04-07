@@ -37,15 +37,11 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var row_id = -1;
-  var typeId = 0;
-  var categoryId = 0;
+  var typeId = 1;
+  var categoryId = 1;
   var usertypeId = 0;
-
-  var hospitalId = 0;
-
-
+  var hospitalId = 1;
   var shiftItem;
-
   ToastMsg toastMsg = ToastMsg();
   bool isLoading = false;
   TextEditingController location = new TextEditingController();
@@ -58,25 +54,21 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   TextEditingController token = new TextEditingController();
   TextEditingController job_title = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
-
   TextEditingController type = new TextEditingController();
   TextEditingController user_type = new TextEditingController();
   TextEditingController category = new TextEditingController();
   TextEditingController hospital = new TextEditingController();
   TextEditingController assigned_to = new TextEditingController();
-
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-
   TextEditingController controller = TextEditingController();
-
-  // LoginBloc _loginBloc = LoginBloc();
-  // ToastMsg toastMsg = ToastMsg();
   bool visible = false;
+
+
+  var buttonText = "Create Shift";
 
   @override
   void initState() {
-
     observerResponse();
     // TODO: implement initState
     dropdownBloc.addItem();
@@ -84,13 +76,41 @@ class _CreateShiftState extends State<CreateShiftScreen> {
 
     if (widget.shiftItem != null) {
       var item = widget.shiftItem;
+
+      print("item.category");
+      print(item?.category);
       if (item != null) {
+        if (item.category != 0) {
+          setState(() {
+            categoryId = item.category!;
+          });
+        }
+
+        // if(item.visaTypeId !=0)
+        // {
+        //   setState(() {
+        //     visatypeId = item.visaTypeId!;
+        //   });
+        // }
+        //
+        //
+        // if(item.nationalityId!=0)
+        // {
+        //   setState(() {
+        //     nationalityId =item.nationalityId!;
+        //   });
+        // }
+
         jobtitle.text = item.jobTitle!;
         row_id = item.rowId!;
         date.text = item.date!;
         dateTo.text = item.timeTo!;
         dateFrom.text = item.timeFrom!;
         jobDescri.text = item.jobDetails!;
+
+        if (row_id != -1) {
+          buttonText = "Edit Shift";
+        }
       }
     }
 
@@ -135,34 +155,34 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                       color: Colors.white,
                                       child: Padding(
                                         padding: const EdgeInsets.all(4.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            const SizedBox(
-                                              height: 25,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      16.0, 0, 0, 0),
-                                              child: AutoSizeText(
-                                                'Create Shift',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "SFProMedium",
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 18, right: 18),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              const SizedBox(
+                                                height: 25,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        16.0, 0, 0, 0),
+                                                child: AutoSizeText(
+                                                  buttonText,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: "SFProMedium",
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 25,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20.0, right: 20),
-                                              child: Column(
+                                              const SizedBox(
+                                                height: 25,
+                                              ),
+                                              Column(
                                                 children: [
                                                   Row(
                                                     children: [
@@ -193,6 +213,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               }
 
                                                               return DropdownButtonFormField(
+                                                                value: typeId,
                                                                 decoration:
                                                                     InputDecoration(
                                                                         enabledBorder:
@@ -235,7 +256,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                           color:
                                                                               Colors.grey),
                                                                     ),
-                                                                    value: item,
+                                                                    value: item
+                                                                        .rowId,
                                                                   );
                                                                 }).toList(),
                                                                 onChanged:
@@ -289,6 +311,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               }
 
                                                               return DropdownButtonFormField(
+                                                                value:
+                                                                    categoryId,
                                                                 decoration:
                                                                     InputDecoration(
                                                                   enabledBorder:
@@ -339,7 +363,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                           color:
                                                                               Colors.grey),
                                                                     ),
-                                                                    value: item,
+                                                                    value: item
+                                                                        .rowId,
                                                                   );
                                                                 }).toList(),
                                                                 onChanged:
@@ -368,14 +393,10 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                   )
                                                 ],
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20.0, right: 20),
-                                              child: Column(
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Column(
                                                 children: [
                                                   Row(
                                                     children: [
@@ -448,7 +469,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                           color:
                                                                               Colors.grey),
                                                                     ),
-                                                                    value: item,
+                                                                    value: item
+                                                                        .rowId,
                                                                   );
                                                                 }).toList(),
                                                                 onChanged:
@@ -503,6 +525,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               }
 
                                                               return DropdownButtonFormField(
+                                                                value:
+                                                                    hospitalId,
                                                                 decoration:
                                                                     InputDecoration(
                                                                         enabledBorder:
@@ -545,7 +569,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                           color:
                                                                               Colors.grey),
                                                                     ),
-                                                                    value: item,
+                                                                    value: item
+                                                                        .rowId,
                                                                   );
                                                                 }).toList(),
                                                                 onChanged:
@@ -572,147 +597,165 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                   )
                                                 ],
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                      controlr: jobtitle,
-                                                      validator: (jobtitle) {
-                                                        if (validJob(jobtitle))
-                                                          return null;
-                                                        else
-                                                          return "enter job title";
-                                                      },
-                                                      hintText: Txt.jobtitle,
-                                                      keyboadType:
-                                                          TextInputType.text,
-                                                      isPwd: false,
-                                                      onTapDate: () {}),
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                      controlr: date,
-                                                      validator: (date) {
-                                                        if (validDate(date))
-                                                          return null;
-                                                        else
-                                                          return "select date";
-                                                      },
-                                                      onTapDate: () {
-                                                        _selectDate(
-                                                            context, date);
-                                                        print("values");
-                                                      },
-                                                      hintText: Txt.date,
-                                                      keyboadType:
-                                                          TextInputType.none,
-                                                      isPwd: false),
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(right: 2),
-                                                        child: Container(
-                                                          child:
-                                                              TextInputFileds(
-                                                                  controlr:
-                                                                      dateFrom,
-                                                                  validator:
-                                                                      (dateTo) {
-                                                                    if (validDate(
-                                                                        dateTo))
-                                                                      return null;
-                                                                    else
-                                                                      return "select time";
-                                                                  },
-                                                                  onTapDate:
-                                                                      () {
-                                                                    _selectTime(
-                                                                        context,
-                                                                        dateFrom);
-                                                                  },
-                                                                  hintText: Txt
-                                                                      .timeFrom,
-                                                                  keyboadType:
-                                                                      TextInputType
-                                                                          .none,
-                                                                  isPwd: false),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    child: TextInputFileds(
+                                                        controlr: jobtitle,
+                                                        validator: (jobtitle) {
+                                                          if (validJob(
+                                                              jobtitle))
+                                                            return null;
+                                                          else
+                                                            return "enter job title";
+                                                        },
+                                                        hintText: Txt.jobtitle,
+                                                        keyboadType:
+                                                            TextInputType.text,
+                                                        isPwd: false,
+                                                        onTapDate: () {}),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    child: TextInputFileds(
+                                                        controlr: date,
+                                                        validator: (date) {
+                                                          if (validDate(date))
+                                                            return null;
+                                                          else
+                                                            return "select date";
+                                                        },
+                                                        onTapDate: () {
+                                                          _selectDate(
+                                                              context, date);
+                                                          print("values");
+                                                        },
+                                                        hintText: Txt.date,
+                                                        keyboadType:
+                                                            TextInputType.none,
+                                                        isPwd: false),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 2),
+                                                          child: Container(
+                                                            child:
+                                                                TextInputFileds(
+                                                                    controlr:
+                                                                        dateFrom,
+                                                                    validator:
+                                                                        (dateTo) {
+                                                                      if (validDate(
+                                                                          dateTo))
+                                                                        return null;
+                                                                      else
+                                                                        return "select time";
+                                                                    },
+                                                                    onTapDate:
+                                                                        () {
+                                                                      _selectTime(
+                                                                          context,
+                                                                          dateFrom);
+                                                                    },
+                                                                    hintText: Txt
+                                                                        .timeFrom,
+                                                                    keyboadType:
+                                                                        TextInputType
+                                                                            .none,
+                                                                    isPwd:
+                                                                        false),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: TextInputFileds(
-                                                          controlr: dateTo,
-                                                          validator: (dateTo) {
-                                                            if (validDate(
-                                                                dateTo))
-                                                              return null;
-                                                            else
-                                                              return "select time";
-                                                          },
-                                                          onTapDate: () {
-                                                            FocusScope.of(
-                                                                    context)
-                                                                .unfocus();
-                                                            _selectTime(context,
-                                                                dateTo);
-                                                          },
-                                                          hintText: Txt.timeTo,
-                                                          keyboadType:
-                                                              TextInputType
-                                                                  .none,
-                                                          isPwd: false),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  child:
-                                                      TextInputFiledDescription(
-                                                          controlr: jobDescri,
-                                                          onTapDate: () {},
-                                                          validator:
-                                                              (jobDescri) {
-                                                            if (validDescription(
-                                                                jobDescri))
-                                                              return null;
-                                                            else
-                                                              return "enter job decscription";
-                                                          },
-                                                          hintText:
-                                                              Txt.jobDescri,
-                                                          keyboadType:
-                                                              TextInputType
-                                                                  .visiblePassword,
-                                                          isPwd: false),
-                                                ),
-                                              ],
-                                            ),
-                                            signUpBtn(),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                          ],
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: TextInputFileds(
+                                                            controlr: dateTo,
+                                                            validator:
+                                                                (dateTo) {
+                                                              if (validDate(
+                                                                  dateTo))
+                                                                return null;
+                                                              else
+                                                                return "select time";
+                                                            },
+                                                            onTapDate: () {
+                                                              FocusScope.of(
+                                                                      context)
+                                                                  .unfocus();
+                                                              _selectTime(
+                                                                  context,
+                                                                  dateTo);
+                                                            },
+                                                            hintText:
+                                                                Txt.timeTo,
+                                                            keyboadType:
+                                                                TextInputType
+                                                                    .none,
+                                                            isPwd: false),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    child:
+                                                        TextInputFiledDescription(
+                                                            controlr: jobDescri,
+                                                            onTapDate: () {},
+                                                            validator:
+                                                                (jobDescri) {
+                                                              if (validDescription(
+                                                                  jobDescri))
+                                                                return null;
+                                                              else
+                                                                return "enter job decscription";
+                                                            },
+                                                            hintText:
+                                                                Txt.jobDescri,
+                                                            keyboadType:
+                                                                TextInputType
+                                                                    .visiblePassword,
+                                                            isPwd: false),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              createShiftButton(),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -734,7 +777,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     );
   }
 
-  Widget signUpBtn() {
+  Widget createShiftButton() {
+
     return Column(
       children: <Widget>[
         Padding(
@@ -780,7 +824,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                         }
                         // showFeactureAlert(context, date: "");
                       },
-                      label: "Create Shifts")
+                      label: buttonText)
                 ],
               ),
             )),
@@ -816,15 +860,20 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         visible = false;
       });
       if (event.response?.status?.statusCode == 200) {
-        showAlertDialoge(context, title: "Success", message: message!);
-        jobtitle.text = "";
-        hospital.text = "";
-        date.text = "";
-        date.text = "";
-        dateTo.text = "";
-        dateFrom.text = "";
-        jobDescri.text = "";
-        price.text = "";
+        if (row_id != -1) {
+          showAlertDialoge(context, title: "Success", message: message!);
+          jobtitle.text = "";
+          hospital.text = "";
+          date.text = "";
+          date.text = "";
+          dateTo.text = "";
+          dateFrom.text = "";
+          jobDescri.text = "";
+          price.text = "";
+
+        } else {
+          Navigator.pop(context);
+        }
       } else {
         showAlertDialoge(context, title: "Failed", message: message!);
       }

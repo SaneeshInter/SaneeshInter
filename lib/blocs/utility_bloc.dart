@@ -18,5 +18,4 @@ class UtilityBloc {
     _utilbloc.close();
   }
 }
-
 final utility_bloc = UtilityBloc();

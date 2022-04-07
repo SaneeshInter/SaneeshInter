@@ -43,12 +43,9 @@ class CreateShiftmanagerBloc {
 
 
   getDropDownValues() async {
-    var genderList = await _db.getGenderList();
     var usertype = await _db.getUserTypeList();
     var category = await _db.getCategory();
-    var type = await _db.getGenderList();
     var hospitals = await _db.getHospitalList();
-    var country = await _db.getGetCountryList();
 
     List<ShiftTypeList> typeList = [];
 
@@ -58,18 +55,6 @@ class CreateShiftmanagerBloc {
 
     typeList.add(type1);
     typeList.add(type2);
-
-
-    for (var item in usertype) {
-      print(item.type);
-      usertypeStr.add(item.type!);
-    }
-
-
-    for (var item in hospitals) {
-      print(item.name);
-      usertypeStr.add(item.name!);
-    }
 
     _type.add(typeList);
     _category.add(category);

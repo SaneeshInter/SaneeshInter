@@ -53,18 +53,16 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(
                     children: [
-
                       AutoSizeText(
-                        widget.items.jobTitle!,
+                        "At : " + widget.items.hospital!,
                         textAlign: TextAlign.start,
                         maxLines: 3,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 12.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w700,
                             fontFamily: "SFProBold"),
                       ),
-
 
                       // Text(
                       //   widget.place,
@@ -76,30 +74,39 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                     ],
                   ),
                   SizedBox(height: screenHeight(context, dividedBy: 120)),
-                  Row(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "On: " + widget.items.date!,
-                        style: TextStyle(
-                            fontSize: 11.sp,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 1.0),
+                        child: Text(
+                          "On: " + widget.items.date!,
+                          style: TextStyle(
+                              fontSize: 9.sp,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
-                      Text(
-                        "From " +
-                            widget.items.timeFrom! +
-                            " To " +
-                            widget.items.timeTo!,
-                        style: TextStyle(
-                            fontSize: 11.sp,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3.0),
+                        child: Text(
+                          "From " +
+                              widget.items.timeFrom! +
+                              " To " +
+                              widget.items.timeTo!,
+                          style: TextStyle(
+                              fontSize: 9.sp,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(height: screenHeight(context, dividedBy: 120)),
+                  if(null != widget.items.userType)
                   Text(
-                    "At " + widget.items.hospital!,
+                    widget.items.userType!,
                     style: TextStyle(
                         fontSize: 11.sp,
                         color: Constants.colors[3],
@@ -113,7 +120,6 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                     ViewButton(
                       label: "view",
                       onPressed: () {
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -130,7 +136,7 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                 children: [
                   BuildButton(
                     label: "Edit",
-                    onPressed:() {
+                    onPressed: () {
                       widget.onTapEdit(widget.items);
                     },
                     key: null,

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +25,7 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
   late DateTime _selectedValue;
   String dateValue = "";
   String? token;
+
   @override
   void didUpdateWidget(covariant ManagerShiftsScreen oldWidget) {
     // TODO: implement didUpdateWidget
@@ -35,7 +34,6 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
 
   @override
   void initState() {
-
     observerResponse();
 
     var date = DateTime.now();
@@ -47,14 +45,11 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
 
   Future getDataFromUi() async {
     SharedPreferences shdPre = await SharedPreferences.getInstance();
-     token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
+    token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
     print(token);
     print(dateValue);
     viewbookingBloc.fetchViewbooking(token!, dateValue);
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -141,16 +136,14 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
   void observerResponse() {
     viewbookingBloc.removeshift.listen((event) {
       print(event.response?.status?.statusCode);
+      var message = event.response?.status?.statusMessage;
       if (event.response?.status?.statusCode == 200) {
         getDataFromUi();
       } else {
-        showAlertDialoge(context,
-            title: "Invalid", message: "Remove shift Failed");
+        showAlertDialoge(context, title: "Failed", message: message!);
       }
     });
   }
-
-
 }
 
 Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
@@ -173,8 +166,9 @@ Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CreateShiftScreen(shiftItem: items,)));
-
+                      builder: (context) => CreateShiftScreen(
+                            shiftItem: items,
+                          )));
             },
             onTapDelete: (row_id) {
               print(row_id);
@@ -191,7 +185,3 @@ Future deleteShift(rowId) async {
   String? token = await TokenProvider().getToken();
   viewbookingBloc.fetchRemoveManager(token!, rowId.toString());
 }
-
-
-
-
