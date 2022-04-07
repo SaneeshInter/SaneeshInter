@@ -84,41 +84,50 @@ ProfileDetailCard({Key? key, required this.items}) : super(key: key);
                       ],
                     ),
                     const SizedBox(height: 8.0),
+                    if(gender != null)
                     ProfileDetailsRow(
-                        label: "Gender: "+gender!,
+                        label: "Gender : "+gender,
                         asset: "assets/images/icon/sex.svg"),
 
 
                     SizedBox(width: 15.0),
+                    if(dob != null)
                     ProfileDetailsRow(
-                        label: "Date Of Birth : "+dob!,
+                        label: "Date Of Birth :  "+dob,
                         asset: "assets/images/icon/confetti.svg"),
 
 
                     SizedBox(width: 15.0),
                     if(homeAddress != null)
                       ProfileDetailsRow(
-                          label: "Address"+ homeAddress,
+                          label: "Address :  "+ homeAddress,
                           asset: "assets/images/icon/Pin.svg"),
 
                     SizedBox(width: 15.0),
-                    if(homeAddress != null)
-
-
-                    ProfileDetailsRow(
-                        label: "Email"+email!,
+                    if(email != null)
+                      ProfileDetailsRow(
+                        label: "Email :  "+email,
                         asset: "assets/images/icon/email.svg"),
+
+
                     SizedBox(width: 15.0),
+                    if(phoneNumber != null)
                     ProfileDetailsRow(
-                        label: "Phone Number"+phoneNumber!,
+                        label: "Phone Number :   "+phoneNumber,
                         asset: "assets/images/icon/phone.svg"),
+
+
                     SizedBox(width: 15.0),
+                    if(ppsNumber != null)
                     ProfileDetailsRow(
-                        label: "PPS Number"+ppsNumber!,
+                        label: "PPS Number :  "+ppsNumber,
                         asset: "assets/images/icon/passport.svg"),
+
+
                     SizedBox(width: 15.0),
+                    if(bankIban != null)
                     ProfileDetailsRow(
-                        label: "Bank Details"+bankIban!,
+                        label: "Bank Details :  "+bankIban,
                         asset: "assets/images/icon/bank.svg"),
                     SizedBox(width: 15.0),
                   ],
