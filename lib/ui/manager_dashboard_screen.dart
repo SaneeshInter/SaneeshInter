@@ -113,7 +113,7 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
         bottomOpacity: 0.0,
         elevation: 0.0,
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color:Constants.colors[1],
           //change your color here
         ),
         backgroundColor: HexColor("#ffffff"),

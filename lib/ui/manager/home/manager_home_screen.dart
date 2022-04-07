@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:xpresshealthdev/ui/manager/home/my_shifts_screen.dart';
 import 'package:xpresshealthdev/ui/manager/home/shift_detail_manager.dart';
 import 'package:xpresshealthdev/ui/manager/home/approved_timesheet_screen.dart';
@@ -26,6 +27,7 @@ class ManagerHomeScreen extends StatefulWidget {
 }
 
 class _HomeScreentate extends State<ManagerHomeScreen> {
+
   var scaffoldKey = GlobalKey<ScaffoldState>();
   int devicePixelRatio = 3;
   int perPageItem = 3;
@@ -41,6 +43,25 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
+
+  Future<void> _dialCall() async {
+    String phoneNumber = "8606276916";
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launch(launchUri.toString());
+  }
+
+  _sendingMails() async {
+    const url = 'mailto:feedback@geeksforgeeks.org';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 
 
   Future getData() async {
@@ -88,7 +109,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                         "Important Update",
                         maxLines: 1,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Constants.colors[1],
                           fontSize: 16.sp,
                           fontFamily: "SFProMedium",
                         ),
@@ -113,13 +134,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
       children: <Widget>[
         Expanded(
           child: HomeButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ShiftDetailManagerScreen()),
-                );
-              },
+              onPressed: _sendingMails,
               label: "Send Mail",
               asset: "assets/images/icon/email.svg",
               textColors: Constants.colors[0],
@@ -129,7 +144,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         SizedBox(width: screenHeight(context, dividedBy: 100)),
         Expanded(
           child: HomeButton(
-              onPressed: () {},
+              onPressed: () => _dialCall(),
               label: "Contact",
               asset: "assets/images/icon/phone.svg",
               textColors: Constants.colors[0],
@@ -229,7 +244,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                     name,
                     maxLines: 2,
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Constants.colors[22],
                       fontSize: 14.sp,
                       fontFamily: "SFProMedium",
                     ),
@@ -241,7 +256,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                         child: AutoSizeText(description,
                           maxLines: 1,
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Constants.colors[13],
                             fontSize: 8.sp,
                           ),
                         )),
@@ -254,7 +269,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                           date,
                           maxLines: 1,
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Constants.colors[13],
                             fontSize: 8.sp,
                           ),
                         )),
@@ -289,7 +304,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                 duration: Duration(milliseconds: 100),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    color: Colors.blue
+                    color: Constants.colors[11]
                         .withOpacity(selectedIndex == index ? 1 : 0.5)),
                 margin: EdgeInsets.all(5),
                 width: 10,
