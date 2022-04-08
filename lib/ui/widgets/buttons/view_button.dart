@@ -40,7 +40,7 @@ class _ViewButtonState extends State<ViewButton> {
           widget.label,
           style: TextStyle(
               fontSize: 8.5.sp,
-              color: Constants.colors[3],
+              color: Constants.colors[12],
               fontWeight: FontWeight.w400),
         ),
       ),

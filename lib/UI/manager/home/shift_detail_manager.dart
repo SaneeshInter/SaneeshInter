@@ -61,6 +61,7 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                     snapshot.data!.response!.data!.shiftDetails![0];
                 var jobRequestDetails =
                     snapshot.data!.response!.data!.jobRequestDetails![0];
+
                 return Column(
                   children: [
                     Container(
@@ -80,8 +81,9 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                 height: 30.h,
                                 child: SizedBox.fromSize(
                                     size: Size.fromRadius(10), // Image radius
-                                    child: Image.asset(
-                                      "assets/images/icon/dubai.jpg",
+                                    child: Image.network(
+
+                                      "https://intersmarthosting.in/DEV/ExpressHealth/uploads/hospitals/hospital1.jpg",
                                       fit: BoxFit.cover,
                                     )),
                               ),
@@ -124,11 +126,11 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                             ),
                                             CustomRow(
                                               onPressed: () {},
-                                              label: hospitalDetail.address
+                                              label:"Address: " +hospitalDetail.address
                                                   .toString(),
                                               asset:
                                                   "assets/images/icon/location.svg",
-                                              textColors: Colors.green,
+                                              textColors: Colors.black,
                                               size: 9.sp,
                                             ),
                                             CustomRow(
@@ -183,26 +185,57 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                             ),
                                             CustomRowz(
                                               onPressed: () {},
-                                              label: shiftDetails.jobDetails
+                                              label: "Date : " +shiftDetails.date
                                                   .toString(),
                                               asset:
                                                   "assets/images/icon/check.svg",
                                               textColors: Colors.black,
                                             ),
+                                            CustomRow(
+                                              onPressed: () {},
+                                              label: "From : " +
+                                                  shiftDetails.timeFrom
+                                                      .toString() +
+                                                  "AM To : " +
+                                                  shiftDetails.timeFrom
+                                                      .toString() +
+                                                  " PM",
+                                              asset:
+                                              "assets/images/icon/check.svg",
+                                              textColors: Colors.black,
+                                              size: 9.sp,
+                                            ),
                                             CustomRowz(
                                               onPressed: () {},
-                                              label: shiftDetails.jobDetails
+                                              label:"Price : "+ shiftDetails.price
                                                   .toString(),
                                               asset:
-                                                  "assets/images/icon/check.svg",
+                                              "assets/images/icon/check.svg",
+                                              textColors: Colors.black,
+                                            ),
+
+                                            CustomRowz(
+                                              onPressed: () {},
+                                              label:"Category : "+  shiftDetails.category
+                                                  .toString(),
+                                              asset:
+                                              "assets/images/icon/check.svg",
                                               textColors: Colors.black,
                                             ),
                                             CustomRowz(
                                               onPressed: () {},
-                                              label: shiftDetails.jobDetails
+                                              label:"UserType : "+  shiftDetails.userType
                                                   .toString(),
                                               asset:
-                                                  "assets/images/icon/check.svg",
+                                              "assets/images/icon/check.svg",
+                                              textColors: Colors.black,
+                                            ),
+                                            CustomRowz(
+                                              onPressed: () {},
+                                              label: "Shift ype : "+ shiftDetails.type
+                                                  .toString(),
+                                              asset:
+                                              "assets/images/icon/check.svg",
                                               textColors: Colors.black,
                                             ),
                                             SizedBox(
@@ -218,77 +251,64 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
                                                         FontWeight.w500),
                                               ),
                                             ),
-                                            Card(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              elevation: 0,
-                                              color: Colors.greenAccent[100],
-                                              child: SizedBox(
-                                                height: 35.h,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  child: ListView.builder(
-                                                    itemCount: snapshot
-                                                        .data!
-                                                        .response!
-                                                        .data!
-                                                        .jobRequestDetails!
-                                                        .length,
-                                                    shrinkWrap: true,
-                                                    physics:
-                                                        NeverScrollableScrollPhysics(),
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      var name =
-                                                          "Approved time sheet";
-                                                      var description =
-                                                          "timesheets";
-                                                      return Column(
-                                                        children: [
-                                                          RequestuserListWidget(
-                                                            onTapView: () {},
-                                                            onTapCall: () {},
-                                                            onTapMap: () {},
-                                                            onTapBooking:
-                                                                (JobRequestDetails
-                                                                    item) {
-                                                              print("Tapped");
-                                                              print(item.jobId);
-                                                              print(item
-                                                                  .userName);
-                                                              print(
-                                                                  item.userId);
 
-                                                              acceptjobrequestBloc
-                                                                  .fetchAcceptJobRequestResponse(
-                                                                      token!,
-                                                                      item.jobId
-                                                                          .toString());
-                                                              // showBookingAlert(context, date: "Show Timesheet");
-                                                            },
-                                                            item: snapshot
-                                                                    .data!
-                                                                    .response!
-                                                                    .data!
-                                                                    .jobRequestDetails![
-                                                                index],
-                                                          ),
-                                                          SizedBox(
-                                                              height:
-                                                                  screenHeight(
-                                                                      context,
-                                                                      dividedBy:
-                                                                          100)),
-                                                        ],
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
+
+                                            ListView.builder(
+                                              itemCount: snapshot
+                                                  .data!
+                                                  .response!
+                                                  .data!
+                                                  .hospitalDetails!
+                                                  .length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                var name =
+                                                    "Approved time sheet";
+                                                var description =
+                                                    "timesheets";
+                                                return Column(
+                                                  children: [
+                                                    RequestuserListWidget(
+                                                      onTapView: () {},
+                                                      onTapCall: () {},
+                                                      onTapMap: () {},
+                                                      onTapBooking:
+                                                          (JobRequestDetails
+                                                              item) {
+                                                        print("Tapped");
+                                                        print(item.jobId);
+                                                        print(item
+                                                            .userName);
+                                                        print(
+                                                            item.userId);
+
+                                                        acceptjobrequestBloc
+                                                            .fetchAcceptJobRequestResponse(
+                                                                token!,
+                                                                item.jobId
+                                                                    .toString());
+                                                        // showBookingAlert(context, date: "Show Timesheet");
+                                                      },
+                                                      item: snapshot
+                                                              .data!
+                                                              .response!
+                                                              .data!
+                                                              .jobRequestDetails![
+                                                          index],
+                                                    ),
+                                                    SizedBox(
+                                                        height:
+                                                            screenHeight(
+                                                                context,
+                                                                dividedBy:
+                                                                    100)),
+                                                  ],
+                                                );
+                                              },
                                             ),
                                           ],
                                         ),

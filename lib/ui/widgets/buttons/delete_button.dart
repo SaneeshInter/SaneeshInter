@@ -31,8 +31,8 @@ class _DeleteButtonState extends State<DeleteButton> {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  tapped == false ? Colors.grey.shade300 : Colors.grey.shade300,
-                  tapped == false ? Colors.grey.shade300 : Colors.grey.shade300,
+                  tapped == false ? Constants.colors[17]: Constants.colors[17],
+                  tapped == false ? Constants.colors[17]: Constants.colors[17],
                 ]),
             color: Constants.colors[0],
             borderRadius: BorderRadius.circular(5)),
@@ -40,7 +40,9 @@ class _DeleteButtonState extends State<DeleteButton> {
           widget.label,
           style: TextStyle(
               fontSize: 8.5.sp,
-              color: tapped == false ? Colors.black : Colors.black,
+              color: tapped == false ?
+              Constants.colors[18] : Constants.colors[18],
+
               fontWeight: FontWeight.w400),
         ),
       ),

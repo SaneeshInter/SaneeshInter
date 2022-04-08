@@ -59,7 +59,7 @@ class _CustomRowState extends State<CustomRow> {
                 ),
                 minFontSize: 0,
                 stepGranularity: 0.1,
-                maxLines: 1,
+                maxLines: 3,
               ),
             ),
           ],

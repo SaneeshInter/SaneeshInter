@@ -80,26 +80,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       print("item.category");
       print(item?.category);
       if (item != null) {
-        if (item.category != 0) {
-          setState(() {
-            categoryId = item.category!;
-          });
-        }
 
-        // if(item.visaTypeId !=0)
-        // {
-        //   setState(() {
-        //     visatypeId = item.visaTypeId!;
-        //   });
-        // }
-        //
-        //
-        // if(item.nationalityId!=0)
-        // {
-        //   setState(() {
-        //     nationalityId =item.nationalityId!;
-        //   });
-        // }
 
         jobtitle.text = item.jobTitle!;
         row_id = item.rowId!;
@@ -107,6 +88,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         dateTo.text = item.timeTo!;
         dateFrom.text = item.timeFrom!;
         jobDescri.text = item.jobDetails!;
+        category.text = item.category!;
 
         if (row_id != -1) {
           buttonText = "Edit Shift";

@@ -58,19 +58,12 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                         textAlign: TextAlign.start,
                         maxLines: 3,
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Constants.colors[14],
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w700,
                             fontFamily: "SFProBold"),
                       ),
 
-                      // Text(
-                      //   widget.place,
-                      //   style: TextStyle(
-                      //       fontSize: 12.sp,
-                      //       color: Colors.black,
-                      //       fontWeight: FontWeight.w700),
-                      // ),
                     ],
                   ),
                   SizedBox(height: screenHeight(context, dividedBy: 120)),
@@ -84,7 +77,7 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                           "On: " + widget.items.date!,
                           style: TextStyle(
                               fontSize: 9.sp,
-                              color: Colors.grey,
+                              color: Constants.colors[13],
                               fontWeight: FontWeight.w400),
                         ),
                       ),
@@ -97,7 +90,7 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                               widget.items.timeTo!,
                           style: TextStyle(
                               fontSize: 9.sp,
-                              color: Colors.grey,
+                              color: Constants.colors[13],
                               fontWeight: FontWeight.w400),
                         ),
                       ),

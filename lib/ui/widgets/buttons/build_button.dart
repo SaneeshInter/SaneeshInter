@@ -37,7 +37,8 @@ class _BuildButtonState extends State<BuildButton> {
         child: Text(
           widget.label,
           style: TextStyle(
-              fontSize: 8.5.sp, color: Colors.white, fontWeight: FontWeight.w400),
+              fontSize: 8.5.sp,
+              color: Constants.colors[0],fontWeight: FontWeight.w400),
         ),
       ),
     );

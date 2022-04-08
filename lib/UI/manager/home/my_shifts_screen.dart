@@ -75,18 +75,18 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
             DatePicker(
               DateTime.now(),
               initialSelectedDate: DateTime.now(),
-              selectionColor: Constants.colors[3],
-              selectedTextColor: Colors.white,
+              selectionColor: Constants.colors[20],
+              selectedTextColor: Constants.colors[0],
               width: 18.w,
               height: 22.w,
               deactivatedColor: Colors.blue,
               monthTextStyle: TextStyle(color: Colors.transparent),
               dateTextStyle: TextStyle(
-                  color: Constants.colors[7],
+                  color: Constants.colors[21],
                   fontWeight: FontWeight.w800,
                   fontSize: 16.sp),
               dayTextStyle: TextStyle(
-                  color: Constants.colors[7],
+                  color: Constants.colors[21],
                   fontWeight: FontWeight.w500,
                   fontSize: 4.sp),
               selectedDateStyle: TextStyle(
@@ -94,7 +94,7 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
                   fontWeight: FontWeight.w700,
                   fontSize: 16.sp),
               selectedDayStyle: TextStyle(
-                  color: Colors.white,
+                  color: Constants.colors[0],
                   fontWeight: FontWeight.w500,
                   fontSize: 4.sp),
               itemController: itemController,

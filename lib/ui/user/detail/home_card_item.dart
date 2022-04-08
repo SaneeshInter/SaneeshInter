@@ -40,7 +40,7 @@ class _HomeCardState extends State<HomeCardItem> {
                   widget.label,
                   maxLines: 2,
                   style: TextStyle(
-                    color: Colors.black,
+                   color: Constants.colors[1],
                     fontSize: 14.sp,
                     fontFamily: "SFProMedium",
                   ),
@@ -55,7 +55,7 @@ class _HomeCardState extends State<HomeCardItem> {
                     widget.asset,
                     height: 5.w,
                     width: 5.w,
-                    color: Colors.white,
+                    color: Constants.colors[0],
                   ),
                 ),
               ),
