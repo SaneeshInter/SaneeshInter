@@ -86,50 +86,49 @@ class _HomeScreentate extends State<HomeScreen> {
             child: StreamBuilder<UserHomeResponse>(
                 stream: homepageBloc.userhomeStream,
                 builder: (context, AsyncSnapshot<UserHomeResponse> snapshot) {
+                  var data = snapshot.data?.response?.data;
+                  if (data != null) {
+                    var shiftDetails = null;
+                    if (data.latestShift!.length != 0) {
+                      shiftDetails = data.latestShift![0];
+                    }
 
-
-                  var data =    snapshot.data?.response?.data;
-                  if(data!=null)
-                    {
-
-                      var shiftDetails = null;
-                      if(data.latestShift!.length!=0)
-                        {
-                          shiftDetails =data.latestShift![0];
-                        }
-
-                      return Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AutoSizeText(
-                              'Next Shift',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "SFProMedium",
-                              ),
+                    return Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AutoSizeText(
+                            'Next Shift',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "SFProMedium",
                             ),
-                            SizedBox(height: screenHeight(context, dividedBy: 100)),
-                            if(null!=shiftDetails)
+                          ),
+                          SizedBox(
+                              height: screenHeight(context, dividedBy: 100)),
+                          if (null != shiftDetails)
                             Column(
                               children: [
                                 Card(
                                   shape: RoundedRectangleBorder(
-                                    side: BorderSide(color: Colors.white70, width: 1),
+                                    side: BorderSide(
+                                        color: Colors.white70, width: 1),
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   elevation: 0.0,
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(5, 22, 5, 22),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 22, 5, 22),
                                     child: Row(
                                       children: [
                                         Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(5, 0, 10, 0.0),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              5, 0, 10, 0.0),
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(50),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
                                             child: Container(
                                               height: 20.w,
                                               width: 20.w,
@@ -143,35 +142,42 @@ class _HomeScreentate extends State<HomeScreen> {
                                                     ]),
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.all(15.0),
+                                                padding:
+                                                    const EdgeInsets.all(15.0),
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                                      CrossAxisAlignment.center,
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     AutoSizeText(
                                                       '18',
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       minFontSize: 0,
                                                       stepGranularity: 0.2,
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 14.sp,
-                                                          fontFamily: "SFProBold",
-                                                          fontWeight: FontWeight.w800),
+                                                          fontFamily:
+                                                              "SFProBold",
+                                                          fontWeight:
+                                                              FontWeight.w800),
                                                     ),
                                                     AutoSizeText(
                                                       'Jan,21',
                                                       minFontSize: 2,
                                                       stepGranularity: 1,
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       maxLines: 2,
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 9.sp,
-                                                          fontFamily: "SFProMedium",
-                                                          fontWeight: FontWeight.w500),
+                                                          fontFamily:
+                                                              "SFProMedium",
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                     ),
                                                   ],
                                                 ),
@@ -180,11 +186,13 @@ class _HomeScreentate extends State<HomeScreen> {
                                           ),
                                         ),
                                         Container(
-                                          width: screenWidth(context, dividedBy: 2),
+                                          width: screenWidth(context,
+                                              dividedBy: 2),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               AutoSizeText(
                                                 shiftDetails!.hospital!,
@@ -194,20 +202,27 @@ class _HomeScreentate extends State<HomeScreen> {
                                                     color: Constants.colors[11],
                                                     fontSize: 16.sp,
                                                     fontFamily: "SFProMedium",
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               SizedBox(
                                                 height: 5,
                                               ),
                                               AutoSizeText(
-                                                "From " + shiftDetails.date! +  "  From " + shiftDetails.timeFrom! + " To " + shiftDetails.timeTo!,
+                                                "From " +
+                                                    shiftDetails.date! +
+                                                    "  From " +
+                                                    shiftDetails.timeFrom! +
+                                                    " To " +
+                                                    shiftDetails.timeTo!,
                                                 maxLines: 1,
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     color: Colors.blueGrey,
                                                     fontSize: 12.sp,
                                                     fontFamily: "S",
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
                                               SizedBox(
                                                 height: 2.h,
@@ -218,22 +233,25 @@ class _HomeScreentate extends State<HomeScreen> {
                                                     onPressed: () {},
                                                     label: shiftDetails!.type!,
                                                     asset:
-                                                    "assets/images/icon/swipe-to-right.svg",
+                                                        "assets/images/icon/swipe-to-right.svg",
                                                     backgroundColor:
-                                                    Constants.colors[2],
-                                                    textColors: Constants.colors[4],
+                                                        Constants.colors[2],
+                                                    textColors:
+                                                        Constants.colors[4],
                                                   ),
                                                   SizedBox(
                                                     width: 2.w,
                                                   ),
                                                   DrawableButton(
                                                     onPressed: () {},
-                                                    label: shiftDetails!.hospital!,
+                                                    label:
+                                                        shiftDetails!.hospital!,
                                                     asset:
-                                                    "assets/images/icon/ward.svg",
+                                                        "assets/images/icon/ward.svg",
                                                     backgroundColor:
-                                                    Constants.colors[2],
-                                                    textColors: Constants.colors[6],
+                                                        Constants.colors[2],
+                                                    textColors:
+                                                        Constants.colors[6],
                                                   ),
                                                 ],
                                               ),
@@ -243,7 +261,8 @@ class _HomeScreentate extends State<HomeScreen> {
                                         const Spacer(),
                                         Container(
                                             alignment: Alignment.centerRight,
-                                            transformAlignment: Alignment.centerRight,
+                                            transformAlignment:
+                                                Alignment.centerRight,
                                             child: SvgPicture.asset(
                                                 'assets/images/icon/righarrow.svg')),
                                         SizedBox(width: 5),
@@ -251,38 +270,40 @@ class _HomeScreentate extends State<HomeScreen> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: screenHeight(context, dividedBy: 100)),
+                                SizedBox(
+                                    height:
+                                        screenHeight(context, dividedBy: 100)),
                                 equalSizeButtons(),
-                                SizedBox(height: screenHeight(context, dividedBy: 100)),
+                                SizedBox(
+                                    height:
+                                        screenHeight(context, dividedBy: 100)),
                               ],
                             ),
-
-                            imageCard(),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .4,
-                                child: AutoSizeText(
-                                  "Important Update",
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontFamily: "SFProMedium",
-                                  ),
+                          imageCard(),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * .4,
+                              child: AutoSizeText(
+                                "Important Update",
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontFamily: "SFProMedium",
                                 ),
                               ),
                             ),
-                            horizontalList(snapshot),
-                            horizontalIndiCator(),
-                            gridView(),
-                          ],
-                        ),
-                      );
-                    }else{
+                          ),
+                          horizontalList(snapshot),
+                          horizontalIndiCator(),
+                          gridView(),
+                        ],
+                      ),
+                    );
+                  } else {
                     return Container();
                   }
-
                 }),
           ),
         ),
@@ -327,24 +348,12 @@ class _HomeScreentate extends State<HomeScreen> {
       child: Card(
         elevation: 0.0,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: Row(
             children: [
-              Expanded(
-                child: AutoSizeText(
-                  "Premium / Immediate \nShifts",
-                  maxLines: 2,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
               Container(
-                  alignment: Alignment.centerRight,
-                  transformAlignment: Alignment.centerRight,
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: SvgPicture.asset('assets/images/icon/logo.svg')),
+                  child:
+                      Image.asset('assets/images/icon/premium_home_icon.png')),
             ],
           ),
         ),
@@ -499,9 +508,7 @@ class _HomeScreentate extends State<HomeScreen> {
   }
 
   getDate(String s) {
-
-    return ;
-
+    return;
   }
 }
 

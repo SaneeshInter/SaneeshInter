@@ -1,24 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/ui/user/app_bar.dart';
-
 import 'package:xpresshealthdev/ui/user/home/availability_screen.dart';
-import 'package:xpresshealthdev/ui/user/home/find_shift_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/home_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/my_shift_calendar.dart';
 import 'package:xpresshealthdev/ui/user/home/profile_screen.dart';
-import 'package:xpresshealthdev/ui/user/home/shift_list.dart';
-
-import '../Constants/app_defaults.dart';
-import '../utils/colors_util.dart';
 import '../utils/constants.dart';
-import '../utils/utils.dart';
-import 'manager/home/shift_calendar_screen.dart';
-import 'user/side_menu.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -43,7 +32,7 @@ class _DashBoardWidgetState extends State<DashBoard> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static  List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     //FindShiftScreen(),
     FindshiftCalendar(),

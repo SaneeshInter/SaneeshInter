@@ -10,6 +10,7 @@ import 'package:xpresshealthdev/ui/manager/home/shift_detail_manager.dart';
 import 'package:xpresshealthdev/ui/manager/home/approved_timesheet_screen.dart';
 import 'package:xpresshealthdev/ui/manager/home/create_shift_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
+import 'package:xpresshealthdev/ui/widgets/loading_widget.dart';
 
 import '../../../blocs/manager_home_bloc.dart';
 import '../../../model/manager_home_response.dart';
@@ -161,24 +162,12 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
       child: Card(
         elevation: 0.0,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: Row(
             children: [
-              Expanded(
-                child: const AutoSizeText(
-                  "Premium / Immediate \nShifts",
-                  maxLines: 2,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
               Container(
-                  alignment: Alignment.centerRight,
-                  transformAlignment: Alignment.centerRight,
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: SvgPicture.asset('assets/images/icon/logo.svg')),
+                  child:
+                  Image.asset('assets/images/icon/premium_home_icon.png')),
             ],
           ),
         ),
@@ -202,11 +191,14 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
-            return Center(child: CircularProgressIndicator());
+            return Container(
+              width: 100.w,
+              height: 80.h,
+              child: const Center(
+                child: LoadingWidget(),
+              ),
+            );
           }),
-
-
-
     );
   }
 

@@ -81,7 +81,7 @@ class Items {
   int? visaTypeId;
   String? userType;
   int? userTypeId;
-  Null? homeAddress;
+  String? homeAddress;
   String? ppsNumber;
   String? bankIban;
   String? bankBic;

@@ -5,7 +5,6 @@ import '../../../model/shift_list_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/approve_timesheet_list_widget.dart';
-import '../../datepicker/date_picker_widget.dart';
 
 class ApprovedTimeSheetScreen extends StatefulWidget {
   const ApprovedTimeSheetScreen({Key? key}) : super(key: key);
@@ -69,7 +68,6 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
         var name = "Approved time sheet";
         var description = "timesheets";
 
-
         var category = snapshot.data?.response?.data?.category![index];
         if (category != null) {
           name = category.categoryname!;
@@ -90,7 +88,6 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
                 print("Tapped");
                 showBookingAlert(context, date: "Show Timesheet");
               },
-
             ),
             SizedBox(height: screenHeight(context, dividedBy: 100)),
           ],
@@ -99,4 +96,3 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
     );
   }
 }
-

@@ -10,11 +10,11 @@ import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
+import '../model/user_getschedule_by_month_year.dart';
+import '../model/user_getschedule_bydate.dart';
 import '../model/user_home_response.dart';
 import '../model/user_profile_update.dart';
 import '../model/utility_respo.dart';
-import '../model/user_getschedule_bydate.dart';
-import '../model/user_getschedule_by_month_year.dart';
 import '../model/viewbooking_response.dart';
 
 class Repository {
@@ -28,6 +28,11 @@ class Repository {
   Future<SliftListRepso> fetchComplete() => apiProvider.fetchcomplete();
 
   Future<SliftListRepso> fetchConfirm() => apiProvider.fetchConfirm();
+
+  Future<ManagerScheduleListResponse> fetchUserListByDate(String token,String date) =>
+      apiProvider.fetchUserListByDate(token,date);
+
+
 
   Future<ManagerScheduleListResponse> fetchViewbooking(
           String token, String date) =>

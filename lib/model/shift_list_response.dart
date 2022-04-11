@@ -99,7 +99,7 @@ class Status {
 
   Status.fromJson(Map<String, dynamic> json) {
     count = json['count'];
-    statusCode = json['status_code'];
+    statusCode = json['status_code'].toString();
     statusMessage = json['status_message'];
   }
 

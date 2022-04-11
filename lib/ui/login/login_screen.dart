@@ -17,6 +17,7 @@ import '../../utils/validator.dart';
 import '../dashboard_screen.dart';
 import '../widgets/buttons/login_button.dart';
 import '../widgets/input_text.dart';
+import '../widgets/loading_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -116,21 +117,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                             Column(
                                               children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                    controlr: email,
-                                                    validator: (email) {
-                                                      if (validEmail(email)) {
-                                                        return null;
-                                                      } else {
-                                                        return 'Enter a valid email address';
-                                                      }
-                                                    },
-                                                    hintText: Txt.email,
-                                                    keyboadType: TextInputType
-                                                        .emailAddress,
-                                                    isPwd: false,
-                                                    onTapDate: () {},
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 16.0,right: 16),
+                                                  child: Container(
+                                                    child: TextInputFileds(
+                                                      controlr: email,
+                                                      validator: (email) {
+                                                        if (validEmail(email)) {
+                                                          return null;
+                                                        } else {
+                                                          return 'Enter a valid email address';
+                                                        }
+                                                      },
+                                                      hintText: Txt.email,
+                                                      keyboadType: TextInputType
+                                                          .emailAddress,
+                                                      isPwd: false,
+                                                      onTapDate: () {},
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -140,21 +144,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                             Column(
                                               children: [
-                                                Container(
-                                                  child: TextInputFileds(
-                                                    controlr: pwd,
-                                                    validator: (password) {
-                                                      if (validPassword(
-                                                          password))
-                                                        return null;
-                                                      else
-                                                        return 'Enter a valid password';
-                                                    },
-                                                    hintText: Txt.pwd,
-                                                    keyboadType: TextInputType
-                                                        .visiblePassword,
-                                                    isPwd: true,
-                                                    onTapDate: () {},
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 16.0,right: 16),
+                                                  child: Container(
+                                                    child: TextInputFileds(
+                                                      controlr: pwd,
+                                                      validator: (password) {
+                                                        if (validPassword(
+                                                            password))
+                                                          return null;
+                                                        else
+                                                          return 'Enter a valid password';
+                                                      },
+                                                      hintText: Txt.pwd,
+                                                      keyboadType: TextInputType
+                                                          .visiblePassword,
+                                                      isPwd: true,
+                                                      onTapDate: () {},
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -197,6 +204,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+                Visibility(
+                    visible: visible,
+                    child: const Center(child: LoadingWidget())),
               ],
             ),
           ),
@@ -215,25 +225,21 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: EdgeInsets.only(top: 10, left: 20, right: 20),
             child: Stack(
               children: [
-                Visibility(
-                  visible: !visible,
-                  child: LoginButton(
-                      onPressed: () async {
-                        var validate = formKey.currentState?.validate();
-                        if (null != validate) {
-                          if (validate) {
-                            setState(() {
-                              visible = true;
-                            });
-                            loginBloc.fetchLogin(email.text, pwd.text);
-                          }
-                          // use the information provided
+                LoginButton(
+                    onPressed: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      var validate = formKey.currentState?.validate();
+                      if (null != validate) {
+                        if (validate) {
+                          setState(() {
+                            visible = true;
+                          });
+                          loginBloc.fetchLogin(email.text, pwd.text);
                         }
-                      },
-                      label: "Login"),
-                ),
-
-
+                        // use the information provided
+                      }
+                    },
+                    label: "Login"),
               ],
             ),
           )),
@@ -264,19 +270,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     )),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Visibility(
-                  visible: visible,
-                  child: Center(
-                    child: Container(
-                        margin: EdgeInsets.only(top: 0, bottom: 0),
-                        child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Constants.colors[3]),
-                        )),
-                  )),
-            ),
           ],
         )),
       ],
@@ -285,12 +278,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _loginResponse() {
     loginBloc.loginStream.listen((event) async {
-
       setState(() {
         visible = false;
       });
 
-    var message =  event.response?.status?.statusMessage;
+      var message = event.response?.status?.statusMessage;
       if (event.response?.status?.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         var token = event.response?.data?.token;
@@ -314,8 +306,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         }
       } else {
-        showAlertDialoge(context,
-            title: "Login Failed", message: message!);
+        showAlertDialoge(context, title: "Login Failed", message: message!);
       }
     });
   }

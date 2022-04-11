@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/blocs/shift_viewbooking_bloc.dart';
+import 'package:xpresshealthdev/ui/widgets/loading_widget.dart';
 
 import '../../../Constants/sharedPrefKeys.dart';
 import '../../../model/viewbooking_response.dart';
@@ -25,6 +26,7 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
   late DateTime _selectedValue;
   String dateValue = "";
   String? token;
+  bool visible = false;
 
   @override
   void didUpdateWidget(covariant ManagerShiftsScreen oldWidget) {
@@ -44,6 +46,7 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
   }
 
   Future getDataFromUi() async {
+
     SharedPreferences shdPre = await SharedPreferences.getInstance();
     token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
     print(token);
@@ -103,26 +106,53 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
                 setState(() {
                   _selectedValue = date;
                   dateValue = formatDate(date);
+                  viewbookingBloc.allShift.drain();
                   getDataFromUi();
                 });
               },
             ),
             SizedBox(height: 2.h),
-            StreamBuilder(
-                stream: viewbookingBloc.allShift,
-                builder: (BuildContext context,
-                    AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data?.response?.data?.items?.length != 0) {
-                      return buildList(snapshot);
-                    } else {
-                      return Text("No schedule found for the selected day");
-                    }
-                  } else if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                })
+            Stack(
+              children: [
+                Column(
+                  children: [
+                    StreamBuilder(
+                        stream: viewbookingBloc.allShift,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<ManagerScheduleListResponse>
+                                snapshot) {
+                          if (snapshot.hasData) {
+
+                            if (snapshot
+                                    .data?.response?.data?.items?.length !=
+                                0) {
+                              return buildList(snapshot);
+                            } else {
+                              return Text(
+                                  "No schedule found for the selected day");
+                            }
+                          } else if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          }
+                          return  Container(
+                            width: 100.w,
+                            height: 50.h,
+                            child: const Center(
+                              child: LoadingWidget(),
+                            ),
+                          );
+                        }),
+                  ],
+                ),
+                Visibility(visible: visible, child: Container(
+                  width: 100.w,
+                  height: 50.h,
+                  child: const Center(
+                    child: LoadingWidget(),
+                  ),
+                )),
+              ],
+            ),
           ])),
     );
   }
@@ -136,52 +166,60 @@ class _ManagerShiftsState extends State<ManagerShiftsScreen> {
   void observerResponse() {
     viewbookingBloc.removeshift.listen((event) {
       print(event.response?.status?.statusCode);
+      setState(() {
+        visible = false;
+      });
       var message = event.response?.status?.statusMessage;
       if (event.response?.status?.statusCode == 200) {
+
         getDataFromUi();
       } else {
         showAlertDialoge(context, title: "Failed", message: message!);
       }
     });
   }
-}
 
-Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
-  return ListView.builder(
-    itemCount: snapshot.data?.response?.data?.items?.length,
-    shrinkWrap: true,
-    physics: NeverScrollableScrollPhysics(),
-    itemBuilder: (BuildContext context, int index) {
-      var items = snapshot.data?.response?.data?.items![index];
-      return Column(
-        children: [
-          ManagerBookingListWidget(
-            items: items!,
-            onTapView: () {},
-            key: null,
-            onTapItem: () {},
-            onTapEdit: (item) {
-              print(item);
+  Future deleteShift(rowId) async {
+    String? token = await TokenProvider().getToken();
+    viewbookingBloc.fetchRemoveManager(token!, rowId.toString());
+  }
 
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateShiftScreen(
-                            shiftItem: items,
-                          )));
-            },
-            onTapDelete: (row_id) {
-              print(row_id);
-              deleteShift(row_id);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+  Widget buildList(AsyncSnapshot<ManagerScheduleListResponse> snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.data?.response?.data?.items?.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        var items = snapshot.data?.response?.data?.items![index];
+        return Column(
+          children: [
+            ManagerBookingListWidget(
+              items: items!,
+              onTapView: () {},
+              key: null,
+              onTapItem: () {},
+              onTapEdit: (item) {
+                print(item);
 
-Future deleteShift(rowId) async {
-  String? token = await TokenProvider().getToken();
-  viewbookingBloc.fetchRemoveManager(token!, rowId.toString());
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateShiftScreen(
+                              shiftItem: items,
+                            )));
+              },
+              onTapDelete: (row_id) {
+                print(row_id);
+
+                setState(() {
+                  visible = true;
+                });
+                deleteShift(row_id);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

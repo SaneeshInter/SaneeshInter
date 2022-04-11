@@ -44,7 +44,7 @@ class _RequestuserListState extends State<RequestuserListWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            SizedBox(height:3.h),
+              SizedBox(height: 3.h),
               Row(children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.15,
@@ -64,14 +64,14 @@ class _RequestuserListState extends State<RequestuserListWidget> {
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(
-                    widget.item!.userName!,
+                    widget.item.userName!,
                     style: TextStyle(
                         fontSize: 10.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    widget.item!.status!,
+                    widget.item.status!,
                     style: TextStyle(
                         fontSize: 10.sp,
                         color: Colors.black,
@@ -81,7 +81,7 @@ class _RequestuserListState extends State<RequestuserListWidget> {
                   Row(
                     children: [
                       Text(
-                        widget.item!.date!,
+                        widget.item.date!,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.grey,
@@ -96,17 +96,38 @@ class _RequestuserListState extends State<RequestuserListWidget> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    ViewButton(
-                      label: "Accept",
-                      onPressed: (){
-                        widget.onTapBooking(widget.item);
-                      },
-                      key: null,
-                    ),
+                    if (widget.item.status != "Rejected" && widget.item.status != "Accepted")
+                      ViewButton(
+                        label: "Accept",
+                        onPressed: () {
+                          widget.onTapBooking(widget.item);
+                        },
+                        key: null,
+                      ),
+                    Column(children: [
+
+                      if (widget.item.status != "Accepted")
+                        ViewButton(
+                          label: "Accept",
+                          onPressed: () {
+                            widget.onTapBooking(widget.item);
+                          },
+                          key: null,
+                        ),
+
+                      if (widget.item.status == "Accepted")
+                        ViewButton(
+                          label: "Reject",
+                          onPressed: () {
+                            widget.onTapBooking(widget.item);
+                          },
+                          key: null,
+                        ),
+                    ],),
+
                     SizedBox(
                       height: 2.h,
                     ),
-
                   ],
                 )
               ]),

@@ -38,9 +38,8 @@ class CreateShiftmanagerBloc {
 
   List<String> hospitals = [];
   final _hospital = PublishSubject<List<HospitalList>>();
+
   Stream<List<HospitalList>> get hospitalStream => _hospital.stream;
-
-
 
   getDropDownValues() async {
     var usertype = await _db.getUserTypeList();
@@ -48,7 +47,6 @@ class CreateShiftmanagerBloc {
     var hospitals = await _db.getHospitalList();
 
     List<ShiftTypeList> typeList = [];
-
 
     var type1 = ShiftTypeList(rowId: 1, type: "Regular");
     var type2 = ShiftTypeList(rowId: 2, type: "Premium");
@@ -66,21 +64,20 @@ class CreateShiftmanagerBloc {
 
   Stream<ManagerShift> get getmanagerStream => _getmanager.stream;
 
-  createShiftManager(String token,
-      int row_id,
-      int type,
-      int category,
-      int user_type,
-      String job_title,
-      int hospital,
-      String date,
-      String time_from,
-      String time_to,
-      String job_details,
-      String price,
-      ) async {
-
-
+  createShiftManager(
+    String token,
+    int row_id,
+    int type,
+    int category,
+    int user_type,
+    String job_title,
+    int hospital,
+    String date,
+    String time_from,
+    String time_to,
+    String job_details,
+    String price,
+  ) async {
     ManagerShift respo = await _repo.CreateShiftManager(
       token,
       row_id,
@@ -97,6 +94,10 @@ class CreateShiftmanagerBloc {
     );
 
     _getmanager.sink.add(respo);
+  }
+
+  getUserListByDate(String token, String date) {
+    _repo.fetchUserListByDate(token, date);
   }
 
   dispose() {

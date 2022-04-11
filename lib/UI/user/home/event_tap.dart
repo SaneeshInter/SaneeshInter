@@ -2,18 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'find_shift_screen.dart';
 
-void main() => runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Ontapp(),
-    ));
 
-class Ontapp extends StatefulWidget {
+class MyShiftCalender extends StatefulWidget {
   @override
-  State<Ontapp> createState() => _OntapState();
+  State<MyShiftCalender> createState() => _MyShiftCalenderState();
 }
 
-class _OntapState extends State<Ontapp> {
+class _MyShiftCalenderState extends State<MyShiftCalender> {
   CalendarFormat format = CalendarFormat.month;
   DateTime SelectedDay = DateTime.now();
   DateTime focusDay = DateTime.now();
@@ -58,7 +55,13 @@ class _OntapState extends State<Ontapp> {
                         setState(() {
                           SelectedDay = selectDay;
                           focusDay = focusDay;
+
                         });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => FindShiftScreen(selectDay: selectDay,)),
+                        );
+
                         print(focusDay);
                       },
                       calendarStyle: CalendarStyle(
@@ -66,7 +69,7 @@ class _OntapState extends State<Ontapp> {
                         selectedDecoration: BoxDecoration(
                           color: Colors.green,
                           shape: BoxShape.rectangle,
-                          //borderRadius: BorderRadius.circular(2.0),
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
                       selectedDayPredicate: (DateTime date) {
