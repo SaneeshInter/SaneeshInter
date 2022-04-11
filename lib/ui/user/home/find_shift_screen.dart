@@ -12,12 +12,25 @@ import '../../widgets/shift_list_widget.dart';
 import '../side_menu.dart';
 
 class FindShiftScreen extends StatelessWidget {
+  final DateTime selectDay;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+
+
+  FindShiftScreen({
+    Key? key,
+    required this.selectDay,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final FixedExtentScrollController itemController =
-        FixedExtentScrollController();
+    FixedExtentScrollController();
+
+
+    print("selectDay.day");
+    print(selectDay.day);
     bloc.fetchAllList("");
     return Scaffold(
       key: _scaffoldKey,
