@@ -60,19 +60,10 @@ class _ProfileState extends State<ProfileScreen> {
                 stream: profileBloc.getProfileStream,
                 builder: (context, AsyncSnapshot<UserGetResponse> snapshot) {
                   var data = snapshot.data?.userResponse?.data;
-
                   String? firstName = data?.items?[0].firstName;
                   String? lastName = data?.items?[0].lastName;
                   String? employeeNo = data?.items?[0].employeeNo;
                   String? hourlyRate = data?.items?[0].hourlyRate;
-                  String? gender = data?.items?[0].gender;
-                  String? dob = data?.items?[0].dob;
-                  String? homeAddress = data?.items?[0].homeAddress;
-                  String? email = data?.items?[0].email;
-                  String? phoneNumber = data?.items?[0].phoneNumber;
-                  String? ppsNumber = data?.items?[0].ppsNumber;
-                  String? bankIban = data?.items?[0].bankIban;
-
                   Items? item = data?.items?[0];
                   String fullName =
                       firstName.toString() + " " + lastName.toString();

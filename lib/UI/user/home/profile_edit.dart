@@ -896,8 +896,7 @@ value: genderId,
 
   void observerResponse() {
     profileBloc.profileStream.listen((event) {
-      print("RESPONSE FROM UI");
-
+      print("RESPONSE FROM ui");
       setState(() {
         visible = false;
       });
@@ -905,23 +904,7 @@ value: genderId,
       print(event.response?.status?.statusCode);
       var message = event?.response?.status?.statusMessage.toString();
       if (event.response?.status?.statusCode == 200) {
-
         Navigator.pop(context);
-
-        // first_name.text = "";
-        // last_name.text = "";
-        // date.text = "";
-        // genderId = 0;
-        // nationalityId = 0;
-        // home_address.text = "";
-        // permission_to_work_in_ireland.text = "";
-        // visatypeId = 0;
-        // phonenumber.text = "";
-        // email.text = "";
-        // ppsnumber.text = "";
-        // bank_iban.text = "";
-        // bank_bic.text = "";
-        // showAlertDialoge(context, title: "Success", message: message!);
       } else {
         showAlertDialoge(context,
             title: "Invalid", message: message!);
