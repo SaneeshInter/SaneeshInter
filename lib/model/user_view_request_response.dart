@@ -1,9 +1,9 @@
-class UserGetScheduleByDate {
+class UserViewRequestResponse {
   Response? response;
 
-  UserGetScheduleByDate({this.response});
+  UserViewRequestResponse({this.response});
 
-  UserGetScheduleByDate.fromJson(Map<String, dynamic> json) {
+  UserViewRequestResponse.fromJson(Map<String, dynamic> json) {
     response = json['Response'] != null
         ? new Response.fromJson(json['Response'])
         : null;
@@ -67,27 +67,41 @@ class Data {
 
 class Items {
   int? rowId;
+  int? userId;
+  int? jobId;
+  String? date;
+  String? status;
+  int? shiftId;
   String? type;
   String? userType;
+  int? userTypeId;
   String? category;
+  int? categoryId;
   String? jobTitle;
   String? hospital;
-  String? date;
+  int? hospitalId;
   String? timeFrom;
   String? timeTo;
   String? jobDetails;
-  String? price;
-  String? allowances;
+  int? price;
+  Null? allowances;
   String? createdDate;
 
   Items(
       {this.rowId,
+        this.userId,
+        this.jobId,
+        this.date,
+        this.status,
+        this.shiftId,
         this.type,
         this.userType,
+        this.userTypeId,
         this.category,
+        this.categoryId,
         this.jobTitle,
         this.hospital,
-        this.date,
+        this.hospitalId,
         this.timeFrom,
         this.timeTo,
         this.jobDetails,
@@ -97,38 +111,43 @@ class Items {
 
   Items.fromJson(Map<String, dynamic> json) {
     rowId = json['row_id'];
+    userId = json['user_id'];
+    jobId = json['job_id'];
+    date = json['date'];
+    status = json['status'];
+    shiftId = json['shift_id'];
     type = json['type'];
     userType = json['user_type'];
+    userTypeId = json['user_type_id'];
     category = json['category'];
+    categoryId = json['category_id'];
     jobTitle = json['job_title'];
     hospital = json['hospital'];
-    date = json['date'];
+    hospitalId = json['hospital_id'];
     timeFrom = json['time_from'];
     timeTo = json['time_to'];
     jobDetails = json['job_details'];
-    if(json['price']!=null) {
-      price = json['price'].toString();
-    }else{
-      price ="";
-    }
-
-    if(json['allowances']!=null) {
-      allowances = json['allowances'].toString();
-    }else{
-      allowances ="";
-    }
+    price = json['price'];
+    allowances = json['allowances'];
     createdDate = json['created_date'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['row_id'] = this.rowId;
+    data['user_id'] = this.userId;
+    data['job_id'] = this.jobId;
+    data['date'] = this.date;
+    data['status'] = this.status;
+    data['shift_id'] = this.shiftId;
     data['type'] = this.type;
     data['user_type'] = this.userType;
+    data['user_type_id'] = this.userTypeId;
     data['category'] = this.category;
+    data['category_id'] = this.categoryId;
     data['job_title'] = this.jobTitle;
     data['hospital'] = this.hospital;
-    data['date'] = this.date;
+    data['hospital_id'] = this.hospitalId;
     data['time_from'] = this.timeFrom;
     data['time_to'] = this.timeTo;
     data['job_details'] = this.jobDetails;

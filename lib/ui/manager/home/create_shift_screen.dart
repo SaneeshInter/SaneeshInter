@@ -23,6 +23,7 @@ import '../../widgets/buttons/login_button.dart';
 import '../../widgets/input_text.dart';
 import '../../widgets/input_text_description.dart';
 import '../../widgets/loading_widget.dart';
+
 class CreateShiftScreen extends StatefulWidget {
   final Items? shiftItem;
 
@@ -50,7 +51,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   TextEditingController dateFrom = new TextEditingController();
   TextEditingController dateTo = new TextEditingController();
   TextEditingController price = new TextEditingController();
-  TextEditingController token = new TextEditingController();
   TextEditingController job_title = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
   TextEditingController type = new TextEditingController();
@@ -58,15 +58,16 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   TextEditingController category = new TextEditingController();
   TextEditingController hospital = new TextEditingController();
   TextEditingController assigned_to = new TextEditingController();
+  TextEditingController shift = new TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   TextEditingController controller = TextEditingController();
   bool visible = false;
   var buttonText = "Create Shift";
-
-  Future getData(String date) async {
-    var token = await TokenProvider().getToken();
-    managerBloc.getUserListByDate(token!, date);
+  var token;
+  Future getData(String date, String shifttype) async {
+     token = await TokenProvider().getToken();
+    managerBloc.getUserListByDate(token!, date, shifttype);
   }
 
   @override
@@ -152,7 +153,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ClipRRect(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
+                                    BorderRadius.all(Radius.circular(20)),
                                     child: Container(
                                       color: Colors.white,
                                       child: Padding(
@@ -162,7 +163,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               left: 18, right: 18),
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: <Widget>[
                                               const SizedBox(
                                                 height: 25,
@@ -192,19 +193,19 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                 .typeStream,
                                                             builder: (context,
                                                                 AsyncSnapshot<
-                                                                        List<
-                                                                            ShiftTypeList>>
-                                                                    snapshot) {
+                                                                    List<
+                                                                        ShiftTypeList>>
+                                                                snapshot) {
                                                               print(
                                                                   "snapshot.data?.length");
                                                               print(snapshot
                                                                   .data
                                                                   ?.length);
                                                               if (null ==
-                                                                      snapshot
-                                                                          .data ||
+                                                                  snapshot
+                                                                      .data ||
                                                                   snapshot.data
-                                                                          ?.length ==
+                                                                      ?.length ==
                                                                       0) {
                                                                 return Container();
                                                               }
@@ -212,56 +213,70 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               return DropdownButtonFormField(
                                                                 value: typeId,
                                                                 decoration:
-                                                                    InputDecoration(
-                                                                        enabledBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.all(Radius.circular(5)),
-                                                                          borderSide:
-                                                                              BorderSide(color: Colors.grey),
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                            borderRadius: BorderRadius.all(Radius.circular(
+                                                                InputDecoration(
+                                                                    enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                          Radius
+                                                                              .circular(
+                                                                              5)),
+                                                                      borderSide:
+                                                                      BorderSide(
+                                                                          color: Colors
+                                                                              .grey),
+                                                                    ),
+                                                                    focusedBorder: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius
+                                                                            .all(
+                                                                            Radius
+                                                                                .circular(
                                                                                 8.0)),
-                                                                            borderSide: BorderSide(
-                                                                                color: Colors
-                                                                                    .grey,
-                                                                                width:
-                                                                                    1)),
-                                                                        contentPadding:
-                                                                            EdgeInsets.all(
-                                                                                3.0),
-                                                                        labelText:
-                                                                            "Type",
-                                                                        labelStyle:
-                                                                            TextStyle(fontSize: 10.sp)),
+                                                                        borderSide: BorderSide(
+                                                                            color: Colors
+                                                                                .grey,
+                                                                            width:
+                                                                            1)),
+                                                                    contentPadding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                        3.0),
+                                                                    labelText:
+                                                                    "Type",
+                                                                    labelStyle:
+                                                                    TextStyle(
+                                                                        fontSize: 10
+                                                                            .sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
                                                                         (item) {
-                                                                  return DropdownMenuItem(
-                                                                    child:
+                                                                      return DropdownMenuItem(
+                                                                        child:
                                                                         new Text(
-                                                                      item.type!,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize: 10
-                                                                              .sp,
-                                                                          decoration: TextDecoration
-                                                                              .none,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                    ),
-                                                                    value: item
-                                                                        .rowId,
-                                                                  );
-                                                                }).toList(),
+                                                                          item
+                                                                              .type!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 10
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors
+                                                                                  .grey),
+                                                                        ),
+                                                                        value: item
+                                                                            .rowId,
+                                                                      );
+                                                                    }).toList(),
                                                                 onChanged:
                                                                     (Object?
-                                                                        value) {
+                                                                value) {
                                                                   if (value
-                                                                      is ShiftTypeList) {
+                                                                  is ShiftTypeList) {
                                                                     print(
                                                                         "value");
                                                                     print(value
@@ -269,7 +284,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     print(value
                                                                         .rowId);
 
-                                                                    typeId = value
+                                                                    typeId =
+                                                                    value
                                                                         .rowId!;
                                                                   }
                                                                 },
@@ -290,85 +306,94 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                 .categoryStream,
                                                             builder: (context,
                                                                 AsyncSnapshot<
-                                                                        List<
-                                                                            ScheduleCategoryList>>
-                                                                    snapshot) {
+                                                                    List<
+                                                                        ScheduleCategoryList>>
+                                                                snapshot) {
                                                               print(
                                                                   "snapshot.data?.length");
                                                               print(snapshot
                                                                   .data
                                                                   ?.length);
                                                               if (null ==
-                                                                      snapshot
-                                                                          .data ||
+                                                                  snapshot
+                                                                      .data ||
                                                                   snapshot.data
-                                                                          ?.length ==
+                                                                      ?.length ==
                                                                       0) {
                                                                 return Container();
                                                               }
 
                                                               return DropdownButtonFormField(
                                                                 value:
-                                                                    categoryId,
+                                                                categoryId,
                                                                 decoration:
-                                                                    InputDecoration(
+                                                                InputDecoration(
                                                                   enabledBorder:
-                                                                      OutlineInputBorder(
+                                                                  OutlineInputBorder(
                                                                     borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(5)),
+                                                                    BorderRadius
+                                                                        .all(
+                                                                        Radius
+                                                                            .circular(
+                                                                            5)),
                                                                     borderSide:
-                                                                        BorderSide(
-                                                                            color:
-                                                                                Colors.grey),
+                                                                    BorderSide(
+                                                                        color:
+                                                                        Colors
+                                                                            .grey),
                                                                   ),
                                                                   focusedBorder: OutlineInputBorder(
                                                                       borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
+                                                                      BorderRadius
+                                                                          .all(
+                                                                          Radius
+                                                                              .circular(
                                                                               8.0)),
                                                                       borderSide: BorderSide(
                                                                           color: Colors
                                                                               .grey,
                                                                           width:
-                                                                              1)),
+                                                                          1)),
                                                                   contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              3.0),
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      3.0),
                                                                   labelStyle:
-                                                                      TextStyle(
-                                                                          fontSize:
-                                                                              10.sp),
+                                                                  TextStyle(
+                                                                      fontSize:
+                                                                      10.sp),
                                                                   labelText:
-                                                                      "Category",
+                                                                  "Category",
                                                                 ),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
                                                                         (item) {
-                                                                  return DropdownMenuItem(
-                                                                    child:
+                                                                      return DropdownMenuItem(
+                                                                        child:
                                                                         new Text(
-                                                                      item.category!,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize: 10
-                                                                              .sp,
-                                                                          decoration: TextDecoration
-                                                                              .none,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                    ),
-                                                                    value: item
-                                                                        .rowId,
-                                                                  );
-                                                                }).toList(),
+                                                                          item
+                                                                              .category!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 10
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors
+                                                                                  .grey),
+                                                                        ),
+                                                                        value: item
+                                                                            .rowId,
+                                                                      );
+                                                                    }).toList(),
                                                                 onChanged:
                                                                     (Object?
-                                                                        value) {
+                                                                value) {
                                                                   if (value
-                                                                      is ScheduleCategoryList) {
+                                                                  is ScheduleCategoryList) {
                                                                     print(
                                                                         "value");
                                                                     print(value
@@ -377,8 +402,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         ?.userType);
 
                                                                     categoryId =
-                                                                        value
-                                                                            .rowId!;
+                                                                    value
+                                                                        .rowId!;
                                                                   }
                                                                 },
                                                               );
@@ -406,75 +431,89 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                 .usertypeStream,
                                                             builder: (context,
                                                                 AsyncSnapshot<
-                                                                        List<
-                                                                            UserTypeList>>
-                                                                    snapshot) {
+                                                                    List<
+                                                                        UserTypeList>>
+                                                                snapshot) {
                                                               print(
                                                                   "snapshot.data?.length");
                                                               print(snapshot
                                                                   .data
                                                                   ?.length);
                                                               if (null ==
-                                                                      snapshot
-                                                                          .data ||
+                                                                  snapshot
+                                                                      .data ||
                                                                   snapshot.data
-                                                                          ?.length ==
+                                                                      ?.length ==
                                                                       0) {
                                                                 return Container();
                                                               }
 
                                                               return DropdownButtonFormField(
                                                                 decoration:
-                                                                    InputDecoration(
-                                                                        enabledBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.all(Radius.circular(5.0)),
-                                                                          borderSide:
-                                                                              BorderSide(color: Colors.grey),
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                            borderRadius: BorderRadius.all(Radius.circular(
+                                                                InputDecoration(
+                                                                    enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                          Radius
+                                                                              .circular(
+                                                                              5.0)),
+                                                                      borderSide:
+                                                                      BorderSide(
+                                                                          color: Colors
+                                                                              .grey),
+                                                                    ),
+                                                                    focusedBorder: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius
+                                                                            .all(
+                                                                            Radius
+                                                                                .circular(
                                                                                 8.0)),
-                                                                            borderSide: BorderSide(
-                                                                                color: Colors
-                                                                                    .grey,
-                                                                                width:
-                                                                                    1)),
-                                                                        contentPadding:
-                                                                            EdgeInsets.all(
-                                                                                3.0),
-                                                                        labelText:
-                                                                            "User Type",
-                                                                        labelStyle:
-                                                                            TextStyle(fontSize: 10.sp)),
+                                                                        borderSide: BorderSide(
+                                                                            color: Colors
+                                                                                .grey,
+                                                                            width:
+                                                                            1)),
+                                                                    contentPadding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                        3.0),
+                                                                    labelText:
+                                                                    "User Type",
+                                                                    labelStyle:
+                                                                    TextStyle(
+                                                                        fontSize: 10
+                                                                            .sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
                                                                         (item) {
-                                                                  return DropdownMenuItem(
-                                                                    child:
+                                                                      return DropdownMenuItem(
+                                                                        child:
                                                                         new Text(
-                                                                      item.type!,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize: 10
-                                                                              .sp,
-                                                                          decoration: TextDecoration
-                                                                              .none,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                    ),
-                                                                    value: item
-                                                                        .rowId,
-                                                                  );
-                                                                }).toList(),
+                                                                          item
+                                                                              .type!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 10
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors
+                                                                                  .grey),
+                                                                        ),
+                                                                        value: item
+                                                                            .rowId,
+                                                                      );
+                                                                    }).toList(),
                                                                 onChanged:
                                                                     (Object?
-                                                                        value) {
+                                                                value) {
                                                                   if (value
-                                                                      is UserTypeList) {
+                                                                  is UserTypeList) {
                                                                     print(
                                                                         "value");
                                                                     print(value
@@ -483,8 +522,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         ?.type);
 
                                                                     usertypeId =
-                                                                        value
-                                                                            .rowId!;
+                                                                    value
+                                                                        .rowId!;
                                                                   }
                                                                 },
                                                               );
@@ -504,85 +543,99 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                 .hospitalStream,
                                                             builder: (context,
                                                                 AsyncSnapshot<
-                                                                        List<
-                                                                            HospitalList>>
-                                                                    snapshot) {
+                                                                    List<
+                                                                        HospitalList>>
+                                                                snapshot) {
                                                               print(
                                                                   "snapshot.data?.length");
                                                               print(snapshot
                                                                   .data
                                                                   ?.length);
                                                               if (null ==
-                                                                      snapshot
-                                                                          .data ||
+                                                                  snapshot
+                                                                      .data ||
                                                                   snapshot.data
-                                                                          ?.length ==
+                                                                      ?.length ==
                                                                       0) {
                                                                 return Container();
                                                               }
 
                                                               return DropdownButtonFormField(
                                                                 value:
-                                                                    hospitalId,
+                                                                hospitalId,
                                                                 decoration:
-                                                                    InputDecoration(
-                                                                        enabledBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.all(Radius.circular(5)),
-                                                                          borderSide:
-                                                                              BorderSide(color: Colors.grey),
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                            borderRadius: BorderRadius.all(Radius.circular(
+                                                                InputDecoration(
+                                                                    enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                          Radius
+                                                                              .circular(
+                                                                              5)),
+                                                                      borderSide:
+                                                                      BorderSide(
+                                                                          color: Colors
+                                                                              .grey),
+                                                                    ),
+                                                                    focusedBorder: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius
+                                                                            .all(
+                                                                            Radius
+                                                                                .circular(
                                                                                 8.0)),
-                                                                            borderSide: BorderSide(
-                                                                                color: Colors
-                                                                                    .grey,
-                                                                                width:
-                                                                                    1)),
-                                                                        contentPadding:
-                                                                            EdgeInsets.all(
-                                                                                3.0),
-                                                                        labelText:
-                                                                            "Hospital",
-                                                                        labelStyle:
-                                                                            TextStyle(fontSize: 10.sp)),
+                                                                        borderSide: BorderSide(
+                                                                            color: Colors
+                                                                                .grey,
+                                                                            width:
+                                                                            1)),
+                                                                    contentPadding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                        3.0),
+                                                                    labelText:
+                                                                    "Hospital",
+                                                                    labelStyle:
+                                                                    TextStyle(
+                                                                        fontSize: 10
+                                                                            .sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
                                                                         (item) {
-                                                                  return DropdownMenuItem(
-                                                                    child:
+                                                                      return DropdownMenuItem(
+                                                                        child:
                                                                         new Text(
-                                                                      item.name!,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize: 10
-                                                                              .sp,
-                                                                          decoration: TextDecoration
-                                                                              .none,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                    ),
-                                                                    value: item
-                                                                        .rowId,
-                                                                  );
-                                                                }).toList(),
+                                                                          item
+                                                                              .name!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 10
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors
+                                                                                  .grey),
+                                                                        ),
+                                                                        value: item
+                                                                            .rowId,
+                                                                      );
+                                                                    }).toList(),
                                                                 onChanged:
                                                                     (Object?
-                                                                        value) {
+                                                                value) {
                                                                   if (value
-                                                                      is HospitalList) {
+                                                                  is HospitalList) {
                                                                     print(
                                                                         "value");
                                                                     print(value
                                                                         ?.rowId);
 
                                                                     hospitalId =
-                                                                        value
-                                                                            .rowId!;
+                                                                    value
+                                                                        .rowId!;
                                                                   }
                                                                 },
                                                               );
@@ -611,34 +664,191 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         },
                                                         hintText: Txt.jobtitle,
                                                         keyboadType:
-                                                            TextInputType.text,
+                                                        TextInputType.text,
                                                         isPwd: false,
                                                         onTapDate: () {}),
                                                   ),
                                                 ],
                                               ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
                                               Column(
                                                 children: [
-                                                  Container(
-                                                    child: TextInputFileds(
-                                                        controlr: date,
-                                                        validator: (date) {
-                                                          if (validDate(date))
-                                                            return null;
-                                                          else
-                                                            return "select date";
-                                                        },
-                                                        onTapDate: () {
-                                                          _selectDate(
-                                                              context, date);
-                                                          print("values");
-                                                        },
-                                                        hintText: Txt.date,
-                                                        keyboadType:
-                                                            TextInputType.none,
-                                                        isPwd: false),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(right: 2),
+                                                          child: Container(
+                                                            width: 100.w,
+                                                            child: StreamBuilder(
+                                                              stream: managerBloc
+                                                                  .shifttypeStream,
+                                                              builder: (context,
+                                                                  AsyncSnapshot<
+                                                                      List<
+                                                                          ShiftTypeList>>
+                                                                  snapshot) {
+                                                                print(
+                                                                    "snapshot.data?.length");
+                                                                print(snapshot
+                                                                    .data
+                                                                    ?.length);
+                                                                if (null ==
+                                                                    snapshot
+                                                                        .data ||
+                                                                    snapshot
+                                                                        .data
+                                                                        ?.length ==
+                                                                        0) {
+                                                                  return Container();
+                                                                }
+
+                                                                return DropdownButtonFormField(
+                                                                  decoration:
+                                                                  InputDecoration(
+                                                                      enabledBorder:
+                                                                      OutlineInputBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .all(
+                                                                            Radius
+                                                                                .circular(
+                                                                                5.0)),
+                                                                        borderSide:
+                                                                        BorderSide(
+                                                                            color: Colors
+                                                                                .grey),
+                                                                      ),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius
+                                                                              .all(
+                                                                              Radius
+                                                                                  .circular(
+                                                                                  8.0)),
+                                                                          borderSide: BorderSide(
+                                                                              color: Colors
+                                                                                  .grey,
+                                                                              width:
+                                                                              1)),
+                                                                      contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                          3.0),
+                                                                      labelText:
+                                                                      "Shift Type",
+                                                                      labelStyle:
+                                                                      TextStyle(
+                                                                          fontSize: 10
+                                                                              .sp)),
+                                                                  items: snapshot
+                                                                      .data
+                                                                      ?.map(
+                                                                          (
+                                                                          item) {
+                                                                        return DropdownMenuItem(
+                                                                          child:
+                                                                          new Text(
+                                                                            item
+                                                                                .type!,
+                                                                            style: TextStyle(
+                                                                                fontWeight: FontWeight
+                                                                                    .w500,
+                                                                                fontSize: 10
+                                                                                    .sp,
+                                                                                decoration: TextDecoration
+                                                                                    .none,
+                                                                                color:
+                                                                                Colors
+                                                                                    .grey),
+                                                                          ),
+                                                                          value: item
+                                                                              .rowId,
+                                                                        );
+                                                                      })
+                                                                      .toList(),
+                                                                  onChanged:
+                                                                      (Object?
+                                                                  value) {
+                                                                    if (value
+                                                                    is UserTypeList) {
+                                                                      print(
+                                                                          "value");
+                                                                      print(
+                                                                          value
+                                                                              ?.rowId);
+                                                                      print(
+                                                                          value
+                                                                              ?.type);
+
+                                                                      usertypeId =
+                                                                      value
+                                                                          .rowId!;
+                                                                    }
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              child: TextInputFileds(
+                                                                  controlr: date,
+                                                                  validator: (
+                                                                      date) {
+                                                                    if (validDate(
+                                                                        date))
+                                                                      return null;
+                                                                    else
+                                                                      return "select date";
+                                                                  },
+                                                                  onTapDate: () {
+                                                                    _selectDate(
+                                                                        context,
+                                                                        date);
+
+
+                                                                    var dates =date.text;
+                                                                    var shifttype =shift.text;
+
+                                                                    managerBloc
+                                                                        .getUserListByDate(
+                                                                        token,
+                                                                        dates,
+                                                                        shifttype);
+
+
+                                                                    print(
+                                                                        "values");
+                                                                  },
+                                                                  hintText: Txt
+                                                                      .date,
+                                                                  keyboadType:
+                                                                  TextInputType
+                                                                      .none,
+                                                                  isPwd: false),
+                                                            ),
+                                                          ],
+                                                        ),),
+                                                    ],
                                                   ),
                                                 ],
+                                              ),
+
+
+                                              const SizedBox(
+                                                height: 15,
                                               ),
                                               Column(
                                                 children: [
@@ -654,11 +864,14 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         onTapDate: () {},
                                                         hintText: "Price",
                                                         keyboadType:
-                                                            TextInputType
-                                                                .number,
+                                                        TextInputType
+                                                            .number,
                                                         isPwd: false),
                                                   ),
                                                 ],
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
                                               ),
                                               Column(
                                                 children: [
@@ -673,75 +886,89 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                 .usertypeStream,
                                                             builder: (context,
                                                                 AsyncSnapshot<
-                                                                        List<
-                                                                            UserTypeList>>
-                                                                    snapshot) {
+                                                                    List<
+                                                                        UserTypeList>>
+                                                                snapshot) {
                                                               print(
                                                                   "snapshot.data?.length");
                                                               print(snapshot
                                                                   .data
                                                                   ?.length);
                                                               if (null ==
-                                                                      snapshot
-                                                                          .data ||
+                                                                  snapshot
+                                                                      .data ||
                                                                   snapshot.data
-                                                                          ?.length ==
+                                                                      ?.length ==
                                                                       0) {
                                                                 return Container();
                                                               }
 
                                                               return DropdownButtonFormField(
                                                                 decoration:
-                                                                    InputDecoration(
-                                                                        enabledBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.all(Radius.circular(5.0)),
-                                                                          borderSide:
-                                                                              BorderSide(color: Colors.grey),
-                                                                        ),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                            borderRadius: BorderRadius.all(Radius.circular(
+                                                                InputDecoration(
+                                                                    enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                          Radius
+                                                                              .circular(
+                                                                              5.0)),
+                                                                      borderSide:
+                                                                      BorderSide(
+                                                                          color: Colors
+                                                                              .grey),
+                                                                    ),
+                                                                    focusedBorder: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius
+                                                                            .all(
+                                                                            Radius
+                                                                                .circular(
                                                                                 8.0)),
-                                                                            borderSide: BorderSide(
-                                                                                color: Colors
-                                                                                    .grey,
-                                                                                width:
-                                                                                    1)),
-                                                                        contentPadding:
-                                                                            EdgeInsets.all(
-                                                                                3.0),
-                                                                        labelText:
-                                                                            "Assigned To",
-                                                                        labelStyle:
-                                                                            TextStyle(fontSize: 10.sp)),
+                                                                        borderSide: BorderSide(
+                                                                            color: Colors
+                                                                                .grey,
+                                                                            width:
+                                                                            1)),
+                                                                    contentPadding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                        3.0),
+                                                                    labelText:
+                                                                    "Assigned To",
+                                                                    labelStyle:
+                                                                    TextStyle(
+                                                                        fontSize: 10
+                                                                            .sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
                                                                         (item) {
-                                                                  return DropdownMenuItem(
-                                                                    child:
+                                                                      return DropdownMenuItem(
+                                                                        child:
                                                                         new Text(
-                                                                      item.type!,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize: 10
-                                                                              .sp,
-                                                                          decoration: TextDecoration
-                                                                              .none,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                    ),
-                                                                    value: item
-                                                                        .rowId,
-                                                                  );
-                                                                }).toList(),
+                                                                          item
+                                                                              .type!,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              fontSize: 10
+                                                                                  .sp,
+                                                                              decoration: TextDecoration
+                                                                                  .none,
+                                                                              color:
+                                                                              Colors
+                                                                                  .grey),
+                                                                        ),
+                                                                        value: item
+                                                                            .rowId,
+                                                                      );
+                                                                    }).toList(),
                                                                 onChanged:
                                                                     (Object?
-                                                                        value) {
+                                                                value) {
                                                                   if (value
-                                                                      is UserTypeList) {
+                                                                  is UserTypeList) {
                                                                     print(
                                                                         "value");
                                                                     print(value
@@ -750,8 +977,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         ?.type);
 
                                                                     usertypeId =
-                                                                        value
-                                                                            .rowId!;
+                                                                    value
+                                                                        .rowId!;
                                                                   }
                                                                 },
                                                               );
@@ -774,35 +1001,35 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         flex: 1,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 2),
+                                                          const EdgeInsets
+                                                              .only(
+                                                              right: 2),
                                                           child: Container(
                                                             child:
-                                                                TextInputFileds(
-                                                                    controlr:
-                                                                        dateFrom,
-                                                                    validator:
-                                                                        (dateTo) {
-                                                                      if (validDate(
-                                                                          dateTo))
-                                                                        return null;
-                                                                      else
-                                                                        return "select time";
-                                                                    },
-                                                                    onTapDate:
-                                                                        () {
-                                                                      _selectTime(
-                                                                          context,
-                                                                          dateFrom);
-                                                                    },
-                                                                    hintText: Txt
-                                                                        .timeFrom,
-                                                                    keyboadType:
-                                                                        TextInputType
-                                                                            .none,
-                                                                    isPwd:
-                                                                        false),
+                                                            TextInputFileds(
+                                                                controlr:
+                                                                dateFrom,
+                                                                validator:
+                                                                    (dateTo) {
+                                                                  if (validDate(
+                                                                      dateTo))
+                                                                    return null;
+                                                                  else
+                                                                    return "select time";
+                                                                },
+                                                                onTapDate:
+                                                                    () {
+                                                                  _selectTime(
+                                                                      context,
+                                                                      dateFrom);
+                                                                },
+                                                                hintText: Txt
+                                                                    .timeFrom,
+                                                                keyboadType:
+                                                                TextInputType
+                                                                    .none,
+                                                                isPwd:
+                                                                false),
                                                           ),
                                                         ),
                                                       ),
@@ -820,44 +1047,47 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                             },
                                                             onTapDate: () {
                                                               FocusScope.of(
-                                                                      context)
+                                                                  context)
                                                                   .unfocus();
                                                               _selectTime(
                                                                   context,
                                                                   dateTo);
                                                             },
                                                             hintText:
-                                                                Txt.timeTo,
+                                                            Txt.timeTo,
                                                             keyboadType:
-                                                                TextInputType
-                                                                    .none,
+                                                            TextInputType
+                                                                .none,
                                                             isPwd: false),
                                                       ),
                                                     ],
                                                   )
                                                 ],
                                               ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
                                               Column(
                                                 children: [
                                                   Container(
                                                     child:
-                                                        TextInputFiledDescription(
-                                                            controlr: jobDescri,
-                                                            onTapDate: () {},
-                                                            validator:
-                                                                (jobDescri) {
-                                                              if (validDescription(
-                                                                  jobDescri))
-                                                                return null;
-                                                              else
-                                                                return "enter job decscription";
-                                                            },
-                                                            hintText:
-                                                                Txt.jobDescri,
-                                                            keyboadType:
-                                                                TextInputType
-                                                                    .visiblePassword,
-                                                            isPwd: false),
+                                                    TextInputFiledDescription(
+                                                        controlr: jobDescri,
+                                                        onTapDate: () {},
+                                                        validator:
+                                                            (jobDescri) {
+                                                          if (validDescription(
+                                                              jobDescri))
+                                                            return null;
+                                                          else
+                                                            return "enter job decscription";
+                                                        },
+                                                        hintText:
+                                                        Txt.jobDescri,
+                                                        keyboadType:
+                                                        TextInputType
+                                                            .visiblePassword,
+                                                        isPwd: false),
                                                   ),
                                                 ],
                                               ),
@@ -912,47 +1142,49 @@ class _CreateShiftState extends State<CreateShiftScreen> {
             // visible: !visible,
             child: Center(
                 child: Padding(
-              padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-              child: Stack(
-                children: [
-                  LoginButton(
-                      onPressed: () async {
-                        var validate = formKey.currentState?.validate();
-                        if (null != validate) {
-                          if (validate) {
-                            setState(() {
-                              visible = true;
-                            });
+                  padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                  child: Stack(
+                    children: [
+                      LoginButton(
+                          onPressed: () async {
+                            var validate = formKey.currentState?.validate();
+                            if (null != validate) {
+                              if (validate) {
+                                setState(() {
+                                  visible = true;
+                                });
 
-                            final prefs = await SharedPreferences.getInstance();
-                            var auth_tokn =
+                                final prefs = await SharedPreferences
+                                    .getInstance();
+                                var auth_tokn =
                                 prefs.getString(SharedPrefKey.AUTH_TOKEN);
-                            if (null != auth_tokn) {
-                              managerBloc.createShiftManager(
-                                auth_tokn,
-                                row_id,
-                                typeId,
-                                categoryId,
-                                usertypeId,
-                                jobtitle.text,
-                                hospitalId,
-                                date.text,
-                                dateFrom.text,
-                                dateTo.text,
-                                jobDescri.text,
-                                price.text,
-                              );
-                            } else {
-                              print("TOKEN NULL");
+                                if (null != auth_tokn) {
+                                  managerBloc.createShiftManager(
+                                      auth_tokn,
+                                      row_id,
+                                      typeId,
+                                      categoryId,
+                                      usertypeId,
+                                      jobtitle.text,
+                                      hospitalId,
+                                      date.text,
+                                      dateFrom.text,
+                                      dateTo.text,
+                                      jobDescri.text,
+                                      price.text,
+                                      shift.text
+                                  );
+                                } else {
+                                  print("TOKEN NULL");
+                                }
+                              }
                             }
-                          }
-                        }
-                        // showFeactureAlert(context, date: "");
-                      },
-                      label: buttonText)
-                ],
-              ),
-            )),
+                            // showFeactureAlert(context, date: "");
+                          },
+                          label: buttonText)
+                    ],
+                  ),
+                )),
           ),
         ),
         SizedBox(
@@ -981,6 +1213,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
           dateFrom.text = "";
           jobDescri.text = "";
           price.text = "";
+          shift.text = "";
         } else {
           // showAlertDialoge(context, title: "Success", message: message!);
           Navigator.pop(context);
@@ -991,8 +1224,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     });
   }
 
-  _selectDate(
-      BuildContext context, TextEditingController dateController) async {
+  _selectDate(BuildContext context,
+      TextEditingController dateController) async {
     print("date");
     final DateTime? newDate = await showDatePicker(
       context: context,
@@ -1011,6 +1244,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       dateController.text = dates;
     }
   }
+
 
   _selectTime(BuildContext context, TextEditingController anycontroller) async {
     print("time");

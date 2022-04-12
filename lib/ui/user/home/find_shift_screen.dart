@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/model/user_getschedule_bydate.dart';
 import 'package:xpresshealthdev/ui/user/app_bar.dart';
 import 'package:xpresshealthdev/ui/user/detail/shift_detail.dart';
 
+import '../../../Constants/sharedPrefKeys.dart';
 import '../../../blocs/shift_list_bloc.dart';
 import '../../../model/shift_list_response.dart';
 import '../../../utils/constants.dart';
@@ -15,9 +18,6 @@ class FindShiftScreen extends StatelessWidget {
   final DateTime selectDay;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
-
-
   FindShiftScreen({
     Key? key,
     required this.selectDay,
@@ -26,8 +26,7 @@ class FindShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FixedExtentScrollController itemController =
-    FixedExtentScrollController();
-
+        FixedExtentScrollController();
 
     print("selectDay.day");
     print(selectDay.day);
@@ -77,17 +76,24 @@ class FindShiftScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     fontSize: 4.sp),
                 itemController: itemController,
-                onDateChange: (date, x) {
+                onDateChange: (date, x) async {
                   // New date selected
 
-                  bloc.fetchAllList(date.toString());
+                  var token;
+
+                  SharedPreferences shdPre =
+                      await SharedPreferences.getInstance();
+                  token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
+                  print("TOKENN");
+
+                  bloc.fetchgetUserScheduleByDate(token, date.toString());
                 },
               ),
               SizedBox(height: screenHeight(context, dividedBy: 60)),
               StreamBuilder(
-                  stream: bloc.allShift,
+                  stream: bloc.shiftbydate,
                   builder: (BuildContext context,
-                      AsyncSnapshot<SliftListRepso> snapshot) {
+                      AsyncSnapshot<UserGetScheduleByDate> snapshot) {
                     if (snapshot.hasData) {
                       return buildList(snapshot);
                     } else if (snapshot.hasError) {
@@ -102,44 +108,57 @@ class FindShiftScreen extends StatelessWidget {
     );
   }
 
-  Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
-    return ListView.builder(
-      itemCount: 10,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        var name = "St . Antony";
-        var startTime = "11.00 AM";
-        var endTime = "12.00 PM";
-        var price = "32";
-        // var category = snapshot.data?.response?.data?.category![index];
-        // if (category != null) {
-        //   name = category.categoryname;
-        // }
+  Widget buildList(AsyncSnapshot<UserGetScheduleByDate> snapshot) {
 
-        return Column(
-          children: [
-            ShiftListWidget(
-              name: name,
-              startTime: startTime,
-              endTime: endTime,
-              price: price,
-              onTapView: () {},
-              onTapCall: () {},
-              onTapMap: () {},
-              onTapBooking: () {
-                print("Tapped");
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ShiftDetailScreen()),
-                );
-              },
-              key: null,
-            ),
-            SizedBox(height: screenHeight(context, dividedBy: 100)),
-          ],
-        );
-      },
-    );
+    if(null !=  snapshot.data?.response?.data?.items ) {
+      return ListView.builder(
+        itemCount: snapshot.data?.response?.data?.items?.length,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          var items = snapshot.data?.response?.data?.items?[index];
+          if (null != items) {
+            print("items.hospital");
+            print(items.rowId);
+            print(items.type);
+            print(items.userType);
+            print(items.category);
+            print(items.date);
+            print(items.timeFrom);
+            print(items.timeTo);
+            print(items.jobDetails);
+            print(items.price);
+            print(items.allowances);
+            print(items.createdDate);
+
+            return Column(
+              children: [
+                ShiftListWidget(
+                  items: items,
+                  onTapDelete: () {},
+                  onTapViewMap: () {},
+                  onTapView: () {},
+                  onTapEdit: () {
+                    print("Tapped");
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => ShiftDetailScreen()),
+                    // );
+                  },
+                  key: null,
+                ),
+                SizedBox(height: screenHeight(context, dividedBy: 100)),
+              ],
+            );
+          } else {
+            print("items.hospital");
+            return Container();
+          }
+        },
+      );
+    }else{
+      return Container();
+    }
   }
 }

@@ -7,6 +7,7 @@ import 'package:xpresshealthdev/ui/user/home/home_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/my_shift_calendar.dart';
 import 'package:xpresshealthdev/ui/user/home/profile_screen.dart';
+import '../ui/user/home/find_shift_screen.dart';
 import '../utils/constants.dart';
 
 class DashBoard extends StatefulWidget {
@@ -34,8 +35,8 @@ class _DashBoardWidgetState extends State<DashBoard> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    //FindShiftScreen(),
-    FindshiftCalendar(),
+    FindShiftScreen(selectDay: DateTime.now(),),
+    // FindshiftCalendar(),
     // ShiftCalendarScreen(),
 
     MyBookingScreen(),

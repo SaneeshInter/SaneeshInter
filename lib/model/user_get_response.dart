@@ -129,6 +129,8 @@ class Items {
     bankBic = json['bank_bic'];
   }
 
+
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['first_name'] = this.firstName;
@@ -150,6 +152,7 @@ class Items {
     data['pps_number'] = this.ppsNumber;
     data['bank_iban'] = this.bankIban;
     data['bank_bic'] = this.bankBic;
+
     return data;
   }
 }
