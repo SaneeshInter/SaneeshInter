@@ -1,10 +1,12 @@
 import 'package:xpresshealthdev/model/login_response.dart';
 import 'package:xpresshealthdev/model/user_get_response.dart';
+import 'package:xpresshealthdev/model/user_get_shift_details.dart';
 import 'package:xpresshealthdev/model/user_home_response.dart';
 import 'package:xpresshealthdev/model/user_job_request.dart';
 import 'package:xpresshealthdev/resources/api_provider.dart';
 
 import '../model/accept_job_request.dart';
+import '../model/get_available_user_by_date.dart';
 import '../model/manager_home_response.dart';
 import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
@@ -14,6 +16,7 @@ import '../model/user_getschedule_by_month_year.dart';
 import '../model/user_getschedule_bydate.dart';
 import '../model/user_home_response.dart';
 import '../model/user_profile_update.dart';
+import '../model/user_view_request_response.dart';
 import '../model/utility_respo.dart';
 import '../model/viewbooking_response.dart';
 
@@ -29,8 +32,11 @@ class Repository {
 
   Future<SliftListRepso> fetchConfirm() => apiProvider.fetchConfirm();
 
-  Future<ManagerScheduleListResponse> fetchUserListByDate(String token,String date) =>
-      apiProvider.fetchUserListByDate(token,date);
+
+
+
+  Future<GetAvailableUserByDate> fetchGetAvailableUserByDate(String token,String date, String shifttype) =>
+      apiProvider.fetchGetAvailableUserByDate(token,date,shifttype);
 
 
 
@@ -89,6 +95,15 @@ class Repository {
       String token) =>
       apiProvider.getManagerHome(token);
 
+  Future<UserViewRequestResponse> fetchUserViewRequestResponse(
+      String token) =>
+      apiProvider.getUserViewRequest(token);
+
+
+
+  Future<GetUserShiftDetailsResponse> fetchGetUserShiftDetailsResponse(
+      String token, String shift_id) =>
+      apiProvider.getUserShiftDetails(token,shift_id);
 
 
 
@@ -139,6 +154,7 @@ class Repository {
     String time_to,
     String job_details,
     String price,
+      String shift,
   ) =>
       apiProvider.CreateShiftManager(
         token,
@@ -153,5 +169,6 @@ class Repository {
         time_to,
         job_details,
         price,
+          shift,
       );
 }
