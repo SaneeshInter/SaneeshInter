@@ -270,11 +270,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                               List<
                                                                   CountryList>>
                                                           snapshot) {
-                                                        print(
-                                                            "snapshot.data?.length");
-                                                        print(snapshot
-                                                            .data
-                                                            ?.length);
+
                                                         if (null ==
                                                             snapshot
                                                                 .data ||
@@ -381,11 +377,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                                   List<
                                                                       GenderList>>
                                                               snapshot) {
-                                                            print(
-                                                                "snapshot.data?.length");
-                                                            print(snapshot
-                                                                .data
-                                                                ?.length);
+
                                                             if (null ==
                                                                 snapshot
                                                                     .data ||
@@ -477,10 +469,7 @@ value: genderId,
                                                                   List<
                                                                       VisaTypeList>>
                                                               snapshot) {
-                                                            print(
-                                                                "snapshot.data?.length");
-                                                            print(
-                                                                snapshot.data?.length);
+
                                                             if (null == snapshot.data ||
                                                                 snapshot.data?.length ==
                                                                     0) {

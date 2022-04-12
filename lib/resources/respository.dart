@@ -32,11 +32,8 @@ class Repository {
 
   Future<SliftListRepso> fetchConfirm() => apiProvider.fetchConfirm();
 
-
-
-
-  Future<GetAvailableUserByDate> fetchGetAvailableUserByDate(String token,String date, String shifttype) =>
-      apiProvider.fetchGetAvailableUserByDate(token,date,shifttype);
+  Future<ManagerScheduleListResponse> fetchUserListByDate(String token,String date) =>
+      apiProvider.fetchUserListByDate(token,date);
 
 
 
@@ -168,7 +165,13 @@ class Repository {
         time_from,
         time_to,
         job_details,
-        price,
-          shift,
+        price,shift
       );
+
+
+
+  Future<GetAvailableUserByDate> fetchGetAvailableUserByDate(String token,String date, String shifttype) =>
+      apiProvider.fetchGetAvailableUserByDate(token,date,shifttype);
+
+
 }

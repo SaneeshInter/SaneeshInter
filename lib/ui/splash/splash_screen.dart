@@ -5,12 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xpresshealthdev/Constants/sharedPrefKeys.dart';
+import 'package:xpresshealthdev/dbmodel/allowance_category_model.dart';
+import 'package:xpresshealthdev/dbmodel/allowance_mode.dart';
 import 'package:xpresshealthdev/model/country_list.dart';
 import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
 import 'package:xpresshealthdev/ui/login/login_screen.dart';
 import 'package:xpresshealthdev/ui/manager_dashboard_screen.dart';
 
-import '../../ui/dashboard_screen.dart';
 import '../../blocs/utility_bloc.dart';
 import '../../db/database.dart';
 import '../../model/gender_list.dart';
@@ -19,6 +20,7 @@ import '../../model/schedule_categegory_list.dart';
 import '../../model/schedule_hospital_list.dart';
 import '../../model/user_type_list.dart';
 import '../../model/visa_type_list.dart';
+import '../../ui/dashboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -44,12 +46,12 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-
   @override
   void dispose() {
     utility_bloc.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -129,6 +131,33 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
 
+        //allowanceCategory
+        var allowanceCategory = event.response?.data?.allowanceCategoryList;
+        if (null != allowanceCategory) {
+          for (var item in allowanceCategory) {
+            var obj = AllowanceCategoryList(
+              rowId: item.rowId,
+              category: item.category,
+            );
+            db.insertAllowanceCategoryList(obj);
+          }
+        }
+
+        //allowance
+        var allowance = event.response?.data?.allowanceList;
+        if (null != allowance) {
+          for (var item in allowance) {
+            var obj = AllowanceList(
+              rowId: item.rowId,
+              category: item.category,
+              allowance: item.allowance,
+              amount: item.amount,
+              maxAmount: item.maxAmount,
+              comment: item.comment,
+            );
+            db.insertAllowanceList(obj);
+          }
+        }
 
         var genderList = event.response?.data?.genderList;
         if (null != genderList) {

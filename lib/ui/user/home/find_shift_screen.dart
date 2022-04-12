@@ -26,8 +26,7 @@ class FindShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FixedExtentScrollController itemController =
-        FixedExtentScrollController();
-
+    FixedExtentScrollController();
     print("selectDay.day");
     print(selectDay.day);
     bloc.fetchAllList("");

@@ -2,19 +2,24 @@ import 'dart:core';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/blocs/createshift_manager_bloc.dart';
+import 'package:xpresshealthdev/dbmodel/allowance_category_model.dart';
+import 'package:xpresshealthdev/model/allowance_model.dart';
 import 'package:xpresshealthdev/model/schedule_categegory_list.dart';
 import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
 import 'package:xpresshealthdev/model/shift_type_list.dart';
 import 'package:xpresshealthdev/model/viewbooking_response.dart';
 import 'package:xpresshealthdev/utils/validator.dart';
+
 import '../../../Constants/sharedPrefKeys.dart';
 import '../../../Constants/strings.dart';
 import '../../../Constants/toast.dart';
 import '../../../blocs/shift_dropdown.dart';
+import '../../../dbmodel/allowance_mode.dart';
 import '../../../model/user_type_list.dart';
 import '../../../resources/token_provider.dart';
 import '../../../utils/constants.dart';
@@ -23,7 +28,6 @@ import '../../widgets/buttons/login_button.dart';
 import '../../widgets/input_text.dart';
 import '../../widgets/input_text_description.dart';
 import '../../widgets/loading_widget.dart';
-
 class CreateShiftScreen extends StatefulWidget {
   final Items? shiftItem;
 
@@ -41,6 +45,10 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   var categoryId = 1;
   var usertypeId = 1;
   var hospitalId = 1;
+  var allowanceCategroyId = 1;
+  var allowanceId = 1;
+  var allowanceCategroy = "Food Item";
+  var allowance = "Break Fast";
   var shiftItem;
   ToastMsg toastMsg = ToastMsg();
   bool isLoading = false;
@@ -51,6 +59,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
   TextEditingController dateFrom = new TextEditingController();
   TextEditingController dateTo = new TextEditingController();
   TextEditingController price = new TextEditingController();
+  TextEditingController allowanceprice = new TextEditingController();
+
   TextEditingController job_title = new TextEditingController();
   TextEditingController resourceType = new TextEditingController();
   TextEditingController type = new TextEditingController();
@@ -76,6 +86,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     // TODO: implement initState
     dropdownBloc.addItem();
     managerBloc.getDropDownValues();
+
     row_id = -1;
     if (widget.shiftItem != null) {
       var item = widget.shiftItem;
@@ -153,7 +164,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ClipRRect(
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
+                                        BorderRadius.all(Radius.circular(20)),
                                     child: Container(
                                       color: Colors.white,
                                       child: Padding(
@@ -163,7 +174,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                               left: 18, right: 18),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               const SizedBox(
                                                 height: 25,
@@ -196,11 +207,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     List<
                                                                         ShiftTypeList>>
                                                                 snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
                                                               if (null ==
                                                                   snapshot
                                                                       .data ||
@@ -309,11 +315,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     List<
                                                                         ScheduleCategoryList>>
                                                                 snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
                                                               if (null ==
                                                                   snapshot
                                                                       .data ||
@@ -337,63 +338,57 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                             .circular(
                                                                             5)),
                                                                     borderSide:
-                                                                    BorderSide(
-                                                                        color:
-                                                                        Colors
-                                                                            .grey),
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Colors.grey),
                                                                   ),
                                                                   focusedBorder: OutlineInputBorder(
                                                                       borderRadius:
-                                                                      BorderRadius
-                                                                          .all(
-                                                                          Radius
-                                                                              .circular(
+                                                                          BorderRadius.all(Radius.circular(
                                                                               8.0)),
                                                                       borderSide: BorderSide(
                                                                           color: Colors
                                                                               .grey,
                                                                           width:
-                                                                          1)),
+                                                                              1)),
                                                                   contentPadding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                      3.0),
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3.0),
                                                                   labelStyle:
-                                                                  TextStyle(
-                                                                      fontSize:
-                                                                      10.sp),
+                                                                      TextStyle(
+                                                                          fontSize:
+                                                                              10.sp),
                                                                   labelText:
-                                                                  "Category",
+                                                                      "Category",
                                                                 ),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
                                                                         (item) {
-                                                                      return DropdownMenuItem(
-                                                                        child:
+                                                                  return DropdownMenuItem(
+                                                                    child:
                                                                         new Text(
-                                                                          item
-                                                                              .category!,
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight
-                                                                                  .w500,
-                                                                              fontSize: 10
-                                                                                  .sp,
-                                                                              decoration: TextDecoration
-                                                                                  .none,
-                                                                              color:
-                                                                              Colors
-                                                                                  .grey),
-                                                                        ),
-                                                                        value: item
-                                                                            .rowId,
-                                                                      );
-                                                                    }).toList(),
+                                                                      item.category!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 10
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item
+                                                                        .rowId,
+                                                                  );
+                                                                }).toList(),
                                                                 onChanged:
                                                                     (Object?
-                                                                value) {
+                                                                        value) {
                                                                   if (value
-                                                                  is ScheduleCategoryList) {
+                                                                      is ScheduleCategoryList) {
                                                                     print(
                                                                         "value");
                                                                     print(value
@@ -434,11 +429,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     List<
                                                                         UserTypeList>>
                                                                 snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
                                                               if (null ==
                                                                   snapshot
                                                                       .data ||
@@ -546,11 +536,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     List<
                                                                         HospitalList>>
                                                                 snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
                                                               if (null ==
                                                                   snapshot
                                                                       .data ||
@@ -864,8 +849,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         onTapDate: () {},
                                                         hintText: "Price",
                                                         keyboadType:
-                                                        TextInputType
-                                                            .number,
+                                                            TextInputType
+                                                                .number,
                                                         isPwd: false),
                                                   ),
                                                 ],
@@ -889,86 +874,67 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     List<
                                                                         UserTypeList>>
                                                                 snapshot) {
-                                                              print(
-                                                                  "snapshot.data?.length");
-                                                              print(snapshot
-                                                                  .data
-                                                                  ?.length);
                                                               if (null ==
-                                                                  snapshot
-                                                                      .data ||
+                                                                      snapshot
+                                                                          .data ||
                                                                   snapshot.data
-                                                                      ?.length ==
+                                                                          ?.length ==
                                                                       0) {
                                                                 return Container();
                                                               }
 
                                                               return DropdownButtonFormField(
                                                                 decoration:
-                                                                InputDecoration(
-                                                                    enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .all(
-                                                                          Radius
-                                                                              .circular(
-                                                                              5.0)),
-                                                                      borderSide:
-                                                                      BorderSide(
-                                                                          color: Colors
-                                                                              .grey),
-                                                                    ),
-                                                                    focusedBorder: OutlineInputBorder(
-                                                                        borderRadius: BorderRadius
-                                                                            .all(
-                                                                            Radius
-                                                                                .circular(
+                                                                    InputDecoration(
+                                                                        enabledBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(5.0)),
+                                                                          borderSide:
+                                                                              BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        focusedBorder: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.all(Radius.circular(
                                                                                 8.0)),
-                                                                        borderSide: BorderSide(
-                                                                            color: Colors
-                                                                                .grey,
-                                                                            width:
-                                                                            1)),
-                                                                    contentPadding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                        3.0),
-                                                                    labelText:
-                                                                    "Assigned To",
-                                                                    labelStyle:
-                                                                    TextStyle(
-                                                                        fontSize: 10
-                                                                            .sp)),
+                                                                            borderSide: BorderSide(
+                                                                                color: Colors
+                                                                                    .grey,
+                                                                                width:
+                                                                                    1)),
+                                                                        contentPadding:
+                                                                            EdgeInsets.all(
+                                                                                3.0),
+                                                                        labelText:
+                                                                            "Assigned To",
+                                                                        labelStyle:
+                                                                            TextStyle(fontSize: 10.sp)),
                                                                 items: snapshot
                                                                     .data
                                                                     ?.map(
                                                                         (item) {
-                                                                      return DropdownMenuItem(
-                                                                        child:
+                                                                  return DropdownMenuItem(
+                                                                    child:
                                                                         new Text(
-                                                                          item
-                                                                              .type!,
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight
-                                                                                  .w500,
-                                                                              fontSize: 10
-                                                                                  .sp,
-                                                                              decoration: TextDecoration
-                                                                                  .none,
-                                                                              color:
-                                                                              Colors
-                                                                                  .grey),
-                                                                        ),
-                                                                        value: item
-                                                                            .rowId,
-                                                                      );
-                                                                    }).toList(),
+                                                                      item.type!,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize: 10
+                                                                              .sp,
+                                                                          decoration: TextDecoration
+                                                                              .none,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    ),
+                                                                    value: item
+                                                                        .rowId,
+                                                                  );
+                                                                }).toList(),
                                                                 onChanged:
                                                                     (Object?
-                                                                value) {
+                                                                        value) {
                                                                   if (value
-                                                                  is UserTypeList) {
+                                                                      is UserTypeList) {
                                                                     print(
                                                                         "value");
                                                                     print(value
@@ -977,8 +943,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         ?.type);
 
                                                                     usertypeId =
-                                                                    value
-                                                                        .rowId!;
+                                                                        value
+                                                                            .rowId!;
                                                                   }
                                                                 },
                                                               );
@@ -1001,35 +967,35 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                         flex: 1,
                                                         child: Padding(
                                                           padding:
-                                                          const EdgeInsets
-                                                              .only(
-                                                              right: 2),
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 2),
                                                           child: Container(
                                                             child:
-                                                            TextInputFileds(
-                                                                controlr:
-                                                                dateFrom,
-                                                                validator:
-                                                                    (dateTo) {
-                                                                  if (validDate(
-                                                                      dateTo))
-                                                                    return null;
-                                                                  else
-                                                                    return "select time";
-                                                                },
-                                                                onTapDate:
-                                                                    () {
-                                                                  _selectTime(
-                                                                      context,
-                                                                      dateFrom);
-                                                                },
-                                                                hintText: Txt
-                                                                    .timeFrom,
-                                                                keyboadType:
-                                                                TextInputType
-                                                                    .none,
-                                                                isPwd:
-                                                                false),
+                                                                TextInputFileds(
+                                                                    controlr:
+                                                                        dateFrom,
+                                                                    validator:
+                                                                        (dateTo) {
+                                                                      if (validDate(
+                                                                          dateTo))
+                                                                        return null;
+                                                                      else
+                                                                        return "select time";
+                                                                    },
+                                                                    onTapDate:
+                                                                        () {
+                                                                      _selectTime(
+                                                                          context,
+                                                                          dateFrom);
+                                                                    },
+                                                                    hintText: Txt
+                                                                        .timeFrom,
+                                                                    keyboadType:
+                                                                        TextInputType
+                                                                            .none,
+                                                                    isPwd:
+                                                                        false),
                                                           ),
                                                         ),
                                                       ),
@@ -1047,17 +1013,17 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                             },
                                                             onTapDate: () {
                                                               FocusScope.of(
-                                                                  context)
+                                                                      context)
                                                                   .unfocus();
                                                               _selectTime(
                                                                   context,
                                                                   dateTo);
                                                             },
                                                             hintText:
-                                                            Txt.timeTo,
+                                                                Txt.timeTo,
                                                             keyboadType:
-                                                            TextInputType
-                                                                .none,
+                                                                TextInputType
+                                                                    .none,
                                                             isPwd: false),
                                                       ),
                                                     ],
@@ -1071,29 +1037,276 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                 children: [
                                                   Container(
                                                     child:
-                                                    TextInputFiledDescription(
-                                                        controlr: jobDescri,
-                                                        onTapDate: () {},
-                                                        validator:
-                                                            (jobDescri) {
-                                                          if (validDescription(
-                                                              jobDescri))
-                                                            return null;
-                                                          else
-                                                            return "enter job decscription";
-                                                        },
-                                                        hintText:
-                                                        Txt.jobDescri,
-                                                        keyboadType:
-                                                        TextInputType
-                                                            .visiblePassword,
-                                                        isPwd: false),
+                                                        TextInputFiledDescription(
+                                                            controlr: jobDescri,
+                                                            onTapDate: () {},
+                                                            validator:
+                                                                (jobDescri) {
+                                                              if (validDescription(
+                                                                  jobDescri))
+                                                                return null;
+                                                              else
+                                                                return "enter job decscription";
+                                                            },
+                                                            hintText:
+                                                                Txt.jobDescri,
+                                                            keyboadType:
+                                                                TextInputType
+                                                                    .visiblePassword,
+                                                            isPwd: false),
                                                   ),
                                                 ],
                                               ),
                                               const SizedBox(
                                                 height: 15,
                                               ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: AutoSizeText(
+                                                      'Allowances',
+                                                      style: TextStyle(
+                                                        fontSize: 13.sp,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "SFProMedium",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  RaisedButton(
+                                                    onPressed: () {
+                                                      managerBloc
+                                                          .getModelDropDown();
+
+                                                      showModalBottomSheet(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .all(
+                                                                      16.0),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  AutoSizeText(
+                                                                    'Allowances',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          13.sp,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontFamily:
+                                                                          "SFProMedium",
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 2.h,
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        flex: 1,
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              50.w,
+                                                                          child:
+                                                                              StreamBuilder(
+                                                                            stream:
+                                                                                managerBloc.typeAllowancesCategroy,
+                                                                            builder:
+                                                                                (context, AsyncSnapshot<List<AllowanceCategoryList>> snapshot) {
+                                                                              if (null == snapshot.data || snapshot.data?.length == 0) {
+                                                                                return CircularProgressIndicator();
+                                                                              }
+
+                                                                              return DropdownButtonFormField(
+                                                                                value: allowanceCategroyId,
+                                                                                decoration: InputDecoration(
+                                                                                    enabledBorder: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                                                      borderSide: BorderSide(color: Colors.grey),
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8.0)), borderSide: BorderSide(color: Colors.grey, width: 1)),
+                                                                                    contentPadding: EdgeInsets.all(3.0),
+                                                                                    labelText: "Hospital",
+                                                                                    labelStyle: TextStyle(fontSize: 10.sp)),
+                                                                                items: snapshot.data?.map((item) {
+                                                                                  return DropdownMenuItem(
+                                                                                    child: new Text(
+                                                                                      item.category!,
+                                                                                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp, decoration: TextDecoration.none, color: Colors.grey),
+                                                                                    ),
+                                                                                    value: item.rowId,
+                                                                                  );
+                                                                                }).toList(),
+                                                                                onChanged: (Object? value) {
+                                                                                  print("value");
+                                                                                  if (value is int) {
+                                                                                    print("value");
+                                                                                    print(value);
+                                                                                    allowanceCategroyId = value;
+                                                                                    allowanceId = 1;
+                                                                                    managerBloc.getAllowanceList(value);
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        width:
+                                                                            10,
+                                                                      ),
+                                                                      Expanded(
+                                                                        flex: 1,
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              50.w,
+                                                                          child:
+                                                                              StreamBuilder(
+                                                                            stream:
+                                                                                managerBloc.typeAllowances,
+                                                                            builder:
+                                                                                (context, AsyncSnapshot<List<AllowanceList>> snapshot) {
+                                                                              print("second snapshot.hasData");
+                                                                              print(snapshot.hasData);
+                                                                              if (null == snapshot.data || snapshot.data?.length == 0) {
+                                                                                return Container();
+                                                                              }
+                                                                              return DropdownButtonFormField(
+                                                                                value: allowanceId,
+                                                                                decoration: InputDecoration(
+                                                                                    enabledBorder: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                                                                      borderSide: BorderSide(color: Colors.grey),
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8.0)), borderSide: BorderSide(color: Colors.grey, width: 1)),
+                                                                                    contentPadding: EdgeInsets.all(3.0),
+                                                                                    labelText: "Allowances",
+                                                                                    labelStyle: TextStyle(fontSize: 10.sp)),
+                                                                                items: snapshot.data?.map((item) {
+                                                                                  return DropdownMenuItem(
+                                                                                    child: new Text(
+                                                                                      item.allowance!,
+                                                                                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp, decoration: TextDecoration.none, color: Colors.grey),
+                                                                                    ),
+                                                                                    value: item.rowId,
+                                                                                  );
+                                                                                }).toList(),
+                                                                                onChanged: (Object? value) {
+                                                                                  if (value is AllowanceList) {
+                                                                                    print("value");
+                                                                                    print(value?.rowId);
+                                                                                    allowanceId = value.rowId!;
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 2.h,
+                                                                  ),
+                                                                  Column(
+                                                                    children: [
+                                                                      Container(
+                                                                        child: TextInputFileds(
+                                                                            controlr: allowanceprice,
+                                                                            validator: (date) {
+                                                                              if (validDate(date))
+                                                                                return null;
+                                                                              else
+                                                                                return "Enter Price";
+                                                                            },
+                                                                            onTapDate: () {},
+                                                                            hintText: "Price",
+                                                                            keyboadType: TextInputType.number,
+                                                                            isPwd: false),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  ElevatedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      managerBloc.addAllowances(
+                                                                          allowanceId,
+                                                                          allowanceCategroyId,
+                                                                          allowance,
+                                                                          allowanceCategroy,
+                                                                          allowanceprice
+                                                                              .text);
+                                                                      pop(context);
+                                                                    },
+                                                                    child:
+                                                                        Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8.0),
+                                                                      child:
+                                                                          Text(
+                                                                        'Add Allowances',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            letterSpacing: 0.6),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 2.h,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          });
+                                                    },
+                                                    padding: EdgeInsets.only(
+                                                        left: 20,
+                                                        right: 20,
+                                                        top: 8,
+                                                        bottom: 8),
+                                                    color: Colors.blueAccent,
+                                                    child: Text(
+                                                      'Add Allowances',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          letterSpacing: 0.6),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              StreamBuilder<List<Allowances>>(
+                                                  stream: managerBloc
+                                                      .allowancesList,
+                                                  builder: (context, snapshot) {
+                                                    return buildAllowanceList(
+                                                        snapshot);
+                                                  }),
                                               createShiftButton(),
                                               const SizedBox(
                                                 height: 15,
@@ -1131,6 +1344,70 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         ),
       ),
     );
+  }
+
+  Widget buildAllowanceList(AsyncSnapshot<List<Allowances>> snapshot) {
+    if (snapshot.hasData) {
+      return ListView.builder(
+        itemCount: snapshot.data?.length,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          var items = snapshot.data?[index];
+          String? allowace = items?.allowance.toString();
+          String? category = items?.category.toString();
+          String? amount = items?.amount.toString();
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Text(
+                      allowace!,
+                      style: TextStyle(
+                          color: Constants.colors[1],
+                          fontSize: 18,
+                          fontFamily: "SFProMedium",
+                          fontWeight: FontWeight.w700),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Text(
+                      category!,
+                      style: TextStyle(
+                          color: Constants.colors[1],
+                          fontSize: 18,
+                          fontFamily: "SFProMedium",
+                          fontWeight: FontWeight.w700),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Text(
+                      amount!,
+                      style: TextStyle(
+                          color: Constants.colors[1],
+                          fontSize: 18,
+                          fontFamily: "SFProMedium",
+                          fontWeight: FontWeight.w700),
+                    )),
+                SvgPicture.asset(
+                  'assets/images/icon/delete.svg',
+                  fit: BoxFit.contain,
+                  height: 30,
+                  width: 40,
+                )
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget createShiftButton() {
@@ -1224,8 +1501,8 @@ class _CreateShiftState extends State<CreateShiftScreen> {
     });
   }
 
-  _selectDate(BuildContext context,
-      TextEditingController dateController) async {
+  _selectDate(
+      BuildContext context, TextEditingController dateController) async {
     print("date");
     final DateTime? newDate = await showDatePicker(
       context: context,
@@ -1244,7 +1521,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
       dateController.text = dates;
     }
   }
-
 
   _selectTime(BuildContext context, TextEditingController anycontroller) async {
     print("time");

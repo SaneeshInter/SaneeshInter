@@ -25,26 +25,6 @@ class ApiProvider {
   Client client = Client();
   String BASE_URL = "https://intersmarthosting.in/DEV/ExpressHealth/api";
 
-
-
-                                                                       /////////////COMMON API
-
-
-  Future<void> loginUsertst(String username, String password) async {
-    var uri = Uri.parse(BASE_URL + '/account/login');
-    final response = await client.post(uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'email': username,
-          'password': password,
-        }));
-
-    print(response.body);
-  }
-
-
   Future<LoginUserRespo> loginUser(String username, String password) async {
     var uri = Uri.parse(BASE_URL + '/account/login');
     final response = await client.post(uri,
@@ -302,9 +282,7 @@ class ApiProvider {
     }
   }
 
-
-
-  Future<ManagerScheduleListResponse> fetchViewbooking(
+  Future<ManagerScheduleListResponse> fetchUserListByDate(
       String token, String date) async {
     print("View Booking");
 
@@ -328,9 +306,41 @@ class ApiProvider {
     }
   }
 
+  Future<SliftListRepso> fetchTimesheet() async {
+    print("Time sheet");
 
+    var uri = Uri.parse(
+        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
+    final response = await client.get(uri);
+    print(response);
+    if (response.statusCode == 200) {
+      return SliftListRepso.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
 
+  ///  USER HOME RESPONSE ///
+  Future<UserHomeResponse> getUserHome(String token) async {
+    var uri = Uri.parse(BASE_URL + "/home/get-user-updates");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{}));
 
+    print("PRINT USERHOME RESPONSE" + token);
+
+    print(jsonEncode(<String, String>{}).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserHomeResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
 
   Future<ManagerShift> CreateShiftManager(
       String token,
@@ -540,26 +550,7 @@ class ApiProvider {
 
 
 
-  Future<UserHomeResponse> getUserHome(String token) async {
-    var uri = Uri.parse(BASE_URL + "/home/get-user-updates");
-    final response = await client.post(uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token': token,
-        },
-        body: jsonEncode(<String, String>{}));
 
-    print("PRINT USERHOME RESPONSE" + token);
-
-    print(jsonEncode(<String, String>{}).toString());
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      return UserHomeResponse.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load post');
-    }
-  }
 
 
 
@@ -658,8 +649,8 @@ class ApiProvider {
 
 
 
-  Future<SliftListRepso> fetchTimesheet() async {
-    print("Time sheet");
+  Future<SliftListRepso> fetchNotification() async {
+    print("date");
 
     var uri = Uri.parse(
         'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
@@ -672,15 +663,25 @@ class ApiProvider {
     }
   }
 
-  Future<SliftListRepso> fetchNotification() async {
-    print("date");
+  Future<ManagerScheduleListResponse> fetchViewbooking(
+      String token, String date) async {
+    print("View Booking");
 
-    var uri = Uri.parse(
-        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
-    final response = await client.get(uri);
-    print(response);
+    var uri = Uri.parse(BASE_URL + '/manager/get-schedule-by-date');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "token": token,
+        },
+        body: jsonEncode(<String, String>{
+          "date": date,
+        }));
+
+    print(response.body);
+    print(response.statusCode);
+    print(response.toString());
     if (response.statusCode == 200) {
-      return SliftListRepso.fromJson(json.decode(response.body));
+      return ManagerScheduleListResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
     }

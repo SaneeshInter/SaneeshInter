@@ -1,8 +1,11 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:xpresshealthdev/db/database.dart';
+import 'package:xpresshealthdev/dbmodel/allowance_category_model.dart';
+import 'package:xpresshealthdev/model/allowance_model.dart';
 import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
 import 'package:xpresshealthdev/resources/respository.dart';
 
+import '../dbmodel/allowance_mode.dart';
 import '../model/gender_\list.dart';
 import '../model/manager_response.dart';
 import '../model/schedule_categegory_list.dart';
@@ -14,6 +17,21 @@ class CreateShiftmanagerBloc {
   final _db = Db();
   final _manager = PublishSubject<void>();
   final _getmanager = PublishSubject<ManagerShift>();
+  List<Allowances> allowanceList = [];
+  final _allowancesList = PublishSubject<List<Allowances>>();
+
+  Stream<List<Allowances>> get allowancesList => _allowancesList.stream;
+
+  List<String> allowancesCategory = [];
+  final _typeAllowancesCategroy = PublishSubject<List<AllowanceCategoryList>>();
+
+  Stream<List<AllowanceCategoryList>> get typeAllowancesCategroy =>
+      _typeAllowancesCategroy.stream;
+
+  List<String> allowances = [];
+  final _typeAllowances = PublishSubject<List<AllowanceList>>();
+
+  Stream<List<AllowanceList>> get typeAllowances => _typeAllowances.stream;
 
   // gender
   List<String> genders = [];
@@ -77,6 +95,20 @@ class CreateShiftmanagerBloc {
     _hospital.add(hospitals);
   }
 
+  getModelDropDown() async {
+    print("getModelDropDown");
+    var typeList = await _db.getAllowanceCategoryList();
+    _typeAllowancesCategroy.add(typeList);
+  }
+
+  getAllowanceList(int id) async {
+    print("getAllowanceCategory");
+    var typeList = await _db.getAllowanceList(id);
+    print("typeList");
+    print(typeList.length);
+    _typeAllowances.add(typeList);
+  }
+
   Stream<void> get managerStream => _manager.stream;
 
   Stream<ManagerShift> get getmanagerStream => _getmanager.stream;
@@ -121,6 +153,18 @@ class CreateShiftmanagerBloc {
 
   dispose() {
     _manager.close();
+  }
+
+  void addAllowances(int allowanceId, int allowanceCategroyId, String allowance,
+      String allowanceCategroy, String amount) {
+    Allowances allowances = Allowances(
+        allowance: allowance,
+        category: allowanceCategroy,
+        amount: amount,
+        allowanceId: allowanceId,
+        categoryId: allowanceCategroyId);
+    allowanceList.add(allowances);
+    _allowancesList.add(allowanceList);
   }
 }
 
