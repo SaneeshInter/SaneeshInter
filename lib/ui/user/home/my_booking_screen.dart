@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/blocs/shift_completed_bloc.dart';
+import 'package:xpresshealthdev/UI/user/home/filter_booking_list.dart';
 import 'package:xpresshealthdev/blocs/shift_confirmed_bloc.dart';
+import 'package:xpresshealthdev/model/user_view_request_response.dart';
 
-import '../../../model/shift_list_response.dart';
+import '../../../resources/token_provider.dart';
 import '../../../utils/colors_util.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/my_booking_list_widget.dart';
+
 class MyBookingScreen extends StatefulWidget {
   const MyBookingScreen({Key? key}) : super(key: key);
+
   @override
   _HomeScreentate createState() => _HomeScreentate();
 }
+
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class _HomeScreentate extends State<MyBookingScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   int devicePixelRatio = 3;
@@ -26,11 +31,14 @@ class _HomeScreentate extends State<MyBookingScreen> {
   var itemSelected = 0;
   late PageController pageController;
   final ScrollController _controller = ScrollController();
+  var token;
+
   @override
   void didUpdateWidget(covariant MyBookingScreen oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -38,18 +46,25 @@ class _HomeScreentate extends State<MyBookingScreen> {
     super.dispose();
   }
 
+  Future getDataitems() async {
+    token = await TokenProvider().getToken();
+    confirmBloc.fetchUserViewRequest(token);
+  }
+
   @override
   void initState() {
-    confirmBloc.fetchConfirm();
+    getDataitems();
+
     pageController = PageController(initialPage: 0);
     pageCount = 3;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: HexColor("#ffffff"),
@@ -103,34 +118,29 @@ class _HomeScreentate extends State<MyBookingScreen> {
                 child: TabBar(
                     unselectedLabelColor: Colors.black,
                     indicatorSize: TabBarIndicatorSize.tab,
-                    labelColor: Colors.white,
-                    indicator: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Constants.colors[3], Constants.colors[4]]),
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white),
+                    labelColor: Colors.black,
                     tabs: [
                       Tab(
                         child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              backgroundBlendMode: BlendMode.colorDodge,
-                              color: Colors.transparent),
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text("Confirmed Shift"),
+                            child: Text("Requested"),
                           ),
                         ),
                       ),
                       Tab(
                         child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              backgroundBlendMode: BlendMode.colorDodge,
-                              color: Colors.transparent),
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text("Completed Shift"),
+                            child: Text("Confirmed"),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text("Rejected"),
                           ),
                         ),
                       ),
@@ -139,7 +149,8 @@ class _HomeScreentate extends State<MyBookingScreen> {
             ),
           ),
         ),
-        body: TabBarView(children: [bookingList(0), bookingList(1)]),
+        body: TabBarView(
+            children: [bookingList(0), bookingList(1), bookingList(2)]),
       ),
     );
   }
@@ -150,11 +161,11 @@ Widget bookingList(int position) {
     child: Container(
         child: Column(children: [
       StreamBuilder(
-          stream: confirmBloc.allShift,
-          builder:
-              (BuildContext context, AsyncSnapshot<SliftListRepso> snapshot) {
+          stream: confirmBloc.viewrequest,
+          builder: (BuildContext context,
+              AsyncSnapshot<UserViewRequestResponse> snapshot) {
             if (snapshot.hasData) {
-              return buildList(snapshot);
+              return buildList(snapshot, position);
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
@@ -164,33 +175,39 @@ Widget bookingList(int position) {
   );
 }
 
-Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
+Widget buildList(
+    AsyncSnapshot<UserViewRequestResponse> snapshot, int position) {
+  List<Items>? requested;
+  List<Items>? confirmed;
+  List<Items>? accepted;
+
+  if (position == 0) {
+    requested = getFilterList(snapshot, position);
+  }
+
+  if (position == 1) {}
+
+  if (position == 2) {}
+
   return ListView.builder(
-    itemCount: snapshot.data?.response?.data?.category?.length,
+    itemCount: snapshot.data?.response?.data?.items?.length,
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
     itemBuilder: (BuildContext context, int index) {
-
-
       var name = "Shift Confirmed";
       var description = " Confirmed";
 
-      var category = snapshot.data?.response?.data?.category![index];
-      if (category != null) {
-        name = category.categoryname!;
-        name = category.categoryname!;
+      var items = snapshot.data?.response?.data?.items![index];
+      if (items != null) {
+        name = items.jobDetails!;
+        name = items.category!;
       }
 
       return Column(
         children: [
           MyBookingListWidget(
-
-            date: name,
-            jobTittle: description,
-            startTime: "11.00 AM",
-            endTime: "12.00 PM",
-            price: "32",
-            position: 10,
+            items: items!,
+            position: 12,
             onTapView: () {
               showFeactureAlert(context, date: "");
             },
@@ -209,6 +226,53 @@ Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
     },
   );
 }
+
+List<Items>? getFilterList(
+    AsyncSnapshot<UserViewRequestResponse> snapshot, int position) {
+
+  FilterBookingList getFilterList= FilterBookingList();
+
+ // getFilterList.requested="";
+
+
+  List<Items> list = [];
+  List<Items> requested = [];
+  List<Items> confirmed = [];
+  List<Items> accepted = [];
+  List<Items>? allList = snapshot.data?.response?.data?.items;
+
+
+
+
+  for (var item in allList!) {
+    if (position == 0) {
+      if (item.status == "requested") {
+        requested.add(item);
+      }
+    }
+  }
+  for (var item in allList!) {
+    if (position == 1) {
+      if (item.status == "confirmed") {
+        confirmed.add(item);
+      }
+    }
+  }
+  for (var item in allList!) {
+    if (position == 2) {
+      if (item.status == "accepted") {
+        accepted.add(item);
+      }
+    }
+
+
+  }
+
+
+
+  return list;
+}
+
 
 class BodyWidget extends StatelessWidget {
   final Color color;

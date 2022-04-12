@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/model/user_view_request_response.dart';
 
+import '../../ui/Widgets/buttons/view_button.dart';
+import '../../ui/manager/home/shift_detail_manager.dart';
+import '../../ui/user/detail/shift_detail.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 import 'buttons/book_button.dart';
 import 'buttons/build_button.dart';
 
 class MyBookingListWidget extends StatefulWidget {
-  final String date;
-  final String jobTittle;
-  final String startTime;
-  final String endTime;
-  final String price;
+ final Items items;
+
   final int position;
   final Function onTapBooking;
   final Function onTapMap;
@@ -20,15 +21,12 @@ class MyBookingListWidget extends StatefulWidget {
 
   const MyBookingListWidget(
       {Key? key,
-      required this.date,
-      required this.jobTittle,
-      required this.price,
+
+        required this.items,
       required this.onTapView,
-      required this.endTime,
       required this.onTapBooking,
       required this.onTapCall,
       required this.onTapMap,
-      required this.startTime,
       required this.position})
       : super(key: key);
 
@@ -39,61 +37,90 @@ class MyBookingListWidget extends StatefulWidget {
 class _MyBookingState extends State<MyBookingListWidget> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: screenWidth(context, dividedBy: 1),
-        padding: EdgeInsets.symmetric(
-            horizontal: screenWidth(context, dividedBy: 25),
-            vertical: screenHeight(context, dividedBy: 70)),
-        decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () {
+        // widget.onTapMap;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ShiftDetailScreen()),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: screenWidth(context, dividedBy: 1),
+          padding: EdgeInsets.symmetric(
+              horizontal: screenWidth(context, dividedBy: 25),
+              vertical: screenHeight(context, dividedBy: 70)),
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
-         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(
-                    widget.date,
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  SizedBox(height: screenHeight(context, dividedBy: 180)),
-                  Text(
-                    widget.jobTittle,
-                    style: TextStyle(
-                        fontSize: 10.5.sp,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  SizedBox(height: screenHeight(context, dividedBy: 180)),
-                  Text(
-                    "From " + widget.startTime + " To " + widget.endTime,
-                    style: TextStyle(
-                        fontSize: 8.sp,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  SizedBox(height: screenHeight(context, dividedBy: 180)),
-                  Text(
-                    "At st george Hosp",
-                    style: TextStyle(
-                        fontSize: 9.5.sp,
-                        color: Constants.colors[3],
-                        fontWeight: FontWeight.w500),
-                  ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(
+                   widget.items.jobTitle!,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(height: screenHeight(context, dividedBy: 180)),
+                    Text(
+                      "On: " + widget.items.date!,
+                      style: TextStyle(
+                          fontSize: 9.sp,
+                          color: Constants.colors[13],
+                          fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(height: screenHeight(context, dividedBy: 180)),
+                    Text(
+                      "From " +
+                          widget.items.timeFrom! +
+                          " To " +
+                          widget.items.timeTo!,
+                      style: TextStyle(
+                          fontSize: 9.sp,
+                          color: Constants.colors[13],
+                          fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(height: screenHeight(context, dividedBy: 180)),
+                    Text(
+                      widget.items.userType!,
+                      style: TextStyle(
+                          fontSize: 9.5.sp,
+                          color: Constants.colors[3],
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ]),
+                  Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ViewButton(
+                        label: "view",
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShiftDetailManagerScreen()),
+                          );
+                        },
+                        key: null,
+                      )
+                    ],
+                  )
                 ]),
-                Spacer(),
-              ]),
-              SizedBox(height: screenHeight(context, dividedBy: 180)),
-              buttonList(context, widget)
-            ],
+                SizedBox(height: screenHeight(context, dividedBy: 180)),
+                buttonList(context, widget)
+              ],
+            ),
           ),
         ),
       ),
@@ -107,12 +134,10 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
       children: [
         BookButton(
           label: "Add Timesheet",
-
           onPressed: () {
             widget.onTapView();
             print("Cards booking");
           },
-
           key: null,
         ),
         Spacer(),
@@ -122,7 +147,7 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
     return Row(
       children: [
         BuildButton(
-          label: "View Map",
+          label: "View Shift",
           onPressed: () {
             widget.onTapMap();
             print("Cards booking");
@@ -131,7 +156,7 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
         ),
         SizedBox(width: screenWidth(context, dividedBy: 40)),
         BookButton(
-          label: "Cancel",
+          label: "Book",
           onPressed: () {
             widget.onTapMap();
             print("Cards booking");
