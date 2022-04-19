@@ -20,9 +20,10 @@ class ShiftDetailScreen extends StatefulWidget {
   State<ShiftDetailScreen> createState() => _ShiftDetailScreenState();
 }
 
+
 class _ShiftDetailScreenState extends State<ShiftDetailScreen> {
   String? token;
-  String? shift_id = "1";
+  String? shift_id = "190";
 
   @override
   void initState() {
@@ -64,6 +65,10 @@ class _ShiftDetailScreenState extends State<ShiftDetailScreen> {
                 var data = snapshot.data?.response?.data;
                 var hospitalDetail = data?.hospitalDetails![0];
                 var shiftDetails = data?.shiftDetails![0];
+
+
+
+
 
 
                 return Column(
@@ -194,6 +199,17 @@ class _ShiftDetailScreenState extends State<ShiftDetailScreen> {
                                                   endIndent: 12,
                                                 ),
                                               ),
+                                              if (null != shiftDetails)
+                                                CustomRowz(
+                                                  onPressed: () {},
+                                                  label: " Job Details: " +
+                                                      shiftDetails.jobDetails
+                                                          .toString(),
+                                                  asset:
+                                                  "assets/images/icon/check.svg",
+                                                  textColors: Colors.black,
+                                                ),
+
                                               if (null != shiftDetails)
                                                 CustomRowz(
                                                   onPressed: () {},
