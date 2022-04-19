@@ -63,7 +63,6 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                             fontWeight: FontWeight.w700,
                             fontFamily: "SFProBold"),
                       ),
-
                     ],
                   ),
                   SizedBox(height: screenHeight(context, dividedBy: 120)),
@@ -97,14 +96,14 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                     ],
                   ),
                   SizedBox(height: screenHeight(context, dividedBy: 120)),
-                  if(null != widget.items.userType)
-                  Text(
-                    widget.items.userType!,
-                    style: TextStyle(
-                        fontSize: 11.sp,
-                        color: Constants.colors[3],
-                        fontWeight: FontWeight.w500),
-                  ),
+                  if (null != widget.items.userType)
+                    Text(
+                      widget.items.userType!,
+                      style: TextStyle(
+                          fontSize: 11.sp,
+                          color: Constants.colors[3],
+                          fontWeight: FontWeight.w500),
+                    ),
                 ]),
                 Spacer(),
                 Column(

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/model/user_view_request_response.dart';
@@ -11,22 +12,23 @@ import 'buttons/book_button.dart';
 import 'buttons/build_button.dart';
 
 class MyBookingListWidget extends StatefulWidget {
- final Items items;
+  final Items items;
 
   final int position;
   final Function onTapBooking;
   final Function onTapMap;
   final Function onTapCall;
+  final Function onTapCancel;
   final Function onTapView;
 
   const MyBookingListWidget(
       {Key? key,
-
-        required this.items,
+      required this.items,
       required this.onTapView,
       required this.onTapBooking,
       required this.onTapCall,
       required this.onTapMap,
+      required this.onTapCancel,
       required this.position})
       : super(key: key);
 
@@ -63,42 +65,53 @@ class _MyBookingState extends State<MyBookingListWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(
-                   widget.items.jobTitle!,
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(height: screenHeight(context, dividedBy: 180)),
-                    Text(
-                      "On: " + widget.items.date!,
-                      style: TextStyle(
-                          fontSize: 9.sp,
-                          color: Constants.colors[13],
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(height: screenHeight(context, dividedBy: 180)),
-                    Text(
-                      "From " +
-                          widget.items.timeFrom! +
-                          " To " +
-                          widget.items.timeTo!,
-                      style: TextStyle(
-                          fontSize: 9.sp,
-                          color: Constants.colors[13],
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(height: screenHeight(context, dividedBy: 180)),
-                    Text(
-                      widget.items.userType!,
-                      style: TextStyle(
-                          fontSize: 9.5.sp,
-                          color: Constants.colors[3],
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ]),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 70.w,
+                          child: AutoSizeText.rich(
+
+                            TextSpan(
+                              text: widget.items.jobTitle,
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            minFontSize: 0,
+                            stepGranularity: 0.3,
+                            maxLines: 3,
+                          ),
+                        ),
+                        SizedBox(height: screenHeight(context, dividedBy: 180)),
+                        Text(
+                          "On: " + widget.items.date!,
+                          style: TextStyle(
+                              fontSize: 9.sp,
+                              color: Constants.colors[13],
+                              fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: screenHeight(context, dividedBy: 180)),
+                        Text(
+                          "From " +
+                              widget.items.timeFrom! +
+                              " To " +
+                              widget.items.timeTo!,
+                          style: TextStyle(
+                              fontSize: 9.sp,
+                              color: Constants.colors[13],
+                              fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: screenHeight(context, dividedBy: 180)),
+                        Text(
+                          widget.items.userType!,
+                          style: TextStyle(
+                              fontSize: 9.5.sp,
+                              color: Constants.colors[3],
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ]),
                   Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -106,11 +119,7 @@ class _MyBookingState extends State<MyBookingListWidget> {
                       ViewButton(
                         label: "view",
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ShiftDetailManagerScreen()),
-                          );
+
                         },
                         key: null,
                       )
@@ -155,14 +164,24 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
           key: null,
         ),
         SizedBox(width: screenWidth(context, dividedBy: 40)),
-        BookButton(
-          label: "Book",
-          onPressed: () {
-            widget.onTapMap();
-            print("Cards booking");
-          },
-          key: null,
-        ),
+        if (widget.items.status == "Accepted")
+          BookButton(
+            label: "Cancel Request",
+            onPressed: () {
+              widget.onTapCancel(widget.items);
+              print("Cards booking");
+            },
+            key: null,
+          ),
+        if (widget.items.status == "Pending")
+          BookButton(
+            label: "Cancel Request",
+            onPressed: () {
+              widget.onTapCancel(widget.items);
+              print("Cards booking");
+            },
+            key: null,
+          ),
       ],
     );
   }

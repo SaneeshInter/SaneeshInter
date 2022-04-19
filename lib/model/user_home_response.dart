@@ -102,24 +102,30 @@ class LatestShift {
   int? rowId;
   String? type;
   String? userType;
-  int? category;
+  int? userTypeId;
+  String? category;
+  int? categoryId;
   String? jobTitle;
   String? hospital;
+  int? hospitalId;
   String? date;
   String? timeFrom;
   String? timeTo;
   String? jobDetails;
-  Null? price;
-  Null? allowances;
+  int? price;
+  String? allowances;
   String? createdDate;
 
   LatestShift(
       {this.rowId,
         this.type,
         this.userType,
+        this.userTypeId,
         this.category,
+        this.categoryId,
         this.jobTitle,
         this.hospital,
+        this.hospitalId,
         this.date,
         this.timeFrom,
         this.timeTo,
@@ -132,9 +138,12 @@ class LatestShift {
     rowId = json['row_id'];
     type = json['type'];
     userType = json['user_type'];
+    userTypeId = json['user_type_id'];
     category = json['category'];
+    categoryId = json['category_id'];
     jobTitle = json['job_title'];
     hospital = json['hospital'];
+    hospitalId = json['hospital_id'];
     date = json['date'];
     timeFrom = json['time_from'];
     timeTo = json['time_to'];
@@ -149,9 +158,12 @@ class LatestShift {
     data['row_id'] = this.rowId;
     data['type'] = this.type;
     data['user_type'] = this.userType;
+    data['user_type_id'] = this.userTypeId;
     data['category'] = this.category;
+    data['category_id'] = this.categoryId;
     data['job_title'] = this.jobTitle;
     data['hospital'] = this.hospital;
+    data['hospital_id'] = this.hospitalId;
     data['date'] = this.date;
     data['time_from'] = this.timeFrom;
     data['time_to'] = this.timeTo;

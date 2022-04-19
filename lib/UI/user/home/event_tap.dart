@@ -59,7 +59,7 @@ class _MyShiftCalenderState extends State<MyShiftCalender> {
                         });
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => FindShiftScreen(selectDay: selectDay,)),
+                          MaterialPageRoute(builder: (context) => FindShiftScreen()),
                         );
 
                         print(focusDay);

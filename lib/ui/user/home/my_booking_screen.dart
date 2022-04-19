@@ -10,6 +10,7 @@ import '../../../utils/colors_util.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/my_booking_list_widget.dart';
+import '../../widgets/loading_widget.dart';
 
 class MyBookingScreen extends StatefulWidget {
   const MyBookingScreen({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class MyBookingScreen extends StatefulWidget {
 }
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+var token;
 
 class _HomeScreentate extends State<MyBookingScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -31,7 +33,6 @@ class _HomeScreentate extends State<MyBookingScreen> {
   var itemSelected = 0;
   late PageController pageController;
   final ScrollController _controller = ScrollController();
-  var token;
 
   @override
   void didUpdateWidget(covariant MyBookingScreen oldWidget) {
@@ -41,14 +42,8 @@ class _HomeScreentate extends State<MyBookingScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     super.dispose();
-  }
-
-  Future getDataitems() async {
-    token = await TokenProvider().getToken();
-    confirmBloc.fetchUserViewRequest(token);
+    confirmBloc.dispose();
   }
 
   @override
@@ -66,154 +61,173 @@ class _HomeScreentate extends State<MyBookingScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: HexColor("#ffffff"),
-        appBar: AppBar(
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/icon/menu.svg',
-              width: 5.w,
-              height: 4.2.w,
-            ),
-            onPressed: () {
-              scaffoldKey.currentState?.openDrawer();
-            },
-          ),
-          elevation: 0.0,
-          iconTheme: IconThemeData(
-            color: Colors.black,
-            //change your color here
-          ),
-          backgroundColor: HexColor("#ffffff"),
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    'assets/images/icon/logo.svg',
-                    fit: BoxFit.contain,
-                    height: 8.w,
-                  )),
-            ],
-          ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {},
+          key: _scaffoldKey,
+          backgroundColor: Constants.colors[9],
+          appBar: AppBar(
+            leading: IconButton(
               icon: SvgPicture.asset(
-                'assets/images/icon/searchicon.svg',
+                'assets/images/icon/menu.svg',
                 width: 5.w,
-                height: 5.w,
-              ), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
+                height: 4.2.w,
+              ),
+              onPressed: () {
+                scaffoldKey.currentState?.openDrawer();
+              },
             ),
-          ],
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(65),
-            child: Container(
-              color: Constants.colors[9],
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TabBar(
-                    unselectedLabelColor: Colors.black,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    labelColor: Colors.black,
-                    tabs: [
-                      Tab(
-                        child: Container(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("Requested"),
+            elevation: 0.0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+              //change your color here
+            ),
+            backgroundColor: HexColor("#ffffff"),
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      'assets/images/icon/logo.svg',
+                      fit: BoxFit.contain,
+                      height: 8.w,
+                    )),
+              ],
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  'assets/images/icon/searchicon.svg',
+                  width: 5.w,
+                  height: 5.w,
+                ), //Image.asset('assets/images/icon/searchicon.svg',width: 20,height: 20,fit: BoxFit.contain,),
+              ),
+            ],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(65),
+              child: Container(
+                color: Constants.colors[9],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TabBar(
+                      unselectedLabelColor: Colors.black,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      labelColor: Colors.black,
+                      tabs: [
+                        Tab(
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text("Requested"),
+                            ),
                           ),
                         ),
-                      ),
-                      Tab(
-                        child: Container(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("Confirmed"),
+                        Tab(
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text("Confirmed"),
+                            ),
                           ),
                         ),
-                      ),
-                      Tab(
-                        child: Container(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("Rejected"),
+                        Tab(
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text("Rejected"),
+                            ),
                           ),
                         ),
-                      ),
-                    ]),
+                      ]),
+                ),
               ),
             ),
           ),
-        ),
-        body: TabBarView(
-            children: [bookingList(0), bookingList(1), bookingList(2)]),
-      ),
+          body: RefreshIndicator(
+
+            onRefresh: () async {
+
+
+            },
+              color: Colors.white,
+              backgroundColor: Colors.purple,
+              strokeWidth: 5,
+            child: Container(
+                child: StreamBuilder(
+                    stream: confirmBloc.viewrequest,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<UserViewRequestResponse> snapshot) {
+                      if (snapshot.hasData) {
+                        return TabBarView(children: [
+                          bookingList(0, snapshot),
+                          bookingList(1, snapshot),
+                          bookingList(2, snapshot)
+                        ]);
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      return Center(
+                        child: Visibility(
+                          child: Container(
+                            width: 100.w,
+                            height: 80.h,
+                            child: const Center(
+                              child: LoadingWidget(),
+                            ),
+                          ),
+                        ),
+                      );
+                    })),
+          )),
     );
   }
 }
 
-Widget bookingList(int position) {
+Widget bookingList(
+    int position, AsyncSnapshot<UserViewRequestResponse> snapshot) {
   return SingleChildScrollView(
-    child: Container(
-        child: Column(children: [
-      StreamBuilder(
-          stream: confirmBloc.viewrequest,
-          builder: (BuildContext context,
-              AsyncSnapshot<UserViewRequestResponse> snapshot) {
-            if (snapshot.hasData) {
-              return buildList(snapshot, position);
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            return Center(child: CircularProgressIndicator());
-          })
-    ])),
+    child: Column(children: [buildList(snapshot, position)]),
   );
 }
 
 Widget buildList(
     AsyncSnapshot<UserViewRequestResponse> snapshot, int position) {
-  List<Items>? requested;
-  List<Items>? confirmed;
-  List<Items>? accepted;
-
+  var allList = getFilterList(snapshot, position);
+  var list = [];
   if (position == 0) {
-    requested = getFilterList(snapshot, position);
+    list = allList.requested;
   }
 
-  if (position == 1) {}
+  if (position == 1) {
+    list = allList.confirmed;
+  }
 
-  if (position == 2) {}
+  if (position == 2) {
+    list = allList.reject;
+  }
 
   return ListView.builder(
-    itemCount: snapshot.data?.response?.data?.items?.length,
+    itemCount: list.length,
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
     itemBuilder: (BuildContext context, int index) {
-      var name = "Shift Confirmed";
-      var description = " Confirmed";
-
-      var items = snapshot.data?.response?.data?.items![index];
-      if (items != null) {
-        name = items.jobDetails!;
-        name = items.category!;
-      }
-
+      var items = list[index];
       return Column(
         children: [
           MyBookingListWidget(
             items: items!,
             position: 12,
             onTapView: () {
-              showFeactureAlert(context, date: "");
+              // showFeactureAlert(context, date: "");
+            },
+            onTapCancel: (item) {
+
+              print("Tapped");
             },
             onTapCall: () {},
             onTapMap: () {
-              showFeactureAlert(context, date: "");
+              // showFeactureAlert(context, date: "");
             },
             onTapBooking: () {
               print("Tapped");
@@ -227,52 +241,32 @@ Widget buildList(
   );
 }
 
-List<Items>? getFilterList(
-    AsyncSnapshot<UserViewRequestResponse> snapshot, int position) {
-
-  FilterBookingList getFilterList= FilterBookingList();
-
- // getFilterList.requested="";
-
-
-  List<Items> list = [];
-  List<Items> requested = [];
-  List<Items> confirmed = [];
-  List<Items> accepted = [];
-  List<Items>? allList = snapshot.data?.response?.data?.items;
-
-
-
-
-  for (var item in allList!) {
-    if (position == 0) {
-      if (item.status == "requested") {
-        requested.add(item);
-      }
-    }
-  }
-  for (var item in allList!) {
-    if (position == 1) {
-      if (item.status == "confirmed") {
-        confirmed.add(item);
-      }
-    }
-  }
-  for (var item in allList!) {
-    if (position == 2) {
-      if (item.status == "accepted") {
-        accepted.add(item);
-      }
-    }
-
-
-  }
-
-
-
-  return list;
+Future getDataitems() async {
+  token = await TokenProvider().getToken();
+  confirmBloc.fetchUserViewRequest(token);
 }
 
+FilterBookingList getFilterList(
+    AsyncSnapshot<UserViewRequestResponse> snapshot, int position) {
+  FilterBookingList list = FilterBookingList();
+  List<Items>? allList = snapshot.data?.response?.data?.items;
+
+  for (var item in allList!) {
+    print("item.status");
+    print(item.status);
+
+    if (item.status == "Accepted") {
+      list.confirmed.add(item);
+    }
+    if (item.status == "Pending") {
+      list.requested.add(item);
+    }
+    if (item.status == "Rejected") {
+      list.reject.add(item);
+    }
+  }
+  return list;
+}
 
 class BodyWidget extends StatelessWidget {
   final Color color;

@@ -41,6 +41,8 @@ class _ManagerDashBoardWidgetState extends State<ManagerDashBoard> {
     _hideNavBar = false;
   }
 
+
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

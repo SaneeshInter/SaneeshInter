@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../ui/Widgets/booking_alert_box.dart';
+import '../ui/widgets/action_alert_dialoge.dart';
 import '../ui/widgets/add_time_sheet_alert_box.dart';
-import '../ui/widgets/feacture_implementation_dialog.dart';
 import '../ui/widgets/login_invalid_alert.dart';
 
 double screenHeight(context, {required double dividedBy}) {
@@ -25,16 +25,13 @@ void push(context, Widget route) {
 
 double getPercentage(context) {
   var height = MediaQuery.of(context).size.height;
-print("height");
-print(height);
-  if(height>1024)
-  {
+  print("height");
+  print(height);
+  if (height > 1024) {
     return 10.h;
-
-  }else{
+  } else {
     return 20.h;
   }
-
 }
 
 void pop(context) {
@@ -70,34 +67,6 @@ void showBookingAlert(
   );
 }
 
-void showFeactureAlert(
-  context, {
-  required String date,
-}) {
-  showDialog(
-    context: context,
-    barrierColor: Colors.transparent,
-    builder: (BuildContext context) {
-      Future.delayed(Duration(seconds: 2), () {
-        // Navigator.of(context).pop(true);
-      });
-      return Center(
-        child: AlertDialog(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            insetPadding: EdgeInsets.symmetric(
-              horizontal: screenWidth(context, dividedBy: 30),
-            ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            content: FeactureAlertBox(
-              date: date,
-              key: null,
-            )),
-      );
-    },
-  );
-}
 
 
 
@@ -130,17 +99,11 @@ void showAddTimeSheet(
   );
 }
 
-
-
-
-
-
-
 void showAlertDialoge(
-    context, {
-      required String message,
-      required String title,
-    }) {
+  context, {
+  required String message,
+  required String title,
+}) {
   showDialog(
     context: context,
     barrierColor: Colors.transparent,
@@ -156,8 +119,8 @@ void showAlertDialoge(
               horizontal: screenWidth(context, dividedBy: 30),
             ),
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            content:LoginAlertBox(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            content: LoginAlertBox(
               title: title,
               message: message,
               key: null,
@@ -177,5 +140,38 @@ void showAlertDialoge(
 //     firstDate: DateTime(2017, 1),
 //     lastDate: DateTime(2022, 7),
 //     helpText: 'Select a date',
+//   );
+// }
+//
+//
+// void showActionAlert(
+//     context, {
+//       required String tittle,
+//       required String message,
+//     }) {
+//   showDialog(
+//     context: context,
+//     barrierColor: Colors.transparent,
+//     builder: (BuildContext context) {
+//       Future.delayed(Duration(seconds: 2), () {
+//         // Navigator.of(context).pop(true);
+//       });
+//       return Center(
+//         child: AlertDialog(
+//             elevation: 0,
+//             backgroundColor: Colors.transparent,
+//             insetPadding: EdgeInsets.symmetric(
+//               horizontal: screenWidth(context, dividedBy: 30),
+//             ),
+//             shape:
+//             RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+//             content: ActionAlertBox(
+//                 tittle: tittle,
+//                 message: message,
+//                 positiveText: "DELETE",
+//                 onPositvieClick: () {},
+//                 onNegativeClick: () {})),
+//       );
+//     },
 //   );
 // }

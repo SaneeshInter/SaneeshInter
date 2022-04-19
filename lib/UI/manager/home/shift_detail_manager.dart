@@ -19,7 +19,7 @@ class ShiftDetailManagerScreen extends StatefulWidget {
 }
 class _CreateShiftState extends State<ShiftDetailManagerScreen> {
   String? token;
-  String? shift_id = "1";
+  String? shift_id = "190";
   String? job_request_row_id;
   bool visible = false;
   @override

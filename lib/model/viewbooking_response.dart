@@ -79,8 +79,8 @@ class Items {
   String? timeFrom;
   String? timeTo;
   String? jobDetails;
-  Null? price;
-  Null? allowances;
+  int? price;
+  List<Allowancess>? allowances;
   String? createdDate;
 
   Items(
@@ -116,7 +116,12 @@ class Items {
     timeTo = json['time_to'];
     jobDetails = json['job_details'];
     price = json['price'];
-    allowances = json['allowances'];
+    if (json['allowances'] != null) {
+      allowances = <Allowancess>[];
+      json['allowances'].forEach((v) {
+        allowances!.add(new Allowancess.fromJson(v));
+      });
+    }
     createdDate = json['created_date'];
   }
 
@@ -136,8 +141,32 @@ class Items {
     data['time_to'] = this.timeTo;
     data['job_details'] = this.jobDetails;
     data['price'] = this.price;
-    data['allowances'] = this.allowances;
+    if (this.allowances != null) {
+      data['allowances'] = this.allowances!.map((v) => v.toJson()).toList();
+    }
     data['created_date'] = this.createdDate;
+    return data;
+  }
+}
+
+class Allowancess {
+  String? category;
+  String? allowance;
+  String? price;
+
+  Allowancess({this.category, this.allowance, this.price});
+
+  Allowancess.fromJson(Map<String, dynamic> json) {
+    category = json['category'];
+    allowance = json['allowance'];
+    price = json['price'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['category'] = this.category;
+    data['allowance'] = this.allowance;
+    data['price'] = this.price;
     return data;
   }
 }

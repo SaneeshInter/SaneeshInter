@@ -1,33 +1,26 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/model/user_complted_shift.dart';
+
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
-import 'buttons/book_button.dart';
-import 'buttons/build_button.dart';
-import 'buttons/call_button.dart';
-import 'buttons/view_button.dart';
 
 class TimeSheetListWidget extends StatefulWidget {
-  final String name;
-  final String startTime;
-  final String endTime;
-  final String price;
+  final Items items;
   final Function onTapBooking;
   final Function onTapMap;
   final Function onTapCall;
   final Function onTapView;
 
-  const TimeSheetListWidget(
-      {Key? key,
-      required this.name,
-      required this.price,
-      required this.onTapView,
-      required this.endTime,
-      required this.onTapBooking,
-      required this.onTapCall,
-      required this.onTapMap,
-      required this.startTime})
-      : super(key: key);
+  const TimeSheetListWidget({
+    Key? key,
+    required this.items,
+    required this.onTapView,
+    required this.onTapBooking,
+    required this.onTapCall,
+    required this.onTapMap,
+  }) : super(key: key);
 
   @override
   _TimeSheetListState createState() => _TimeSheetListState();
@@ -35,6 +28,7 @@ class TimeSheetListWidget extends StatefulWidget {
 
 class _TimeSheetListState extends State<TimeSheetListWidget> {
   bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,23 +37,16 @@ class _TimeSheetListState extends State<TimeSheetListWidget> {
           horizontal: screenWidth(context, dividedBy: 25),
           vertical: screenHeight(context, dividedBy: 70)),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(-2, 2),
-                blurRadius: 2,
-                spreadRadius: 2,
-                color: Constants.colors[7].withOpacity(0.15))
-          ]),
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
       child: Column(
         children: [
           Row(children: [
             Container(
               alignment: Alignment.topLeft,
-              transformAlignment: Alignment.topLeft ,
+              transformAlignment: Alignment.topLeft,
               child: Checkbox(
-
                 checkColor: Colors.white,
                 fillColor: MaterialStateProperty.resolveWith(getColor),
                 value: isChecked,
@@ -71,39 +58,59 @@ class _TimeSheetListState extends State<TimeSheetListWidget> {
               ),
             ),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                widget.name,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
+              Row(
+                children: [
+                  AutoSizeText(
+                    "At : " + widget.items.hospital!,
+                    textAlign: TextAlign.start,
+                    maxLines: 3,
+                    style: TextStyle(
+                        color: Constants.colors[14],
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "SFProBold"),
+                  ),
+                ],
               ),
               SizedBox(height: screenHeight(context, dividedBy: 120)),
-
-              Text(
-                "Job tittle",
-                style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.w700),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1.0),
+                    child: Text(
+                      "On: " + widget.items.date!,
+                      style: TextStyle(
+                          fontSize: 9.sp,
+                          color: Constants.colors[13],
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Text(
+                      "From " +
+                          widget.items.timeFrom! +
+                          " To " +
+                          widget.items.timeTo!,
+                      style: TextStyle(
+                          fontSize: 9.sp,
+                          color: Constants.colors[13],
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: screenHeight(context, dividedBy: 120)),
-
-              Text(
-                "From " + widget.startTime + " To " + widget.endTime,
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w400),
-              ),
-              SizedBox(height: screenHeight(context, dividedBy: 120)),
-              Text(
-                "Vacancy 2",
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Constants.colors[3],
-                    fontWeight: FontWeight.w500),
-              ),
+              if (null != widget.items.userType)
+                Text(
+                  widget.items.userType!,
+                  style: TextStyle(
+                      fontSize: 11.sp,
+                      color: Constants.colors[3],
+                      fontWeight: FontWeight.w500),
+                ),
             ]),
             Spacer(),
           ]),
@@ -113,7 +120,6 @@ class _TimeSheetListState extends State<TimeSheetListWidget> {
     );
   }
 }
-
 
 Color getColor(Set<MaterialState> states) {
   const Set<MaterialState> interactiveStates = <MaterialState>{

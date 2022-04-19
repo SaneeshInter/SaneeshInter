@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/ui/user/home/availability_screen.dart';
+import 'package:xpresshealthdev/ui/user/home/completed_shift_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/home_screen.dart';
 import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
-import 'package:xpresshealthdev/ui/user/home/my_shift_calendar.dart';
-import 'package:xpresshealthdev/ui/user/home/profile_screen.dart';
+
 import '../ui/user/home/find_shift_screen.dart';
 import '../utils/constants.dart';
 
@@ -35,13 +35,13 @@ class _DashBoardWidgetState extends State<DashBoard> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    FindShiftScreen(selectDay: DateTime.now(),),
+    FindShiftScreen(),
     // FindshiftCalendar(),
     // ShiftCalendarScreen(),
-
     MyBookingScreen(),
     AvailabilityScreen(),
-    ProfileScreen(),
+    CompletedShiftScreen(),
+    // ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -135,11 +135,18 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
-      icon: Icon(CupertinoIcons.person),
-      title: ("Profile"),
+      icon: Icon(CupertinoIcons.calendar_badge_plus),
+      title: ("Time Sheet"),
       iconSize: 6.w,
       activeColorPrimary: Constants.colors[6],
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
+    // PersistentBottomNavBarItem(
+    //   icon: Icon(CupertinoIcons.person),
+    //   title: ("Profile"),
+    //   iconSize: 6.w,
+    //   activeColorPrimary: Constants.colors[6],
+    //   inactiveColorPrimary: CupertinoColors.systemGrey,
+    // ),
   ];
 }

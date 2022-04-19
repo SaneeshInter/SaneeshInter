@@ -25,45 +25,44 @@ class CreateShiftmanagerBloc {
   List<String> allowancesCategory = [];
   final _typeAllowancesCategroy = PublishSubject<List<AllowanceCategoryList>>();
 
-  Stream<List<AllowanceCategoryList>> get typeAllowancesCategroy =>
+  Stream<List<AllowanceCategoryList>> get typeAllowancesCategroys =>
       _typeAllowancesCategroy.stream;
 
   List<String> allowances = [];
   final _typeAllowances = PublishSubject<List<AllowanceList>>();
 
-  Stream<List<AllowanceList>> get typeAllowances => _typeAllowances.stream;
+  Stream<List<AllowanceList>> get typeAllowancesList => _typeAllowances.stream;
 
   // gender
   List<String> genders = [];
   final _gender = PublishSubject<List<GenderList>>();
+
   Stream<List<GenderList>> get genderStream => _gender.stream;
 
   List<String> type = [];
   final _type = PublishSubject<List<ShiftTypeList>>();
-  Stream<List<ShiftTypeList>> get typeStream => _type.stream;
 
+  Stream<List<ShiftTypeList>> get typeStream => _type.stream;
 
   List<String> category = [];
   final _category = PublishSubject<List<ScheduleCategoryList>>();
-  Stream<List<ScheduleCategoryList>> get categoryStream => _category.stream;
 
+  Stream<List<ScheduleCategoryList>> get categoryStream => _category.stream;
 
   List<String> usertypeStr = [];
   final _usertype = PublishSubject<List<UserTypeList>>();
-  Stream<List<UserTypeList>> get usertypeStream => _usertype.stream;
 
+  Stream<List<UserTypeList>> get usertypeStream => _usertype.stream;
 
   List<String> hospitals = [];
   final _hospital = PublishSubject<List<HospitalList>>();
+
   Stream<List<HospitalList>> get hospitalStream => _hospital.stream;
-
-
 
   List<String> shifttype = [];
   final _shifttype = PublishSubject<List<ShiftTypeList>>();
+
   Stream<List<ShiftTypeList>> get shifttypeStream => _shifttype.stream;
-
-
 
   getDropDownValues() async {
     var usertype = await _db.getUserTypeList();
@@ -78,15 +77,12 @@ class CreateShiftmanagerBloc {
     typeList.add(type1);
     typeList.add(type2);
 
-
-
     List<ShiftTypeList> shifttype = [];
     var shifttype1 = ShiftTypeList(rowId: 1, type: "Day");
     var shifttype2 = ShiftTypeList(rowId: 2, type: "Night");
 
     shifttype.add(shifttype1);
     shifttype.add(shifttype2);
-
 
     _shifttype.add(shifttype);
     _type.add(typeList);
@@ -97,12 +93,17 @@ class CreateShiftmanagerBloc {
 
   getModelDropDown() async {
     print("getModelDropDown");
+    _typeAllowancesCategroy.drain();
     var typeList = await _db.getAllowanceCategoryList();
+    for (var list in typeList) {
+      print(list.category);
+    }
     _typeAllowancesCategroy.add(typeList);
   }
 
   getAllowanceList(int id) async {
     print("getAllowanceCategory");
+    _typeAllowances.drain();
     var typeList = await _db.getAllowanceList(id);
     print("typeList");
     print(typeList.length);
@@ -126,7 +127,7 @@ class CreateShiftmanagerBloc {
     String time_to,
     String job_details,
     String price,
-      String shift,
+    String shift,
   ) async {
     ManagerShift respo = await _repo.CreateShiftManager(
       token,
@@ -147,8 +148,8 @@ class CreateShiftmanagerBloc {
     _getmanager.sink.add(respo);
   }
 
-  getUserListByDate(String token, String date,String shifttype) {
-    _repo.fetchGetAvailableUserByDate(token, date,shifttype);
+  getUserListByDate(String token, String date, String shifttype) {
+    _repo.fetchGetAvailableUserByDate(token, date, shifttype);
   }
 
   dispose() {

@@ -2,14 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:xpresshealthdev/ui/manager/home/my_shifts_screen.dart';
-import 'package:xpresshealthdev/ui/manager/home/shift_detail_manager.dart';
 import 'package:xpresshealthdev/ui/manager/home/approved_timesheet_screen.dart';
 import 'package:xpresshealthdev/ui/manager/home/create_shift_screen.dart';
-import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
+import 'package:xpresshealthdev/ui/manager/home/my_shifts_screen.dart';
 import 'package:xpresshealthdev/ui/widgets/loading_widget.dart';
 
 import '../../../blocs/manager_home_bloc.dart';
@@ -28,8 +25,8 @@ class ManagerHomeScreen extends StatefulWidget {
 }
 
 class _HomeScreentate extends State<ManagerHomeScreen> {
-
   var scaffoldKey = GlobalKey<ScaffoldState>();
+  bool visibility = false;
   int devicePixelRatio = 3;
   int perPageItem = 3;
   int pageCount = 0;
@@ -44,6 +41,16 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
+
+
+  void observe() {
+    managerhomeBloc.managerhomeStream.listen((event) {
+      setState(() {
+        visibility = false;
+      });
+    });
+  }
+
 
   Future<void> _dialCall() async {
     String phoneNumber = "8606276916";
@@ -63,18 +70,19 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
     }
   }
 
-
-
   Future getData() async {
     token = await TokenProvider().getToken();
-    managerhomeBloc.fetchManagerHome(token);
+    if (null != token) {
+      setState(() {
+        visibility = true;
+      });
+      managerhomeBloc.fetchManagerHome(token);
+    }
   }
 
   @override
   void initState() {
-
     getData();
-
 
     pageController = PageController(initialPage: 0);
     pageCount = 3;
@@ -88,6 +96,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
     managerhomeBloc.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -98,31 +107,47 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
+            child: Stack(
+              children: [
+                Center(
+                  child: Visibility(
+                    visible: visibility,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * .4,
-                      child: AutoSizeText(
-                        "Important Update",
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: Constants.colors[1],
-                          fontSize: 16.sp,
-                          fontFamily: "SFProMedium",
-                        ),
+                      width: 100.w,
+                      height: 80.h,
+                      child: const Center(
+                        child: LoadingWidget(),
                       ),
                     ),
                   ),
-                  horizontalList(),
-                  horizontalIndiCator(),
-                  gridView(),
-                  equalSizeButtons()
-                ],
-              ),
+                ),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * .4,
+                          child: AutoSizeText(
+                            "Important Update",
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Constants.colors[1],
+                              fontSize: 16.sp,
+                              fontFamily: "SFProMedium",
+                            ),
+                          ),
+                        ),
+                      ),
+                      horizontalList(),
+                      horizontalIndiCator(),
+                      gridView(),
+                      equalSizeButtons()
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -167,7 +192,7 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
             children: [
               Container(
                   child:
-                  Image.asset('assets/images/icon/premium_home_icon.png')),
+                      Image.asset('assets/images/icon/premium_home_icon.png')),
             ],
           ),
         ),
@@ -180,12 +205,10 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
       constraints: BoxConstraints(
         maxHeight: 110,
       ),
-
-
       child: StreamBuilder(
           stream: managerhomeBloc.managerhomeStream,
-          builder:
-              (BuildContext context, AsyncSnapshot<ManagerHomeResponse> snapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<ManagerHomeResponse> snapshot) {
             if (snapshot.hasData) {
               return buildList(snapshot);
             } else if (snapshot.hasError) {
@@ -212,15 +235,12 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         var date = "Your shift at Beneavin Manor is in  1 hour";
         var description = "Your shift at Beneavin Manor is in  1 hour";
 
-
-
         var manager = snapshot.data?.response?.data?.importantUpdates![index];
         if (manager != null) {
           name = manager.title!;
           date = manager.date!;
           description = manager.description!;
         }
-
 
         return Card(
           elevation: 0.0,
@@ -245,7 +265,8 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                     child: Container(
                         width: screenHeight(context, dividedBy: 2.2),
-                        child: AutoSizeText(description,
+                        child: AutoSizeText(
+                          description,
                           maxLines: 1,
                           style: TextStyle(
                             color: Constants.colors[13],
@@ -319,18 +340,18 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
         crossAxisCount: 2,
         children: [
           GestureDetector(
-            onTap: (){
-              print("ON TAP");
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreateShiftScreen()),
-              );
-            },
+              onTap: () {
+                print("ON TAP");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreateShiftScreen()),
+                );
+              },
               child: HomeCardItem(
                   label: "Create Shifts ",
                   asset: "assets/images/icon/availability.svg")),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ManagerShiftsScreen()),
@@ -341,10 +362,11 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                 asset: "assets/images/icon/availability.svg"),
           ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ApprovedTimeSheetScreen()),
+                MaterialPageRoute(
+                    builder: (context) => ApprovedTimeSheetScreen()),
               );
             },
             child: HomeCardItem(

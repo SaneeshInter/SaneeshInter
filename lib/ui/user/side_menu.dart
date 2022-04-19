@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/ui/splash/user_or_manager.dart';
-import 'package:xpresshealthdev/ui/user/sidenav/completed_shift_screen.dart';
+import 'package:xpresshealthdev/ui/user/home/completed_shift_screen.dart';
 import 'package:xpresshealthdev/ui/user/sidenav/notification_screen.dart';
 
 import '../../Constants/app_defaults.dart';
