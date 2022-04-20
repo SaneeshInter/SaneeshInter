@@ -12,6 +12,7 @@ class TimeSheetListWidget extends StatefulWidget {
   final Function onTapMap;
   final Function onTapCall;
   final Function onTapView;
+  final Function onCheckBoxClicked;
 
   const TimeSheetListWidget({
     Key? key,
@@ -20,6 +21,7 @@ class TimeSheetListWidget extends StatefulWidget {
     required this.onTapBooking,
     required this.onTapCall,
     required this.onTapMap,
+    required this.onCheckBoxClicked,
   }) : super(key: key);
 
   @override
@@ -51,9 +53,11 @@ class _TimeSheetListState extends State<TimeSheetListWidget> {
                 fillColor: MaterialStateProperty.resolveWith(getColor),
                 value: isChecked,
                 onChanged: (bool? value) {
+
                   setState(() {
                     isChecked = value!;
                   });
+                  widget.onCheckBoxClicked(widget.items.rowId.toString(), value);
                 },
               ),
             ),

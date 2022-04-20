@@ -45,7 +45,7 @@ class _HomePageCardState extends State<ShiftListWidget> {
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ShiftDetailScreen()),
+          MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: widget.items.rowId.toString(),)),
         );
       },
       child: Container(

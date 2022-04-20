@@ -1,10 +1,14 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/UI/user/home/filter_booking_list.dart';
+import 'package:xpresshealthdev/ui/user/home/filter_booking_list.dart';
 import 'package:xpresshealthdev/blocs/shift_confirmed_bloc.dart';
 import 'package:xpresshealthdev/model/user_view_request_response.dart';
 
+import '../../../Constants/sharedPrefKeys.dart';
 import '../../../resources/token_provider.dart';
 import '../../../utils/colors_util.dart';
 import '../../../utils/constants.dart';
@@ -20,6 +24,7 @@ class MyBookingScreen extends StatefulWidget {
 }
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+bool visibility = false;
 var token;
 
 class _HomeScreentate extends State<MyBookingScreen> {
@@ -48,11 +53,22 @@ class _HomeScreentate extends State<MyBookingScreen> {
 
   @override
   void initState() {
+
     getDataitems();
+    observe();
 
     pageController = PageController(initialPage: 0);
     pageCount = 3;
     super.initState();
+  }
+  void observe() {
+    confirmBloc.usercanceljobrequest.listen((event) {
+      String? message = event.response?.status?.statusMessage;
+      getDataitems();
+      showAlertDialoge(context, message: message!, title: "Cancel");
+    });
+    confirmBloc.usercanceljobrequest.listen((event) {
+    });
   }
 
   @override
@@ -222,8 +238,11 @@ Widget buildList(
               // showFeactureAlert(context, date: "");
             },
             onTapCancel: (item) {
-
               print("Tapped");
+              //confirmBloc.fetchGetUserCancelJobResponse(token, job_request_row_id)
+
+              canceljob(items);
+
             },
             onTapCall: () {},
             onTapMap: () {
@@ -241,10 +260,22 @@ Widget buildList(
   );
 }
 
+
+
+void canceljob(Items items) {
+  if (items is Items) {
+    Items data = items;
+    confirmBloc.UserCancelJobResponse(token,data.rowId.toString());
+  }
+}
+
+
 Future getDataitems() async {
   token = await TokenProvider().getToken();
   confirmBloc.fetchUserViewRequest(token);
+
 }
+
 
 FilterBookingList getFilterList(
     AsyncSnapshot<UserViewRequestResponse> snapshot, int position) {

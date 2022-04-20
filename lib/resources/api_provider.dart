@@ -13,6 +13,8 @@ import '../model/manager_response.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
+import '../model/user_add_availability.dart';
+import '../model/user_cancel_jobrequest.dart';
 import '../model/user_complted_shift.dart';
 import '../model/user_get_response.dart';
 import '../model/user_getschedule_by_month_year.dart';
@@ -589,7 +591,62 @@ class ApiProvider {
     }
   }
 
-  //////////////CATEGORIES
+  Future<UserCancelJobRequestResponse> getUserCanceljobrequest(
+      String token, String job_request_row_id) async {
+    var uri = Uri.parse(BASE_URL + "/user/cancel-request");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'job_request_row_id': job_request_row_id,
+        }));
+
+    print("PRINT USER CANCEL JOB REQUEST" + token);
+
+    print(jsonEncode(<String, String>{
+      'job_request_row_id': job_request_row_id,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserCancelJobRequestResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+
+  Future<AddUserAvailabilityResponse> getaddUserAvailability(
+      String token, String date,String availability) async {
+    var uri = Uri.parse(BASE_URL + "/user/add-availability");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'date': date,
+          'availability': availability,
+        }));
+
+    print("PRINT ADD USER AVAILABILTY" + token);
+
+    print(jsonEncode(<String, String>{
+      'date': date,
+      'availability': availability,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return AddUserAvailabilityResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+                                                                      //////////////CATEGORIES
 
   Future<SliftListRepso> fetchConfirm() async {
     print("CONFIRMED");

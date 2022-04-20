@@ -32,6 +32,7 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var token;
   var _image;
+  List<String> list = [];
 
   @override
   void didUpdateWidget(covariant CompletedShiftScreen oldWidget) {
@@ -95,12 +96,18 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
       print("event");
       print(event.response);
       var message = event.response?.status?.statusMessage;
+
+      setState(() {
+        _image = null;
+
+      });
+
+      getData();
       showAlertDialoge(context, message: message!, title: "Upload Timesheet");
+
       setState(() {
         visibility = false;
       });
-
-
     });
   }
 
@@ -144,6 +151,9 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
                         child: _image != null
                             ? Image.file(File(_image.path))
                             : Container()),
+                    SizedBox(
+                      height: 20,
+                    ),
                     DottedBorder(
                       borderType: BorderType.RRect,
                       dashPattern: [10, 10],
@@ -154,7 +164,9 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
                           print("On tap");
                           getImage(ImgSource.Both);
                         },
+
                         child: Container(
+
                           color: Colors.white,
                           width: 100.w,
                           height: 10.w,
@@ -184,17 +196,41 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
                             return Text(snapshot.error.toString());
                           }
                           return Container();
-                        }),
+                        }),SizedBox(
+                      height: 10,
+                    ),
                     BuildButton(
-                      label: "Approve Timesheets",
+                      label: "Upload Timesheets",
                       onPressed: () {
                         setState(() {
                           visibility = true;
                         });
-                        completeBloc.uploadTimeSheet(
-                            token, "1,2", File(_image.path));
+
+                        String shiftid = "";
+                        print("PRINT UPLOAD LISTS");
+                        for (var item in list) {
+                          shiftid = shiftid + item + ",";
+                        }
+
+                        print(shiftid);
+                        if (_image != null) {
+                          if (shiftid.isNotEmpty) {
+                            completeBloc.uploadTimeSheet(
+                                token, shiftid, File(_image.path));
+                          } else {
+                            showAlertDialoge(context,
+                                title: "Alert", message: "Select Shift");
+                          }
+                        } else {
+                          showAlertDialoge(context,
+                              title: "Alert", message: "Upload Timesheet");
+                        }
+
                       },
                       key: null,
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ])),
             ],
@@ -222,6 +258,20 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
               onTapMap: () {},
               onTapBooking: () {},
               items: items!,
+              onCheckBoxClicked: (rowId, isSelect) {
+                print(rowId);
+                print(isSelect);
+                if (isSelect) {
+                  list.add(rowId.toString());
+                } else {
+                  list.remove(rowId.toString());
+                }
+                // String string = "";
+                // for (var item in list) {
+                //   string = string + item + ",";
+                // }
+                // print(string);
+              },
             ),
             SizedBox(height: screenHeight(context, dividedBy: 100)),
           ],

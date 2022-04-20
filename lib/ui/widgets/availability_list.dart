@@ -13,21 +13,18 @@ class AvailabilityListWidget extends StatefulWidget {
   final String endTime;
   final String price;
   final int value;
-  final Function onTapBooking;
-  final Function onTapMap;
-  final Function onTapCall;
   final Function onTapView;
+  final Function onSumbmit;
 
   const AvailabilityListWidget(
+      //list
       {Key? key,
       required this.name,
       required this.price,
       required this.onTapView,
       required this.endTime,
-      required this.onTapBooking,
-      required this.onTapCall,
-      required this.onTapMap,
       required this.startTime,
+      required this.onSumbmit,
       required this.value})
       : super(key: key);
 
@@ -36,10 +33,18 @@ class AvailabilityListWidget extends StatefulWidget {
 }
 
 class _AvailabilityState extends State<AvailabilityListWidget> {
+  var selectedValue = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedValue = widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-
       width: 55.w,
       height: 55.w,
       padding: EdgeInsets.symmetric(
@@ -49,29 +54,28 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
       ),
-      child: GestureDetector(
-        onTap: () {
-          print("dadsd");
-
-
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  print("dadsd");
-
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  selectedValue = 1;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        print("1=Day");
+                      },
                       child: Row(
                         children: [
                           Expanded(
@@ -96,7 +100,7 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
                               flex: 2),
                           Expanded(
                               child: Visibility(
-                                visible: widget.value == 0,
+                                visible: selectedValue == 1,
                                 child: Container(
                                   child: SvgPicture.asset(
                                       'assets/images/icon/check.svg'),
@@ -105,119 +109,124 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
                               flex: 1)
                         ],
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
-              SizedBox(
-                height: 10,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedValue = 2;
+                });
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child:
+                                SvgPicture.asset('assets/images/icon/moon.svg'),
+                          ),
+                          flex: 1,
+                        ),
+                        Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 15),
+                              child: AutoSizeText(
+                                "NIGHT",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            flex: 2),
+                        Expanded(
+                            child: Visibility(
+                              visible: selectedValue == 2,
+                              child: Container(
+                                child: SvgPicture.asset(
+                                    'assets/images/icon/check.svg'),
+                              ),
+                            ),
+                            flex: 1)
+                      ],
+                    ),
+                  )
+                ],
               ),
-              GestureDetector(
-                onTap: () {
-                  print("dadsd");
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedValue = 0;
+                });
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: SvgPicture.asset(
+                                'assets/images/icon/turn-off.svg'),
+                          ),
+                          flex: 1,
+                        ),
+                        Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 15),
+                              //color: Colors.green,
+                              child: AutoSizeText(
+                                "OFF",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            flex: 2),
+                        Expanded(
+                            child: Visibility(
+                              visible: selectedValue == 0,
+                              child: Container(
+                                child: SvgPicture.asset(
+                                    'assets/images/icon/check.svg'),
+                              ),
+                            ),
+                            flex: 1)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: screenHeight(context, dividedBy: 50)),
+            SubmitButton(
+                onPressed: () {
+                  widget.onSumbmit(selectedValue);
                 },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              child:
-                                  SvgPicture.asset('assets/images/icon/moon.svg'),
-                            ),
-                            flex: 1,
-                          ),
-                          Expanded(
-                              child: Container(
-                                padding: EdgeInsets.only(left: 15),
-                                child: AutoSizeText(
-                                  "NIGHT",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                              flex: 2),
-                          Expanded(
-                              child: Visibility(
-                                visible: widget.value == 0,
-                                child: Container(
-                                  child: SvgPicture.asset(
-                                      'assets/images/icon/check.svg'),
-                                ),
-                              ),
-                              flex: 1)
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              child: SvgPicture.asset(
-                                  'assets/images/icon/turn-off.svg'),
-                            ),
-                            flex: 1,
-                          ),
-                          Expanded(
-                              child: Container(
-                                padding: EdgeInsets.only(left: 15),
-                                //color: Colors.green,
-                                child: AutoSizeText(
-                                  "OFF",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                              flex: 2),
-                          Expanded(
-                              child: Visibility(
-                                visible: widget.value == 1,
-                                child: Container(
-                                  child: SvgPicture.asset(
-                                      'assets/images/icon/check.svg'),
-                                ),
-                              ),
-                              flex: 1)
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: screenHeight(context, dividedBy: 50)),
-              SubmitButton(
-                  onPressed: () {
-
-
-                    print("jfgf");
-                  },
-                  label: "Submit",
-                  textColors: Constants.colors[0],
-                  color1: Constants.colors[3],
-                  color2: Constants.colors[4]),
-            ],
-          ),
+                label: "Submit",
+                textColors: Constants.colors[0],
+                color1: Constants.colors[3],
+                color2: Constants.colors[4]),
+          ],
         ),
       ),
     );

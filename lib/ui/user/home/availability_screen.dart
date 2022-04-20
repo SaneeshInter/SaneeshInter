@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:xpresshealthdev/blocs/user_availability_bloc.dart';
+import 'package:xpresshealthdev/ui/widgets/availability_list.dart';
 
+import '../../../resources/token_provider.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
-import '../../Widgets/availability_list.dart';
 import '../../datepicker/date_picker_widget.dart';
 import '../app_bar.dart';
 import '../side_menu.dart';
@@ -20,10 +22,12 @@ final FixedExtentScrollController _controller = FixedExtentScrollController();
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _AvailabilityState extends State<AvailabilityScreen> {
+  var token;
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  late DateTime _selectedValue;
+  var _selectedValue;
   var itemSelected = 0;
   var daysCount = 500;
+  //var date;
 
   PageController? pageController;
 
@@ -39,7 +43,8 @@ class _AvailabilityState extends State<AvailabilityScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    getDatatoken();
+
     pageController = PageController(initialPage: 0, viewportFraction: 0.8);
     super.initState();
   }
@@ -51,9 +56,8 @@ class _AvailabilityState extends State<AvailabilityScreen> {
       viewportFraction: .612,
     );
 
-
     final FixedExtentScrollController itemController =
-    FixedExtentScrollController();
+        FixedExtentScrollController();
     DatePicker date;
     return Scaffold(
       key: _scaffoldKey,
@@ -74,7 +78,7 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                 horizontal: screenWidth(context, dividedBy: 40)),
             child: Column(children: [
               SizedBox(height: screenHeight(context, dividedBy: 40)),
-             DatePicker(
+              DatePicker(
                 DateTime.now(),
                 initialSelectedDate: DateTime.now(),
                 selectionColor: Constants.colors[3],
@@ -103,16 +107,12 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                 onDateChange: (date, x) {
                   print(date);
                   // New date selected
-                  ctrl?.animateToPage(x, duration: Duration(milliseconds: 100), curve: Curves.ease);
-                  // setState(() {
-                  //   _selectedValue = date;
-                  //   // pageController.animateToPage(page, duration: duration, curve: curve);
-                  //
-                  //   // _controller.animateToItem(x,
-                  //   //     duration: Duration(milliseconds: 500),
-                  //   //     curve: Curves.linear);
-                  //   print(date);
-                  // });
+                  ctrl?.animateToPage(x,
+                      duration: Duration(milliseconds: 100),
+                      curve: Curves.ease);
+                  _selectedValue = date.toString();
+
+
                 },
               ),
               SizedBox(height: 2.h),
@@ -120,14 +120,12 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                 height: 60.w,
                 child: PageView.builder(
                   controller: ctrl,
-                  onPageChanged: (page)
-                  {
+                  onPageChanged: (page) {
                     print("page");
                     print(page);
-                      itemController.animateToItem(page,
-                          duration: Duration(milliseconds: 100),
-                          curve: Curves.linear);
-
+                    itemController.animateToItem(page,
+                        duration: Duration(milliseconds: 100),
+                        curve: Curves.linear);
                   },
                   itemBuilder: (context, index) {
                     return Container(
@@ -144,16 +142,16 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                             endTime: "12.00 PM",
                             price: "32",
                             onTapView: () {},
-                            onTapCall: () {},
-                            onTapMap: () {},
-                            onTapBooking: () {
-                              print("Tapped");
-                              showBookingAlert(context,
-                                  date: "Saturday 19th February 2022");
-                            },
                             key: null,
                             name: 'DAY',
-                            value: 1,
+                            value: 1,onSumbmit: (selectedShfit){
+
+                              print("selectd shift");
+                              print(selectedShfit);
+
+                            updateShiftAvailabaity(selectedShfit);
+
+                          },
                           ),
                         ],
                       ),
@@ -166,69 +164,19 @@ class _AvailabilityState extends State<AvailabilityScreen> {
       ),
     );
   }
-}
 
-class BodyWidget extends StatelessWidget {
-  final Color color;
+  Future getDatatoken() async {
+    token = await TokenProvider().getToken();
 
-  BodyWidget(this.color);
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100.0,
-      color: color,
-      alignment: Alignment.center,
-    );
+
+  void updateShiftAvailabaity(int selectedShfit) {
+    print(token);
+    print(_selectedValue);
+    print(selectedShfit.toString());
+    availabilitybloc.addUserAvailability(token,_selectedValue.toString(), selectedShfit.toString());
   }
 }
 
-Widget bottom() {
-  return Container(
-    height: 52.w,
-    child: RotatedBox(
-        quarterTurns: -1,
-        child: ListWheelScrollView(
-          controller: _controller,
-          diameterRatio: 4,
-          onSelectedItemChanged: (x) {
-            // setState(() {
-            //   itemSelected = x;
-            //   print("selected");
-            //   itemController.animateToItem(x,
-            //       duration: Duration(milliseconds: 500),
-            //       curve: Curves.linear);
-            //   print(x);
-            // });
-          },
-          children: List.generate(
-              100,
-              (x) => RotatedBox(
-                  quarterTurns: 1,
-                  child: AnimatedContainer(
-                      duration: Duration(milliseconds: 100),
-                      child: StreamBuilder<Object>(
-                          stream: null,
-                          builder: (context, snapshot) {
-                            // Return the Date Widget
-                            return AvailabilityListWidget(
-                              startTime: "11.00 AM",
-                              endTime: "12.00 PM",
-                              price: "32",
-                              onTapView: () {},
-                              onTapCall: () {},
-                              onTapMap: () {},
-                              onTapBooking: () {
-                                print("Tapped");
-                                showBookingAlert(context,
-                                    date: "Saturday 19th February 2022");
-                              },
-                              key: null,
-                              name: 'DAY',
-                              value: 2,
-                            );
-                          })))),
-          itemExtent: 200,
-        )),
-  );
-}
+

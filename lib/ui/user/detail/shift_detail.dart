@@ -16,6 +16,10 @@ import '../side_menu.dart';
 import 'drawable_custom_row.dart';
 
 class ShiftDetailScreen extends StatefulWidget {
+
+  final String shift_id;
+  const ShiftDetailScreen({Key? key, required this.shift_id}) : super(key: key);
+
   @override
   State<ShiftDetailScreen> createState() => _ShiftDetailScreenState();
 }
@@ -23,7 +27,6 @@ class ShiftDetailScreen extends StatefulWidget {
 
 class _ShiftDetailScreenState extends State<ShiftDetailScreen> {
   String? token;
-  String? shift_id = "190";
 
   @override
   void initState() {
@@ -37,8 +40,9 @@ class _ShiftDetailScreenState extends State<ShiftDetailScreen> {
     token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
     print("token inn deta");
     print(token);
-    print(shift_id);
-    usershiftdetailsBloc.fetchGetUserShiftDetailsResponse(token!, shift_id!);
+    print(widget.shift_id);
+    usershiftdetailsBloc.fetchGetUserShiftDetailsResponse(
+        token!, widget.shift_id);
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -318,3 +322,5 @@ class _ShiftDetailScreenState extends State<ShiftDetailScreen> {
     );
   }
 }
+
+

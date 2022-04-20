@@ -45,7 +45,7 @@ class _MyBookingState extends State<MyBookingListWidget> {
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ShiftDetailScreen()),
+          MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: widget.items.rowId.toString(),)),
         );
       },
       child: Padding(
@@ -157,7 +157,10 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
       children: [
         BuildButton(
           label: "View Shift",
-          onPressed: () {
+          onPressed: () {   Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: widget.items.rowId.toString(),)),
+          );
             widget.onTapMap();
             print("Cards booking");
           },
@@ -177,8 +180,10 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
           BookButton(
             label: "Cancel Request",
             onPressed: () {
+
               widget.onTapCancel(widget.items);
               print("Cards booking");
+
             },
             key: null,
           ),
