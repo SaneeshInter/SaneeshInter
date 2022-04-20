@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 import '../ui/Widgets/booking_alert_box.dart';
-import '../ui/widgets/action_alert_dialoge.dart';
 import '../ui/widgets/add_time_sheet_alert_box.dart';
 import '../ui/widgets/login_invalid_alert.dart';
 
@@ -25,8 +25,7 @@ void push(context, Widget route) {
 
 double getPercentage(context) {
   var height = MediaQuery.of(context).size.height;
-  print("height");
-  print(height);
+
   if (height > 1024) {
     return 10.h;
   } else {
@@ -36,6 +35,12 @@ double getPercentage(context) {
 
 void pop(context) {
   Navigator.pop(context);
+}
+
+String formatDate(DateTime now) {
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final String formatted = formatter.format(now);
+  return formatted;
 }
 
 void showBookingAlert(
@@ -66,9 +71,6 @@ void showBookingAlert(
     },
   );
 }
-
-
-
 
 void showAddTimeSheet(
   context, {

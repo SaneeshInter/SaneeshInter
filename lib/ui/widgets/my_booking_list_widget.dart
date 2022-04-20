@@ -157,10 +157,12 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
       children: [
         BuildButton(
           label: "View Shift",
-          onPressed: () {   Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: widget.items.rowId.toString(),)),
-          );
+          onPressed: () {
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: widget.items.rowId.toString(),)),
+            );
             widget.onTapMap();
             print("Cards booking");
           },

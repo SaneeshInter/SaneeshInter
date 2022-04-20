@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/blocs/user_availability_bloc.dart';
 import 'package:xpresshealthdev/ui/widgets/availability_list.dart';
 
+import '../../../model/user_availability_btw_date.dart';
 import '../../../resources/token_provider.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
@@ -22,13 +23,13 @@ final FixedExtentScrollController _controller = FixedExtentScrollController();
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _AvailabilityState extends State<AvailabilityScreen> {
-  var token;
+  String token = "";
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var _selectedValue;
   var itemSelected = 0;
   var daysCount = 500;
-  //var date;
-
+  var startDate;
+  var endDate;
   PageController? pageController;
 
   double viewportFraction = 0.8;
@@ -43,19 +44,22 @@ class _AvailabilityState extends State<AvailabilityScreen> {
 
   @override
   void initState() {
+    startDate = DateTime.now();
+    var today = DateTime.now();
+    endDate = today.add(const Duration(days: 30));
     getDatatoken();
-
+    availabilitybloc.fetchuserAvailability(token, startDate, endDate);
     pageController = PageController(initialPage: 0, viewportFraction: 0.8);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    availabilitybloc.fetchuserAvailability(token, startDate, endDate);
     double width = MediaQuery.of(context).size.width;
     final PageController ctrl = PageController(
       viewportFraction: .612,
     );
-
     final FixedExtentScrollController itemController =
         FixedExtentScrollController();
     DatePicker date;
@@ -63,9 +67,6 @@ class _AvailabilityState extends State<AvailabilityScreen> {
       key: _scaffoldKey,
       backgroundColor: Constants.colors[9],
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: SideMenu(),
       ),
       appBar: AppBarCommon(
@@ -104,6 +105,7 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                     fontWeight: FontWeight.w600,
                     fontSize: 8.sp),
                 itemController: itemController,
+                daysCount: 30,
                 onDateChange: (date, x) {
                   print(date);
                   // New date selected
@@ -111,54 +113,60 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                       duration: Duration(milliseconds: 100),
                       curve: Curves.ease);
                   _selectedValue = date.toString();
-
-
                 },
               ),
               SizedBox(height: 2.h),
               Container(
-                height: 60.w,
-                child: PageView.builder(
-                  controller: ctrl,
-                  onPageChanged: (page) {
-                    print("page");
-                    print(page);
-                    itemController.animateToItem(page,
-                        duration: Duration(milliseconds: 100),
-                        curve: Curves.linear);
-                  },
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.only(
-                        right: 0,
-                        left: 0,
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      child: Stack(
-                        children: <Widget>[
-                          AvailabilityListWidget(
-                            startTime: "11.00 AM",
-                            endTime: "12.00 PM",
-                            price: "32",
-                            onTapView: () {},
-                            key: null,
-                            name: 'DAY',
-                            value: 1,onSumbmit: (selectedShfit){
-
-                              print("selectd shift");
-                              print(selectedShfit);
-
-                            updateShiftAvailabaity(selectedShfit);
-
+                  height: 60.w,
+                child: StreamBuilder(
+                    stream: availabilitybloc.useravailabilitiydate,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<AvailabilityList>> snapshot) {
+                      print("stream");
+                      if (snapshot.hasData) {
+                        return PageView.builder(
+                          controller: ctrl,
+                          onPageChanged: (page) {
+                            print("page");
+                            print(page);
+                            itemController.animateToItem(page,
+                                duration: Duration(milliseconds: 100),
+                                curve: Curves.linear);
                           },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: 20,
-                ),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            var item = snapshot.data![index];
+                            return Container(
+                              padding: EdgeInsets.only(
+                                right: 0,
+                                left: 0,
+                                top: 10,
+                                bottom: 10,
+                              ),
+                              child: Stack(
+                                children: <Widget>[
+                                  AvailabilityListWidget(
+                                    item: item,
+                                    onTapView: () {},
+                                    key: null,
+                                    value: 1,
+                                    onSumbmit: (selectedShfit) {
+                                      print("selectd shift");
+                                      print(selectedShfit);
+
+                                      updateShiftAvailabaity(selectedShfit);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      return Container();
+                    }),
               ),
             ])),
       ),
@@ -166,17 +174,14 @@ class _AvailabilityState extends State<AvailabilityScreen> {
   }
 
   Future getDatatoken() async {
-    token = await TokenProvider().getToken();
-
+    token = (await TokenProvider().getToken())!;
   }
-
 
   void updateShiftAvailabaity(int selectedShfit) {
     print(token);
     print(_selectedValue);
     print(selectedShfit.toString());
-    availabilitybloc.addUserAvailability(token,_selectedValue.toString(), selectedShfit.toString());
+    availabilitybloc.addUserAvailability(
+        token, _selectedValue.toString(), selectedShfit.toString());
   }
 }
-
-

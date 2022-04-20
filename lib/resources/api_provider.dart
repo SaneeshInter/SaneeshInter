@@ -14,6 +14,7 @@ import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
 import '../model/user_add_availability.dart';
+import '../model/user_availability_btw_date.dart';
 import '../model/user_cancel_jobrequest.dart';
 import '../model/user_complted_shift.dart';
 import '../model/user_get_response.dart';
@@ -641,6 +642,34 @@ class ApiProvider {
 
     if (response.statusCode == 200) {
       return AddUserAvailabilityResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<UserAvailabilitydateResponse> getUserAvailability(
+      String token, String from_date,String to_date) async {
+    var uri = Uri.parse(BASE_URL + "/user/get-available-user-between-date");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'from_date': from_date,
+          'to_date': to_date,
+        }));
+
+    print("PRINT USER AVAILABILTY BETWEEN DATE" + token);
+
+    print(jsonEncode(<String, String>{
+      'from_date': from_date,
+      'to_date': to_date,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserAvailabilitydateResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
     }

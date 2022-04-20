@@ -16,6 +16,7 @@ import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
 import '../model/time_sheet_upload_respo.dart';
 import '../model/user_add_availability.dart';
+import '../model/user_availability_btw_date.dart';
 import '../model/user_cancel_jobrequest.dart';
 import '../model/user_complted_shift.dart';
 import '../model/user_getschedule_by_month_year.dart';
@@ -105,6 +106,12 @@ class Repository {
   Future<AddUserAvailabilityResponse> addUserAvailability(
       String token, String date,String availability) =>
       apiProvider.getaddUserAvailability( token,  date, availability);
+
+
+  Future<UserAvailabilitydateResponse> UserAvailability(
+      String token, String from_date,String to_date) =>
+      apiProvider.getUserAvailability( token,  from_date, to_date);
+
 
   Future<ProfileUpdateRespo> ProfileUser(
           String token,

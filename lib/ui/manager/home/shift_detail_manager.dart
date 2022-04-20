@@ -13,13 +13,17 @@ import '../../../utils/utils.dart';
 import '../../user/detail/drawable_custom_row.dart';
 import '../../widgets/request_user_list.dart';
 class ShiftDetailManagerScreen extends StatefulWidget {
-  const ShiftDetailManagerScreen({Key? key}) : super(key: key);
+
+
+  final String shift_id;
+  const ShiftDetailManagerScreen({Key? key, required this.shift_id}) : super(key: key);
+
   @override
   _CreateShiftState createState() => _CreateShiftState();
 }
 class _CreateShiftState extends State<ShiftDetailManagerScreen> {
   String? token;
-  String? shift_id = "190";
+//  String? shift_id = "190";
   String? job_request_row_id;
   bool visible = false;
   @override
@@ -34,8 +38,8 @@ class _CreateShiftState extends State<ShiftDetailManagerScreen> {
     token = shdPre.getString(SharedPrefKey.AUTH_TOKEN);
     print("token inn deta");
     print(token);
-    print(shift_id);
-    managerviewrequestBloc.fetchManagerViewRequest(token!, shift_id!);
+    print(widget.shift_id);
+    managerviewrequestBloc.fetchManagerViewRequest(token!, widget.shift_id);
     acceptjobrequestBloc.fetchAcceptJobRequestResponse(
         token!, job_request_row_id!);
   }

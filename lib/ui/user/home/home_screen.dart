@@ -353,7 +353,7 @@ class _HomeScreentate extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ShiftDetailScreen()),
+                  MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: '190',)),
                 );
               },
               label: "Shift Details",
@@ -379,17 +379,15 @@ class _HomeScreentate extends State<HomeScreen> {
   Widget imageCard() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      child: Card(
-        elevation: 0.0,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: Row(
-            children: [
-              Container(
-                  child:
-                      Image.asset('assets/images/icon/premium_home_icon.png')),
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: Row(
+          children: [
+            Container(
+              width: 93.w,
+                child:
+                    Image.asset('assets/images/icon/premium_home_icon.png')),
+          ],
         ),
       ),
     );

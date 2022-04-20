@@ -264,10 +264,11 @@ class _HomeScreentate extends State<ManagerHomeScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                     child: Container(
-                        width: screenHeight(context, dividedBy: 2.2),
+                        width: 80.w,
+
                         child: AutoSizeText(
                           description,
-                          maxLines: 1,
+                          maxLines: 3,
                           style: TextStyle(
                             color: Constants.colors[13],
                             fontSize: 8.sp,

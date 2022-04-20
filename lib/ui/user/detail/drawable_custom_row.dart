@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 
 class CustomRow extends StatefulWidget {
   final Function onPressed;
@@ -47,6 +48,7 @@ class _CustomRowState extends State<CustomRow> {
             ),
             SizedBox(width: 10),
             Container(
+              width: 70.w,
               // width: screenWidth(context, dividedBy: 3.5),
               child: AutoSizeText.rich(
                 TextSpan(
@@ -57,8 +59,6 @@ class _CustomRowState extends State<CustomRow> {
                       fontFamily: "SFProMedium",
                       fontWeight: FontWeight.w600),
                 ),
-                minFontSize: 0,
-                stepGranularity: 0.1,
                 maxLines: 3,
               ),
             ),

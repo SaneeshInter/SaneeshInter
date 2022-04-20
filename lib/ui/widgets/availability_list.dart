@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../model/user_availability_btw_date.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 import 'buttons/submit_button.dart';
 
 class AvailabilityListWidget extends StatefulWidget {
-  final String name;
-  final String startTime;
-  final String endTime;
-  final String price;
+  final AvailabilityList item;
   final int value;
   final Function onTapView;
   final Function onSumbmit;
@@ -19,11 +17,8 @@ class AvailabilityListWidget extends StatefulWidget {
   const AvailabilityListWidget(
       //list
       {Key? key,
-      required this.name,
-      required this.price,
+      required this.item,
       required this.onTapView,
-      required this.endTime,
-      required this.startTime,
       required this.onSumbmit,
       required this.value})
       : super(key: key);
@@ -39,11 +34,13 @@ class _AvailabilityState extends State<AvailabilityListWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    selectedValue = widget.value;
+    selectedValue = widget.item.availability!;
   }
 
   @override
   Widget build(BuildContext context) {
+    selectedValue = widget.item.availability!;
+print(selectedValue);
     return Container(
       width: 55.w,
       height: 55.w,

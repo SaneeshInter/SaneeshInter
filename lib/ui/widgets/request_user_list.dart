@@ -106,15 +106,6 @@ class _RequestuserListState extends State<RequestuserListWidget> {
                       ),
                     Column(children: [
 
-                      if (widget.item.status != "Accepted")
-                        ViewButton(
-                          label: "Accept",
-                          onPressed: () {
-                            widget.onTapBooking(widget.item);
-                          },
-                          key: null,
-                        ),
-
                       if (widget.item.status == "Accepted")
                         ViewButton(
                           label: "Reject",

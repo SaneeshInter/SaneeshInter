@@ -115,7 +115,7 @@ class _HomePageCardState extends State<ManagerBookingListWidget> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ShiftDetailManagerScreen()),
+                              builder: (context) => ShiftDetailManagerScreen(shift_id: widget.items.rowId.toString(),)),
                         );
                       },
                       key: null,
