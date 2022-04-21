@@ -17,6 +17,10 @@ import '../../widgets/loading_widget.dart';
 import '../app_bar.dart';
 import '../detail/shift_detail.dart';
 import '../side_menu.dart';
+import 'availability_screen.dart';
+import 'completed_shift_screen.dart';
+import 'find_shift_screen.dart';
+import 'my_booking_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -520,18 +524,55 @@ class _HomeScreentate extends State<HomeScreen> {
         primary: false,
         crossAxisCount: 2,
         children: [
-          HomeCardItem(
-              label: "My\nAvailability ",
-              asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(
-              label: "Submit\nTimeSheets ",
-              asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(
-              label: "Find Shift",
-              asset: "assets/images/icon/availability.svg"),
-          HomeCardItem(
-              label: "My\nBooking",
-              asset: "assets/images/icon/availability.svg")
+          GestureDetector(
+            onTap: () {
+              // widget.onTapMap;
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AvailabilityScreen(),),
+              );
+            },
+            child: HomeCardItem(
+                label: "My\nAvailability ",
+                asset: "assets/images/icon/availability.svg"),
+          ),
+          GestureDetector( onTap: () {
+            // widget.onTapMap;
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CompletedShiftScreen(),),
+            );
+          },
+            child: HomeCardItem(
+                label: "Submit\nTimeSheets ",
+                asset: "assets/images/icon/availability.svg"),
+          ),
+          GestureDetector(onTap: () {
+            // widget.onTapMap;
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FindShiftScreen(),),
+            );
+          },
+            child: HomeCardItem(
+                label: "Find Shift",
+                asset: "assets/images/icon/availability.svg"),
+          ),
+          GestureDetector(onTap: () {
+            // widget.onTapMap;
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyBookingScreen(),),
+            );
+          },
+            child: HomeCardItem(
+                label: "My\nBooking",
+                asset: "assets/images/icon/availability.svg"),
+          )
         ],
       ),
     );

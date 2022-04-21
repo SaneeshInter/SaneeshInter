@@ -7,8 +7,10 @@ import 'package:xpresshealthdev/model/user_home_response.dart';
 
 import '../model/accept_job_request.dart';
 import '../model/get_available_user_by_date.dart';
+import '../model/manager_get_time.dart';
 import '../model/manager_home_response.dart';
 import '../model/manager_response.dart';
+import '../model/manager_timesheet.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
@@ -267,6 +269,55 @@ class ApiProvider {
     }
   }
 
+  Future<ManagerTimeDetailsResponse> timeDetails(
+      String token, String time_shhet_id) async {
+    var uri = Uri.parse(BASE_URL + '/manager/get-time-sheet-details');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'time_shhet_id': time_shhet_id,
+        }));
+
+    print("PRINT GET MANAGER TIME DETAILS" + token);
+    print("PRINT GET MANAGER TIME " + uri.toString());
+
+    print(jsonEncode(<String, String>{
+      'time_shhet_id': time_shhet_id,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return ManagerTimeDetailsResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<ManagerTimeSheetResponse> managerTimeSheet(
+      String token) async {
+    var uri = Uri.parse(BASE_URL + "/manager/get-time-sheet");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{}));
+
+    print("PRINT USERHOME RESPONSE" + token);
+
+    print(jsonEncode(<String, String>{}).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return ManagerTimeSheetResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
   //////////////USER
   Future<ManagerScheduleListResponse> fetchUserListByDate(
       String token, String date) async {
@@ -292,19 +343,12 @@ class ApiProvider {
     }
   }
 
-  Future<SliftListRepso> fetchTimesheet() async {
-    print("Time sheet");
 
-    var uri = Uri.parse(
-        'https://agasthyapix.yodser.com/api/categories.asmx/fillCategories');
-    final response = await client.get(uri);
-    print(response);
-    if (response.statusCode == 200) {
-      return SliftListRepso.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load post');
-    }
-  }
+
+
+
+
+
 
   Future<UserShoiftCompletedResponse> fetchUserCompleteShift(
       String token) async {
@@ -686,7 +730,7 @@ class ApiProvider {
           'end_time': end_time,
         }));
 
-    print("PRINT USER WORKING HOURS" + token);
+    print("ADD USER WORKING HOURS" + token);
 
     print(jsonEncode(<String, String>{
       'shift_id': shift_id,
@@ -702,7 +746,7 @@ class ApiProvider {
     }
   }
 
-  //////////////CATEGORIES
+                                                               //////////////CATEGORIES
 
   Future<SliftListRepso> fetchConfirm() async {
     print("CONFIRMED");

@@ -148,7 +148,7 @@ class _AvailabilityState extends State<AvailabilityScreen> {
                     onDateChange: (date, x) {
                       print(date);
                       // New date selected
-                      ctrl?.animateToPage(x,
+                      ctrl.animateToPage(x,
                           duration: Duration(milliseconds: 100),
                           curve: Curves.ease);
                       _selectedValue = date.toString();

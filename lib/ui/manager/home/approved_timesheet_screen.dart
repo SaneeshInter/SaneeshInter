@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:xpresshealthdev/blocs/shift_timesheet_bloc.dart';
+import 'package:xpresshealthdev/model/manager_timesheet.dart';
+import 'package:xpresshealthdev/ui/user/home/my_booking_screen.dart';
 
-import '../../../model/shift_list_response.dart';
+import '../../../resources/token_provider.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/approve_timesheet_list_widget.dart';
@@ -16,6 +18,7 @@ class ApprovedTimeSheetScreen extends StatefulWidget {
 class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   late DateTime _selectedValue;
+  var token;
 
   @override
   void didUpdateWidget(covariant ApprovedTimeSheetScreen oldWidget) {
@@ -25,8 +28,31 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
 
   @override
   void initState() {
-    timesheetBloc.fetchTimesheet();
+    observe();
+    getData();
     super.initState();
+  }
+
+  Future<void> getData() async {
+    token = await TokenProvider().getToken();
+    if (null != token) {
+      setState(() {
+        visibility = true;
+      });
+      timesheetBloc.fetchTimesheet(
+        token!,
+      );
+    } else {
+      print("TOKEN NOT FOUND");
+    }
+  }
+
+  void observe() {
+    timesheetBloc.timesheet.listen((event) {
+      setState(() {
+        visibility = false;
+      });
+    });
   }
 
   @override
@@ -43,9 +69,9 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
               child: Column(children: [
                 SizedBox(height: screenHeight(context, dividedBy: 60)),
                 StreamBuilder(
-                    stream: timesheetBloc.allShift,
+                    stream: timesheetBloc.timesheet,
                     builder: (BuildContext context,
-                        AsyncSnapshot<SliftListRepso> snapshot) {
+                        AsyncSnapshot<ManagerTimeSheetResponse> snapshot) {
                       if (snapshot.hasData) {
                         return buildList(snapshot);
                       } else if (snapshot.hasError) {
@@ -59,28 +85,19 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
     );
   }
 
-  Widget buildList(AsyncSnapshot<SliftListRepso> snapshot) {
+  Widget buildList(AsyncSnapshot<ManagerTimeSheetResponse> snapshot) {
     return ListView.builder(
-      itemCount: snapshot.data?.response?.data?.category?.length,
+      itemCount: snapshot.data?.response?.data?.timeSheetInfo?.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        var name = "Approved time sheet";
-        var description = "timesheets";
-
-        var category = snapshot.data?.response?.data?.category![index];
-        if (category != null) {
-          name = category.categoryname!;
-          name = category.categoryname!;
-        }
+        TimeSheetInfo? timeSheetInfo =
+            snapshot.data?.response?.data?.timeSheetInfo![index];
 
         return Column(
           children: [
             TimeSheetApproveListWidget(
-              name: name,
-              startTime: description,
-              endTime: "12.00 PM - 20:00 PM",
-              price: "32",
+              items: timeSheetInfo!,
               onTapView: () {},
               onTapCall: () {},
               onTapMap: () {},
@@ -88,6 +105,7 @@ class _ApprovedTimeSheetState extends State<ApprovedTimeSheetScreen> {
                 print("Tapped");
                 showBookingAlert(context, date: "Show Timesheet");
               },
+              key: null,
             ),
             SizedBox(height: screenHeight(context, dividedBy: 100)),
           ],

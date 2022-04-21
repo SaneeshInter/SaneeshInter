@@ -1,34 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/ui/widgets/buttons/delete_button.dart';
-import '../../utils/constants.dart';
+
+import '../../model/manager_timesheet.dart';
 import '../../utils/utils.dart';
-import 'buttons/book_button.dart';
+import '../manager/home/time_sheet_details.dart';
 import 'buttons/build_button.dart';
-import 'buttons/call_button.dart';
 import 'buttons/view_button.dart';
 
 class TimeSheetApproveListWidget extends StatefulWidget {
-  final String name;
-  final String startTime;
-  final String endTime;
-  final String price;
+
+  final TimeSheetInfo items;
   final Function onTapBooking;
   final Function onTapMap;
   final Function onTapCall;
   final Function onTapView;
 
-  const TimeSheetApproveListWidget(
-      {Key? key,
-      required this.name,
-      required this.price,
-      required this.onTapView,
-      required this.endTime,
-      required this.onTapBooking,
-      required this.onTapCall,
-      required this.onTapMap,
-      required this.startTime})
-      : super(key: key);
+  const TimeSheetApproveListWidget({
+    Key? key,
+
+    required this.items,
+    required this.onTapView,
+    required this.onTapBooking,
+    required this.onTapCall,
+    required this.onTapMap,
+  }) : super(key: key);
 
   @override
   _TimeSheetApproveState createState() => _TimeSheetApproveState();
@@ -54,7 +50,7 @@ class _TimeSheetApproveState extends State<TimeSheetApproveListWidget> {
             Row(children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  widget.name,
+                  widget.items.firstName!,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: Colors.black,
@@ -64,20 +60,13 @@ class _TimeSheetApproveState extends State<TimeSheetApproveListWidget> {
                 Row(
                   children: [
                     Text(
-                      "Date : " + widget.startTime,
+                      "Date : " + widget.items.date!,
                       style: TextStyle(
                           fontSize: 10.sp,
                           color: Colors.grey,
                           fontWeight: FontWeight.w400),
                     ),
                     SizedBox(width: 2.w),
-                    Text(
-                      "Time : " + widget.endTime,
-                      style: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400),
-                    ),
                   ],
                 ),
                 SizedBox(height: screenHeight(context, dividedBy: 120)),
@@ -87,8 +76,16 @@ class _TimeSheetApproveState extends State<TimeSheetApproveListWidget> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   ViewButton(
-                    label: "HCA",
-                    onPressed: widget.onTapView,
+                    label: "HCA", onPressed: () {
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ManagerTimeSheetDetails()),
+                    );
+                    widget.onTapView();
+                    print("Cards booking");
+                  },
+
                     key: null,
                   )
                 ],
