@@ -9,8 +9,10 @@ import 'package:xpresshealthdev/resources/api_provider.dart';
 
 import '../model/accept_job_request.dart';
 import '../model/get_available_user_by_date.dart';
+import '../model/manager_get_time.dart';
 import '../model/manager_home_response.dart';
 import '../model/manager_response.dart';
+import '../model/manager_timesheet.dart';
 import '../model/manager_view_request.dart';
 import '../model/remove_manager_schedule.dart';
 import '../model/shift_list_response.dart';
@@ -52,7 +54,9 @@ class Repository {
           String token, String date) =>
       apiProvider.fetchViewbooking(token, date);
 
-  Future<SliftListRepso> fetchTimesheet() => apiProvider.fetchTimesheet();
+  ///MANAGER TIME SHEET
+  Future<ManagerTimeSheetResponse> fetchManagerTimesheet(String token) => apiProvider.managerTimeSheet(token);
+  Future<ManagerTimeDetailsResponse> fetchManagerTimesheetDetials(String token,String time_shhet_id) => apiProvider.timeDetails(token,time_shhet_id);
 
   Future<LoginUserRespo> fetchLogin(String username, String password) =>
       apiProvider.loginUser(username, password);
