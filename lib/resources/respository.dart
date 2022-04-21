@@ -24,6 +24,8 @@ import '../model/user_getschedule_bydate.dart';
 import '../model/user_home_response.dart';
 import '../model/user_profile_update.dart';
 import '../model/user_view_request_response.dart';
+
+import '../model/user_working_hours.dart';
 import '../model/utility_respo.dart';
 import '../model/viewbooking_response.dart';
 import 'file_upload.dart';
@@ -112,6 +114,10 @@ class Repository {
       String token, String from_date,String to_date) =>
       apiProvider.getUserAvailability( token,  from_date, to_date);
 
+
+  Future<UserWorkingHoursResponse> AddUserWorking(
+      String token, String shift_id,String start_time,String end_time) =>
+      apiProvider.addUserWorkingHours( token,  shift_id, start_time,end_time);
 
   Future<ProfileUpdateRespo> ProfileUser(
           String token,

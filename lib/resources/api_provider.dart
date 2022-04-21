@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:xpresshealthdev/model/login_response.dart';
@@ -23,6 +22,7 @@ import '../model/user_getschedule_bydate.dart';
 import '../model/user_job_request.dart';
 import '../model/user_profile_update.dart';
 import '../model/user_view_request_response.dart';
+import '../model/user_working_hours.dart';
 import '../model/utility_respo.dart';
 import '../model/viewbooking_response.dart';
 
@@ -267,6 +267,7 @@ class ApiProvider {
     }
   }
 
+  //////////////USER
   Future<ManagerScheduleListResponse> fetchUserListByDate(
       String token, String date) async {
     print("View Booking");
@@ -327,7 +328,6 @@ class ApiProvider {
     }
   }
 
-  ///  USER HOME RESPONSE ///
   Future<UserHomeResponse> getUserHome(String token) async {
     var uri = Uri.parse(BASE_URL + "/home/get-user-updates");
     final response = await client.post(uri,
@@ -464,8 +464,6 @@ class ApiProvider {
       throw Exception('Failed to load post');
     }
   }
-
-  ////////////////////USER API
 
   Future<UserGetScheduleByDate> getUserScheduleByDate(
       String token, String date) async {
@@ -618,9 +616,8 @@ class ApiProvider {
     }
   }
 
-
   Future<AddUserAvailabilityResponse> getaddUserAvailability(
-      String token, String date,String availability) async {
+      String token, String date, String availability) async {
     var uri = Uri.parse(BASE_URL + "/user/add-availability");
     final response = await client.post(uri,
         headers: <String, String>{
@@ -648,7 +645,7 @@ class ApiProvider {
   }
 
   Future<UserAvailabilitydateResponse> getUserAvailability(
-      String token, String from_date,String to_date) async {
+      String token, String from_date, String to_date) async {
     var uri = Uri.parse(BASE_URL + "/user/get-available-user-between-date");
     final response = await client.post(uri,
         headers: <String, String>{
@@ -675,7 +672,37 @@ class ApiProvider {
     }
   }
 
-                                                                      //////////////CATEGORIES
+  Future<UserWorkingHoursResponse> addUserWorkingHours(
+      String token, String shift_id, String start_time, String end_time) async {
+    var uri = Uri.parse(BASE_URL + "/user/add-working-hours");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'shift_id': shift_id,
+          'start_time': start_time,
+          'end_time': end_time,
+        }));
+
+    print("PRINT USER WORKING HOURS" + token);
+
+    print(jsonEncode(<String, String>{
+      'shift_id': shift_id,
+      'start_time': start_time,
+      'end_time': end_time,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserWorkingHoursResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  //////////////CATEGORIES
 
   Future<SliftListRepso> fetchConfirm() async {
     print("CONFIRMED");
@@ -728,7 +755,4 @@ class ApiProvider {
       throw Exception('Failed to load post');
     }
   }
-
-
-
 }

@@ -29,18 +29,20 @@ class AvailabilityListWidget extends StatefulWidget {
 
 class _AvailabilityState extends State<AvailabilityListWidget> {
   var selectedValue = 0;
+  bool isClicked = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selectedValue = widget.item.availability!;
   }
 
   @override
   Widget build(BuildContext context) {
-    selectedValue = widget.item.availability!;
-print(selectedValue);
+    if (!isClicked) {
+      selectedValue = widget.item.availability!;
+    }
+    print(isClicked);
     return Container(
       width: 55.w,
       height: 55.w,
@@ -69,43 +71,38 @@ print(selectedValue);
                 children: [
                   Flexible(
                     flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        print("1=Day");
-                      },
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              child: SvgPicture.asset(
-                                  'assets/images/icon/sunny-day.svg'),
-                            ),
-                            flex: 1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: SvgPicture.asset(
+                                'assets/images/icon/sunny-day.svg'),
                           ),
-                          Expanded(
+                          flex: 1,
+                        ),
+                        Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 15),
+                              child: AutoSizeText(
+                                "DAY",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            flex: 2),
+                        Expanded(
+                            child: Visibility(
+                              visible: selectedValue == 1,
                               child: Container(
-                                padding: EdgeInsets.only(left: 15),
-                                child: AutoSizeText(
-                                  "DAY",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
+                                child: SvgPicture.asset(
+                                    'assets/images/icon/check.svg'),
                               ),
-                              flex: 2),
-                          Expanded(
-                              child: Visibility(
-                                visible: selectedValue == 1,
-                                child: Container(
-                                  child: SvgPicture.asset(
-                                      'assets/images/icon/check.svg'),
-                                ),
-                              ),
-                              flex: 1)
-                        ],
-                      ),
+                            ),
+                            flex: 1)
+                      ],
                     ),
                   )
                 ],
@@ -117,6 +114,7 @@ print(selectedValue);
             GestureDetector(
               onTap: () {
                 setState(() {
+                  isClicked = true;
                   selectedValue = 2;
                 });
               },
@@ -168,6 +166,7 @@ print(selectedValue);
             GestureDetector(
               onTap: () {
                 setState(() {
+                  isClicked = true;
                   selectedValue = 0;
                 });
               },
