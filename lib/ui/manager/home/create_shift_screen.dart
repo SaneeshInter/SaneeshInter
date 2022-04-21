@@ -736,7 +736,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                   },
                                                                   onTapDate:
                                                                       () {
-                                                                    _selectDate(
+                                                                    selectDate(
                                                                         context,
                                                                         date);
                                                                     var dates =
@@ -919,7 +919,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                     },
                                                                     onTapDate:
                                                                         () {
-                                                                      _selectTime(
+                                                                      selectTime(
                                                                           context,
                                                                           dateFrom);
                                                                     },
@@ -949,7 +949,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                               FocusScope.of(
                                                                       context)
                                                                   .unfocus();
-                                                              _selectTime(
+                                                              selectTime(
                                                                   context,
                                                                   dateTo);
                                                             },
@@ -1114,7 +1114,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                                 managerBloc.typeAllowancesList,
                                                                             builder:
                                                                                 (context, AsyncSnapshot<List<AllowanceList>> snapshot) {
-
                                                                               return DropdownButtonFormField(
                                                                                 value: allowanceId,
                                                                                 decoration: InputDecoration(
@@ -1423,43 +1422,5 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         showAlertDialoge(context, title: "Failed", message: message!);
       }
     });
-  }
-
-  _selectDate(
-      BuildContext context, TextEditingController dateController) async {
-    print("date");
-    final DateTime? newDate = await showDatePicker(
-      context: context,
-      initialDatePickerMode: DatePickerMode.day,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
-      helpText: 'Select a date',
-      fieldHintText: "dd-MM-yyyy",
-    );
-
-    if (newDate != null) {
-      print(newDate);
-
-      var dates = DateFormat('dd-MM-yyyy').format(newDate);
-      dateController.text = dates;
-    }
-  }
-
-  _selectTime(BuildContext context, TextEditingController anycontroller) async {
-    print("time");
-
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      initialEntryMode: TimePickerEntryMode.input,
-      confirmText: "CONFIRM",
-      cancelText: "NOT NOW",
-      helpText: "BOOKING TIME",
-    );
-
-    if (timeOfDay != null) {
-      anycontroller.text = timeOfDay.format(context);
-    }
   }
 }

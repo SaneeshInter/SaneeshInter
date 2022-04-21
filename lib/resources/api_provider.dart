@@ -686,6 +686,7 @@ class ApiProvider {
           'end_time': end_time,
         }));
 
+    print("Url" + uri.toString());
     print("PRINT USER WORKING HOURS" + token);
 
     print(jsonEncode(<String, String>{

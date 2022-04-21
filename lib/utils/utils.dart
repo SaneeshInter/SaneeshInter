@@ -132,6 +132,45 @@ void showAlertDialoge(
   );
 }
 
+
+selectDate(
+    BuildContext context, TextEditingController dateController) async {
+  print("date");
+  final DateTime? newDate = await showDatePicker(
+    context: context,
+    initialDatePickerMode: DatePickerMode.day,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2025),
+    helpText: 'Select a date',
+    fieldHintText: "dd-MM-yyyy",
+  );
+
+  if (newDate != null) {
+    print(newDate);
+
+    var dates = DateFormat('dd-MM-yyyy').format(newDate);
+    dateController.text = dates;
+  }
+}
+
+selectTime(BuildContext context, TextEditingController anycontroller) async {
+  print("time");
+
+  final TimeOfDay? timeOfDay = await showTimePicker(
+    context: context,
+    initialTime: TimeOfDay.now(),
+    initialEntryMode: TimePickerEntryMode.input,
+    confirmText: "CONFIRM",
+    cancelText: "NOT NOW",
+    helpText: "BOOKING TIME",
+  );
+
+  if (timeOfDay != null) {
+    anycontroller.text = timeOfDay.format(context);
+  }
+}
+
 // Future<void> datepicker(
 // context,{
 //   required String date,})

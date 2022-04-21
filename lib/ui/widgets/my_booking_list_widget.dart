@@ -45,7 +45,10 @@ class _MyBookingState extends State<MyBookingListWidget> {
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: widget.items.rowId.toString(),)),
+          MaterialPageRoute(
+              builder: (context) => ShiftDetailScreen(
+                    shift_id: widget.items.rowId.toString(),
+                  )),
         );
       },
       child: Padding(
@@ -71,7 +74,6 @@ class _MyBookingState extends State<MyBookingListWidget> {
                         Container(
                           width: 70.w,
                           child: AutoSizeText.rich(
-
                             TextSpan(
                               text: widget.items.jobTitle,
                               style: TextStyle(
@@ -118,9 +120,7 @@ class _MyBookingState extends State<MyBookingListWidget> {
                     children: [
                       ViewButton(
                         label: "view",
-                        onPressed: () {
-
-                        },
+                        onPressed: () {},
                         key: null,
                       )
                     ],
@@ -158,10 +158,12 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
         BuildButton(
           label: "View Shift",
           onPressed: () {
-
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: widget.items.rowId.toString(),)),
+              MaterialPageRoute(
+                  builder: (context) => ShiftDetailScreen(
+                        shift_id: widget.items.rowId.toString(),
+                      )),
             );
             widget.onTapMap();
             print("Cards booking");
@@ -182,10 +184,8 @@ Widget buttonList(BuildContext context, MyBookingListWidget widget) {
           BookButton(
             label: "Cancel Request",
             onPressed: () {
-
               widget.onTapCancel(widget.items);
               print("Cards booking");
-
             },
             key: null,
           ),

@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,8 +16,8 @@ import '../../../utils/utils.dart';
 import '../../Widgets/buttons/build_button.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/timesheet_list_item.dart';
-import '../app_bar.dart';
-import '../side_menu.dart';
+import '../common/app_bar.dart';
+import '../common/side_menu.dart';
 
 class CompletedShiftScreen extends StatefulWidget {
   const CompletedShiftScreen({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   late DateTime _selectedValue;
   bool visibility = false;
+  bool buttonVisibility = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var token;
   var _image;
@@ -91,17 +93,23 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
       setState(() {
         visibility = false;
       });
+
+      var data = event.response?.data;
+      if (data?.items != null) {
+        if (data?.items?.length != 0) {
+          setState(() {
+            buttonVisibility = true;
+          });
+        }
+      }
     });
     completeBloc.uploadStatus.listen((event) {
       print("event");
       print(event.response);
       var message = event.response?.status?.statusMessage;
-
       setState(() {
         _image = null;
-
       });
-
       getData();
       showAlertDialoge(context, message: message!, title: "Upload Timesheet");
 
@@ -130,18 +138,6 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
         body: SingleChildScrollView(
           child: Stack(
             children: [
-              Center(
-                child: Visibility(
-                  visible: visibility,
-                  child: Container(
-                    width: 100.w,
-                    height: 80.h,
-                    child: const Center(
-                      child: LoadingWidget(),
-                    ),
-                  ),
-                ),
-              ),
               Container(
                   padding: EdgeInsets.symmetric(
                       horizontal: screenWidth(context, dividedBy: 35)),
@@ -154,36 +150,35 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    DottedBorder(
-                      borderType: BorderType.RRect,
-                      dashPattern: [10, 10],
-                      color: Colors.green,
-                      strokeWidth: 1,
-                      child: GestureDetector(
-                        onTap: () {
-                          print("On tap");
-                          getImage(ImgSource.Both);
-                        },
-
-                        child: Container(
-
-                          color: Colors.white,
-                          width: 100.w,
-                          height: 10.w,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/icon/notification.svg',
-                                color: Colors.green,
-                              ),
-                              SizedBox(width: 10),
-                              Text("Upload Shift Document Photos"),
-                            ],
+                    if (buttonVisibility)
+                      DottedBorder(
+                        borderType: BorderType.RRect,
+                        dashPattern: [10, 10],
+                        color: Colors.green,
+                        strokeWidth: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            print("On tap");
+                            getImage(ImgSource.Both);
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            width: 100.w,
+                            height: 10.w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/icon/notification.svg',
+                                  color: Colors.green,
+                                ),
+                                SizedBox(width: 10),
+                                Text("Upload Shift Document Photos"),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     SizedBox(height: screenHeight(context, dividedBy: 60)),
                     StreamBuilder(
                         stream: completeBloc.allShift,
@@ -191,48 +186,80 @@ class _CompletedShiftState extends State<CompletedShiftScreen> {
                             AsyncSnapshot<UserShoiftCompletedResponse>
                                 snapshot) {
                           if (snapshot.hasData) {
-                            return buildList(snapshot);
+                            var data = snapshot.data?.response?.data;
+                            if (data?.items != null) {
+                              if (data?.items?.length != 0) {
+                                return buildList(snapshot);
+                              } else {
+                                return Center(
+                                  child: Container(
+                                    child: AutoSizeText(
+                                      'Completed shifts empty',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "SFProMedium",
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
                           } else if (snapshot.hasError) {
                             return Text(snapshot.error.toString());
                           }
                           return Container();
-                        }),SizedBox(
+                        }),
+                    SizedBox(
                       height: 10,
                     ),
-                    BuildButton(
-                      label: "Upload Timesheets",
-                      onPressed: () {
-                        setState(() {
-                          visibility = true;
-                        });
+                    if (buttonVisibility)
+                      BuildButton(
+                        label: "Upload Timesheets",
+                        onPressed: () {
+                          setState(() {
+                            visibility = true;
+                          });
 
-                        String shiftid = "";
-                        print("PRINT UPLOAD LISTS");
-                        for (var item in list) {
-                          shiftid = shiftid + item + ",";
-                        }
+                          String shiftid = "";
+                          print("PRINT UPLOAD LISTS");
+                          for (var item in list) {
+                            shiftid = shiftid + item + ",";
+                          }
 
-                        print(shiftid);
-                        if (_image != null) {
-                          if (shiftid.isNotEmpty) {
-                            completeBloc.uploadTimeSheet(
-                                token, shiftid, File(_image.path));
+                          print(shiftid);
+                          if (_image != null) {
+                            if (shiftid.isNotEmpty) {
+                              completeBloc.uploadTimeSheet(
+                                  token, shiftid, File(_image.path));
+                            } else {
+                              showAlertDialoge(context,
+                                  title: "Alert", message: "Select Shift");
+                            }
                           } else {
                             showAlertDialoge(context,
-                                title: "Alert", message: "Select Shift");
+                                title: "Alert", message: "Upload Timesheet");
                           }
-                        } else {
-                          showAlertDialoge(context,
-                              title: "Alert", message: "Upload Timesheet");
-                        }
-
-                      },
-                      key: null,
-                    ),
+                        },
+                        key: null,
+                      ),
                     SizedBox(
                       height: 20,
                     ),
                   ])),
+              Center(
+                child: Visibility(
+                  visible: visibility,
+                  child: Container(
+                    width: 100.w,
+                    height: 80.h,
+                    child: const Center(
+                      child: LoadingWidget(),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

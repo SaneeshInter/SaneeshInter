@@ -5,8 +5,8 @@ import '../../../model/shift_list_response.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/notification_widget.dart';
-import '../app_bar.dart';
-import '../side_menu.dart';
+import '../common/app_bar.dart';
+import '../common/side_menu.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);

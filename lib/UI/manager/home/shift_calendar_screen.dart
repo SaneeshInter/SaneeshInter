@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../ui/user/app_bar.dart';
-import '../../../ui/user/side_menu.dart';
+import '../../user/common/app_bar.dart';
+import '../../user/common/side_menu.dart';
 import '../../../utils/constants.dart';
 
 

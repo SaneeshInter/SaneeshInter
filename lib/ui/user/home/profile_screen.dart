@@ -10,8 +10,8 @@ import '../../widgets/buttons/drawable_button.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/profile_detail.dart';
 import '../../widgets/profile_documents.dart';
-import '../app_bar.dart';
-import '../side_menu.dart';
+import '../common/app_bar.dart';
+import '../common/side_menu.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

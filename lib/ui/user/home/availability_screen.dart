@@ -9,8 +9,8 @@ import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../../datepicker/date_picker_widget.dart';
 import '../../widgets/loading_widget.dart';
-import '../app_bar.dart';
-import '../side_menu.dart';
+import '../common/app_bar.dart';
+import '../common/side_menu.dart';
 
 class AvailabilityScreen extends StatefulWidget {
   const AvailabilityScreen({Key? key}) : super(key: key);

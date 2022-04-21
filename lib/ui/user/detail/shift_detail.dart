@@ -11,8 +11,8 @@ import '../../../ui/widgets/loading_widget.dart';
 import '../../../utils/constants.dart';
 import '../../Widgets/buttons/call_button.dart';
 import '../../Widgets/buttons/submit_button.dart';
-import '../app_bar.dart';
-import '../side_menu.dart';
+import '../common/app_bar.dart';
+import '../common/side_menu.dart';
 import 'drawable_custom_row.dart';
 
 class ShiftDetailScreen extends StatefulWidget {

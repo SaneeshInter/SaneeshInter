@@ -14,9 +14,9 @@ import '../../../utils/utils.dart';
 import '../../widgets/buttons/drawable_button.dart';
 import '../../widgets/buttons/home_button.dart';
 import '../../widgets/loading_widget.dart';
-import '../app_bar.dart';
+import '../common/app_bar.dart';
 import '../detail/shift_detail.dart';
-import '../side_menu.dart';
+import '../common/side_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -351,10 +351,10 @@ class _HomeScreentate extends State<HomeScreen> {
         Expanded(
           child: HomeButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: '190',)),
-                );
+                // Navigator.push(
+                //   context,
+                //   // MaterialPageRoute(builder: (context) => ShiftDetailScreen(shift_id: '190',)),
+                // );
               },
               label: "Shift Details",
               asset: "assets/images/icon/availability.svg",

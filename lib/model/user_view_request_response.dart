@@ -1,14 +1,11 @@
 class UserViewRequestResponse {
   Response? response;
-
   UserViewRequestResponse({this.response});
-
   UserViewRequestResponse.fromJson(Map<String, dynamic> json) {
     response = json['Response'] != null
         ? new Response.fromJson(json['Response'])
         : null;
   }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.response != null) {
@@ -21,15 +18,12 @@ class UserViewRequestResponse {
 class Response {
   Data? data;
   Status? status;
-
   Response({this.data, this.status});
-
   Response.fromJson(Map<String, dynamic> json) {
     data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
     status =
     json['status'] != null ? new Status.fromJson(json['status']) : null;
   }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
@@ -41,12 +35,9 @@ class Response {
     return data;
   }
 }
-
 class Data {
   List<Items>? items;
-
   Data({this.items});
-
   Data.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
       items = <Items>[];
@@ -55,7 +46,6 @@ class Data {
       });
     }
   }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.items != null) {

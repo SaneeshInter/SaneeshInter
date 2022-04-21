@@ -1,19 +1,23 @@
-
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xpresshealthdev/ui/user/home/filter_booking_list.dart';
+import 'package:xpresshealthdev/model/filter_booking_list.dart';
 import 'package:xpresshealthdev/blocs/shift_confirmed_bloc.dart';
 import 'package:xpresshealthdev/model/user_view_request_response.dart';
 
 import '../../../Constants/sharedPrefKeys.dart';
+import '../../../Constants/strings.dart';
 import '../../../resources/token_provider.dart';
 import '../../../utils/colors_util.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
+import '../../../utils/validator.dart';
+import '../../Widgets/buttons/submit_small.dart';
+import '../../Widgets/buttons/view_button.dart';
 import '../../Widgets/my_booking_list_widget.dart';
+import '../../widgets/input_text.dart';
 import '../../widgets/loading_widget.dart';
 
 class MyBookingScreen extends StatefulWidget {
@@ -53,7 +57,6 @@ class _HomeScreentate extends State<MyBookingScreen> {
 
   @override
   void initState() {
-
     getDataitems();
     observe();
 
@@ -61,21 +64,21 @@ class _HomeScreentate extends State<MyBookingScreen> {
     pageCount = 3;
     super.initState();
   }
+
   void observe() {
     confirmBloc.usercanceljobrequest.listen((event) {
       String? message = event.response?.status?.statusMessage;
       getDataitems();
       showAlertDialoge(context, message: message!, title: "Cancel");
     });
-    confirmBloc.usercanceljobrequest.listen((event) {
-    });
+    confirmBloc.usercanceljobrequest.listen((event) {});
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
           key: _scaffoldKey,
           backgroundColor: Constants.colors[9],
@@ -155,20 +158,24 @@ class _HomeScreentate extends State<MyBookingScreen> {
                             ),
                           ),
                         ),
+                        Tab(
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text("Completed"),
+                            ),
+                          ),
+                        ),
                       ]),
                 ),
               ),
             ),
           ),
           body: RefreshIndicator(
-
-            onRefresh: () async {
-
-
-            },
-              color: Colors.white,
-              backgroundColor: Colors.purple,
-              strokeWidth: 5,
+            onRefresh: () async {},
+            color: Colors.white,
+            backgroundColor: Colors.purple,
+            strokeWidth: 5,
             child: Container(
                 child: StreamBuilder(
                     stream: confirmBloc.viewrequest,
@@ -178,7 +185,8 @@ class _HomeScreentate extends State<MyBookingScreen> {
                         return TabBarView(children: [
                           bookingList(0, snapshot),
                           bookingList(1, snapshot),
-                          bookingList(2, snapshot)
+                          bookingList(2, snapshot),
+                          bookingList(3, snapshot)
                         ]);
                       } else if (snapshot.hasError) {
                         return Text(snapshot.error.toString());
@@ -223,6 +231,10 @@ Widget buildList(
     list = allList.reject;
   }
 
+  if (position == 3) {
+    list = allList.completed;
+  }
+
   return ListView.builder(
     itemCount: list.length,
     shrinkWrap: true,
@@ -234,15 +246,14 @@ Widget buildList(
           MyBookingListWidget(
             items: items!,
             position: 12,
-            onTapView: () {
-              // showFeactureAlert(context, date: "");
+            onTapView: (item) {
+              showTimeUpdateAlert(context, item);
             },
             onTapCancel: (item) {
               print("Tapped");
               //confirmBloc.fetchGetUserCancelJobResponse(token, job_request_row_id)
-
+              // showTimeUpdateAlert(context, item);
               canceljob(items);
-
             },
             onTapCall: () {},
             onTapMap: () {
@@ -250,7 +261,6 @@ Widget buildList(
             },
             onTapBooking: () {
               print("Tapped");
-              showAddTimeSheet(context, date: "");
             },
             key: null,
           ),
@@ -260,22 +270,190 @@ Widget buildList(
   );
 }
 
-
+Future<void> showTimeUpdateAlert(BuildContext context, Items item) async {
+  TextEditingController dateFrom = new TextEditingController();
+  TextEditingController dateTo = new TextEditingController();
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 90.w,
+                  color: Colors.red,
+                  child: Material(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10)),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 11.w,
+                              color: Constants.colors[4],
+                              child: Container(
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 4,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("Add Timesheet",
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SFProMedium",
+                                            )),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: SvgPicture.asset(
+                                        "assets/images/icon/close.svg",
+                                        height: 3.w,
+                                        width: 3.w,
+                                        color: Constants.colors[0],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8.0, top: 8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 2),
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Start Time",
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            color: Constants.colors[22],
+                                            fontSize: 10.sp,
+                                            fontFamily: "SFProMedium",
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 3,
+                                        ),
+                                        TextInputFileds(
+                                            controlr: dateFrom,
+                                            validator: (dateTo) {
+                                              if (validDate(dateTo))
+                                                return null;
+                                              else
+                                                return "select time";
+                                            },
+                                            onTapDate: () {
+                                              selectTime(context, dateFrom);
+                                            },
+                                            hintText: Txt.timeFrom,
+                                            keyboadType: TextInputType.none,
+                                            isPwd: false),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "End Time",
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        color: Constants.colors[22],
+                                        fontSize: 10.sp,
+                                        fontFamily: "SFProMedium",
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    TextInputFileds(
+                                        controlr: dateTo,
+                                        validator: (dateTo) {
+                                          if (validDate(dateTo))
+                                            return null;
+                                          else
+                                            return "select time";
+                                        },
+                                        onTapDate: () {
+                                          FocusScope.of(context).unfocus();
+                                          selectTime(context, dateTo);
+                                        },
+                                        hintText: Txt.timeTo,
+                                        keyboadType: TextInputType.none,
+                                        isPwd: false),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 15.0, bottom: 15.0),
+                          child: Container(
+                            width: 20.w,
+                            child: SubmitButton(
+                                onPressed: () {
+                                  confirmBloc.fetchUserWorkingHours(
+                                      token,
+                                      item.rowId.toString(),
+                                      dateFrom.text,
+                                      dateTo.text);
+                                },
+                                label: "Submit",
+                                textColors: Constants.colors[0],
+                                color1: Constants.colors[3],
+                                color2: Constants.colors[4]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      });
+}
 
 void canceljob(Items items) {
   if (items is Items) {
     Items data = items;
-    confirmBloc.UserCancelJobResponse(token,data.rowId.toString());
+    confirmBloc.UserCancelJobResponse(token, data.rowId.toString());
   }
 }
-
 
 Future getDataitems() async {
   token = await TokenProvider().getToken();
   confirmBloc.fetchUserViewRequest(token);
-
 }
-
 
 FilterBookingList getFilterList(
     AsyncSnapshot<UserViewRequestResponse> snapshot, int position) {
@@ -294,6 +472,9 @@ FilterBookingList getFilterList(
     }
     if (item.status == "Rejected") {
       list.reject.add(item);
+    }
+    if (item.status == "Completed") {
+      list.completed.add(item);
     }
   }
   return list;

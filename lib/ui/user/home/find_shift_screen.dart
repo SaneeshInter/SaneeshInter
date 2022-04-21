@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xpresshealthdev/model/user_getschedule_bydate.dart';
-import 'package:xpresshealthdev/ui/user/app_bar.dart';
+import 'package:xpresshealthdev/ui/user/common/app_bar.dart';
 
 import '../../../Constants/sharedPrefKeys.dart';
 import '../../../blocs/shift_list_bloc.dart';
@@ -11,7 +11,7 @@ import '../../../utils/utils.dart';
 import '../../datepicker/date_picker_widget.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/shift_list_widget.dart';
-import '../side_menu.dart';
+import '../common/side_menu.dart';
 
 class FindShiftScreen extends StatefulWidget {
   @override
