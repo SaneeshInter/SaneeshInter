@@ -9,6 +9,7 @@ import 'package:xpresshealthdev/dbmodel/allowance_category_model.dart';
 import 'package:xpresshealthdev/dbmodel/allowance_mode.dart';
 import 'package:xpresshealthdev/model/country_list.dart';
 import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
+import 'package:xpresshealthdev/ui/error/ConnectionFailedScreen.dart';
 import 'package:xpresshealthdev/ui/login/login_screen.dart';
 import 'package:xpresshealthdev/ui/manager_dashboard_screen.dart';
 
@@ -21,6 +22,7 @@ import '../../model/schedule_hospital_list.dart';
 import '../../model/user_type_list.dart';
 import '../../model/visa_type_list.dart';
 import '../../ui/dashboard_screen.dart';
+import '../../utils/network_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -56,8 +58,18 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    utility_bloc.fetchUtility();
+
+    getData();
+
     observe();
+  }
+
+  getData() async {
+    if (await isNetworkAvailable()) {
+      utility_bloc.fetchUtility();
+    } else {
+      showInternetNotAvailable();
+    }
   }
 
   @override
@@ -193,6 +205,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
         changeScreen();
       }
+    });
+  }
+
+  void showInternetNotAvailable() {
+    Navigator.pushNamed(context, '/nw_error').then((_) {
+      // This block runs when you have returned back to the 1st Page from 2nd.
+      getData();
     });
   }
 }

@@ -6,6 +6,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../utils/constants.dart';
 import '../../../blocs/shift_timesheet_bloc.dart';
 import '../../../model/manager_get_time.dart';
+import '../../../model/manager_timesheet.dart';
 import '../../../resources/token_provider.dart';
 import '../../../utils/utils.dart';
 import '../../Widgets/buttons/build_button.dart';
@@ -13,9 +14,9 @@ import '../../user/home/my_booking_screen.dart';
 import '../../widgets/timesheet_details_list_widget.dart';
 
 class ManagerTimeSheetDetails extends StatefulWidget {
-  const ManagerTimeSheetDetails({
-    Key? key,
-  }) : super(key: key);
+  final TimeSheetInfo? item;
+
+  const ManagerTimeSheetDetails({Key? key, this.item}) : super(key: key);
 
   @override
   _CreateShiftState createState() => _CreateShiftState();
@@ -58,6 +59,7 @@ class _CreateShiftState extends State<ManagerTimeSheetDetails> {
 
   @override
   Widget build(BuildContext context) {
+    String? imageUrl = widget.item?.timeSheetLink;
     return Scaffold(
       backgroundColor: Constants.colors[9],
       body: SingleChildScrollView(
@@ -84,25 +86,46 @@ class _CreateShiftState extends State<ManagerTimeSheetDetails> {
               padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10)),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 30.h,
-                        child: SizedBox.fromSize(
-                          size: Size.fromRadius(10), // Image radius
-                          child: Image.network(
-                            'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8aG9zcGl0YWx8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  Container(
+                      child: imageUrl != null
+                          ? Image.network(
+                imageUrl,
+                fit: BoxFit.fill,
+              )
+                          : Container()),
+
+                  // Padding(
+                  //   padding:
+                  //   const EdgeInsets.only(left: 10, right: 10),
+                  //   child: ClipRRect(
+                  //     borderRadius: BorderRadius.only(
+                  //         topLeft: Radius.circular(10),
+                  //         topRight: Radius.circular(10)),
+                  //     child: Container(
+                  //       width: MediaQuery.of(context).size.width,
+                  //       height: 30.h,
+                  //       child: SizedBox.fromSize(
+                  //           size: Size.fromRadius(10), // Image radius
+                  //           child: Image.network(
+                  //             imageUrl!,
+                  //             fit: BoxFit.cover,
+                  //           )),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 10, right: 10),
+                  //   child: Container(
+                  //     width: MediaQuery.of(context).size.width,
+                  //     child: SizedBox.fromSize(
+                  //       size: Size.fromRadius(50), // Image radius
+                  //       child: Image.network(
+                  //         imageUrl!,
+                  //         fit: BoxFit.cover,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(right: 170, top: 10),
                     child: Container(

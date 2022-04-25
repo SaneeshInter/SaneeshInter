@@ -377,13 +377,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         value) {
                                                                   if (value
                                                                       is ScheduleCategoryList) {
-                                                                    print(
-                                                                        "value");
-                                                                    print(value
-                                                                        ?.rowId);
-                                                                    print(value
-                                                                        ?.userType);
-
                                                                     categoryId =
                                                                         value
                                                                             .rowId!;
@@ -478,13 +471,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         value) {
                                                                   if (value
                                                                       is UserTypeList) {
-                                                                    print(
-                                                                        "value");
-                                                                    print(value
-                                                                        ?.rowId);
-                                                                    print(value
-                                                                        ?.type);
-
                                                                     usertypeId =
                                                                         value
                                                                             .rowId!;
@@ -573,11 +559,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         value) {
                                                                   if (value
                                                                       is HospitalList) {
-                                                                    print(
-                                                                        "value");
-                                                                    print(value
-                                                                        ?.rowId);
-
                                                                     hospitalId =
                                                                         value
                                                                             .rowId!;
@@ -697,13 +678,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         value) {
                                                                   if (value
                                                                       is UserTypeList) {
-                                                                    print(
-                                                                        "value");
-                                                                    print(value
-                                                                        ?.rowId);
-                                                                    print(value
-                                                                        ?.type);
-
                                                                     shiftType =
                                                                         value
                                                                             .rowId!;
@@ -869,13 +843,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                         value) {
                                                                   if (value
                                                                       is UserTypeList) {
-                                                                    print(
-                                                                        "value");
-                                                                    print(value
-                                                                        ?.rowId);
-                                                                    print(value
-                                                                        ?.type);
-
                                                                     usertypeId =
                                                                         value
                                                                             .rowId!;
@@ -1136,8 +1103,6 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                                                 }).toList(),
                                                                                 onChanged: (Object? value) {
                                                                                   if (value is AllowanceList) {
-                                                                                    print("value");
-                                                                                    print(value?.rowId);
                                                                                     allowanceId = value.rowId!;
                                                                                   }
                                                                                 },

@@ -1,4 +1,5 @@
 import 'package:rxdart/rxdart.dart';
+import 'package:xpresshealthdev/model/user_documents_response.dart';
 import 'package:xpresshealthdev/model/user_get_response.dart';
 import 'package:xpresshealthdev/resources/respository.dart';
 
@@ -12,12 +13,14 @@ class ProfileBloc {
   final _repo = Repository();
   final _profileUser = PublishSubject<ProfileUpdateRespo>();
   final _getUser = PublishSubject<UserGetResponse>();
+  final _documents = PublishSubject<UserDocumentsResponse>();
   final _db = Db();
 
   List<String> genders = [];
   final _gender = PublishSubject<List<GenderList>>();
 
   Stream<List<GenderList>> get genderStream => _gender.stream;
+
 
   List<String> country = [];
   final _country = PublishSubject<List<CountryList>>();
@@ -47,6 +50,9 @@ class ProfileBloc {
   Stream<ProfileUpdateRespo> get profileStream => _profileUser.stream;
 
   Stream<UserGetResponse> get getProfileStream => _getUser.stream;
+
+  Stream<UserDocumentsResponse> get userdocuments => _documents.stream;
+
 
   getUserInfo(String token) async {
     UserGetResponse response = await _repo.fetchUserInfo(token);
@@ -87,8 +93,24 @@ class ProfileBloc {
     _profileUser.sink.add(respo);
   }
 
+  fetchUserDocuments(
+    String token,
+    String files,
+    String type,
+    String expiry_date,
+  ) async {
+    UserDocumentsResponse respo = await _repo.UserDocuments(
+      token,
+      files,
+      type,
+      expiry_date,
+    );
+    _documents.sink.add(respo);
+  }
+
   dispose() {
     _profileUser.close();
+    _documents.close();
   }
 }
 

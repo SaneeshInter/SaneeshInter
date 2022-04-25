@@ -80,7 +80,7 @@ class _TimeSheetApproveState extends State<TimeSheetApproveListWidget> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ManagerTimeSheetDetails()),
+                      MaterialPageRoute(builder: (context) => ManagerTimeSheetDetails(item: widget.items,)),
                     );
                     widget.onTapView();
                     print("Cards booking");

@@ -20,125 +20,128 @@
 16    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 16-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-81
 16-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-78
-17
-18    <application
-19        android:name="android.app.Application"
-20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-20-->[androidx.core:core:1.7.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/b9a960218f5163997c0fdfa3d3078c0e/core-1.7.0/AndroidManifest.xml:24:18-86
-21        android:debuggable="true"
-22        android:icon="@mipmap/ic_launcher"
-23        android:label="xpresshealthdev" >
-24        <activity
-25            android:name="com.intersmart.xpresshealthdev.MainActivity"
-26            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-27            android:exported="true"
-28            android:hardwareAccelerated="true"
-29            android:launchMode="singleTop"
-30            android:theme="@style/LaunchTheme"
-31            android:windowSoftInputMode="adjustResize" >
-32
-33            <!--
-34                 Specifies an Android theme to apply to this Activity as soon as
-35                 the Android process has started. This theme is visible to the user
-36                 while the Flutter ui initializes. After that, this theme continues
-37                 to determine the Window background behind the Flutter ui.
-38            -->
-39            <meta-data
-40                android:name="io.flutter.embedding.android.NormalTheme"
-41                android:resource="@style/NormalTheme" />
-42
-43            <intent-filter>
-44                <action android:name="android.intent.action.MAIN" />
-45
-46                <category android:name="android.intent.category.LAUNCHER" />
-47            </intent-filter>
-48        </activity>
-49        <!--
-50             Don't delete the meta-data below.
-51             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-52        -->
-53        <meta-data
-54            android:name="flutterEmbedding"
-55            android:value="2" />
-56
-57        <provider
-57-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-16:20
-58            android:name="com.sidlatau.flutteremailsender.FlutterEmailSenderFileProvider"
-58-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-90
-59            android:authorities="com.intersmart.xpresshealthdev.file_provider"
-59-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-65
-60            android:exported="false"
-60-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-37
-61            android:grantUriPermissions="true" >
-61-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-47
-62            <meta-data
-62-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:61
-63                android:name="android.support.FILE_PROVIDER_PATHS"
-63-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
-64                android:resource="@xml/shared_file_paths" />
-64-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-58
-65        </provider>
-66        <provider
-66-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
-67            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-67-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
-68            android:authorities="com.intersmart.xpresshealthdev.flutter.image_provider"
-68-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
-69            android:exported="false"
-69-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37
-70            android:grantUriPermissions="true" >
-70-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-47
-71            <meta-data
-71-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:61
-72                android:name="android.support.FILE_PROVIDER_PATHS"
-72-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
-73                android:resource="@xml/flutter_image_picker_file_paths" />
-73-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-58
-74        </provider>
-75
-76        <activity
-76-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
-77            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-77-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
-78            android:exported="false"
-78-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
-79            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-79-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
-80
-81        <uses-library
-81-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
-82            android:name="androidx.window.extensions"
-82-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
-83            android:required="false" />
-83-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
-84        <uses-library
-84-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
-85            android:name="androidx.window.sidecar"
-85-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
-86            android:required="false" />
-86-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
-87
-88        <provider
-88-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
-89            android:name="androidx.startup.InitializationProvider"
-89-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
-90            android:authorities="com.intersmart.xpresshealthdev.androidx-startup"
-90-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
-91            android:exported="false" >
-91-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
-92            <meta-data
-92-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
-93                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-93-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
-94                android:value="androidx.startup" />
-94-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
-95            <meta-data
-95-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/2dd7e1e94a0e65810db6291100ebf315/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
-96                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-96-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/2dd7e1e94a0e65810db6291100ebf315/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
-97                android:value="androidx.startup" />
-97-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/2dd7e1e94a0e65810db6291100ebf315/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
-98        </provider>
-99    </application>
-100
-101</manifest>
+17    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+17-->[:connectivity_plus] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/connectivity_plus/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-79
+17-->[:connectivity_plus] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/connectivity_plus/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-76
+18
+19    <application
+20        android:name="android.app.Application"
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.7.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/b9a960218f5163997c0fdfa3d3078c0e/core-1.7.0/AndroidManifest.xml:24:18-86
+22        android:debuggable="true"
+23        android:icon="@mipmap/ic_launcher"
+24        android:label="xpresshealthdev" >
+25        <activity
+26            android:name="com.intersmart.xpresshealthdev.MainActivity"
+27            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+28            android:exported="true"
+29            android:hardwareAccelerated="true"
+30            android:launchMode="singleTop"
+31            android:theme="@style/LaunchTheme"
+32            android:windowSoftInputMode="adjustResize" >
+33
+34            <!--
+35                 Specifies an Android theme to apply to this Activity as soon as
+36                 the Android process has started. This theme is visible to the user
+37                 while the Flutter ui initializes. After that, this theme continues
+38                 to determine the Window background behind the Flutter ui.
+39            -->
+40            <meta-data
+41                android:name="io.flutter.embedding.android.NormalTheme"
+42                android:resource="@style/NormalTheme" />
+43
+44            <intent-filter>
+45                <action android:name="android.intent.action.MAIN" />
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+48            </intent-filter>
+49        </activity>
+50        <!--
+51             Don't delete the meta-data below.
+52             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+53        -->
+54        <meta-data
+55            android:name="flutterEmbedding"
+56            android:value="2" />
+57
+58        <provider
+58-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-16:20
+59            android:name="com.sidlatau.flutteremailsender.FlutterEmailSenderFileProvider"
+59-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-90
+60            android:authorities="com.intersmart.xpresshealthdev.file_provider"
+60-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-65
+61            android:exported="false"
+61-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-37
+62            android:grantUriPermissions="true" >
+62-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-47
+63            <meta-data
+63-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:61
+64                android:name="android.support.FILE_PROVIDER_PATHS"
+64-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
+65                android:resource="@xml/shared_file_paths" />
+65-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-58
+66        </provider>
+67        <provider
+67-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
+68            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+68-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
+69            android:authorities="com.intersmart.xpresshealthdev.flutter.image_provider"
+69-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
+70            android:exported="false"
+70-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37
+71            android:grantUriPermissions="true" >
+71-->[:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-47
+72            <meta-data
+72-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:61
+73                android:name="android.support.FILE_PROVIDER_PATHS"
+73-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
+74                android:resource="@xml/flutter_image_picker_file_paths" />
+74-->[:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-58
+75        </provider>
+76
+77        <activity
+77-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
+78            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+78-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
+79            android:exported="false"
+79-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
+80            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+80-->[:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
+81
+82        <uses-library
+82-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+83            android:name="androidx.window.extensions"
+83-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+84            android:required="false" />
+84-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+85        <uses-library
+85-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+86            android:name="androidx.window.sidecar"
+86-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+87            android:required="false" />
+87-->[androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+88
+89        <provider
+89-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+90            android:name="androidx.startup.InitializationProvider"
+90-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
+91            android:authorities="com.intersmart.xpresshealthdev.androidx-startup"
+91-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
+92            android:exported="false" >
+92-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
+93            <meta-data
+93-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+94                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+94-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
+95                android:value="androidx.startup" />
+95-->[androidx.emoji2:emoji2:1.0.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/8d120aa649c2aed370574c7028952cac/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
+96            <meta-data
+96-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/2dd7e1e94a0e65810db6291100ebf315/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+97                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+97-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/2dd7e1e94a0e65810db6291100ebf315/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+98                android:value="androidx.startup" />
+98-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/2dd7e1e94a0e65810db6291100ebf315/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+99        </provider>
+100    </application>
+101
+102</manifest>

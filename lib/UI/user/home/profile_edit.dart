@@ -355,12 +355,6 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                               (Object? value) {
                                                             if (value
                                                                 is CountryList) {
-                                                              print("value");
-                                                              print(
-                                                                  value?.rowId);
-                                                              print(value
-                                                                  ?.countryName);
-
                                                               nationalityId =
                                                                   value.rowId!;
                                                             }
@@ -550,12 +544,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
                                                                       value) {
                                                                 if (value
                                                                     is VisaTypeList) {
-                                                                  print(
-                                                                      "value");
-                                                                  print(value
-                                                                      ?.rowId);
-                                                                  print(value
-                                                                      ?.type);
+
 
                                                                   visatypeId =
                                                                       value
@@ -874,7 +863,7 @@ class _CreateShiftState extends State<ProfileEditScreen> {
       });
       print(event.response?.status?.statusMessage.toString());
       print(event.response?.status?.statusCode);
-      var message = event?.response?.status?.statusMessage.toString();
+      var message = event.response?.status?.statusMessage.toString();
       if (event.response?.status?.statusCode == 200) {
         Navigator.pop(context);
       } else {

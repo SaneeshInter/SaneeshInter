@@ -21,16 +21,12 @@ V
 &lib/blocs/shift_notification_bloc.dart,6/5/65da4e6b697cb9858577d9b74a178cbfba1e66a7
 Y
 )lib/ui/datepicker/date_picker_widget.dart,4/1/417e757df3ea859e9f923ed47a7f45d11fd40cd6
-P
- lib/ui/splash/splash_screen.dart,b/5/b5b9768a8df971f7b5360932e6ab3f5c8a4ade0b
 Q
 !lib/resources/token_provider.dart,0/4/0474ce15f722ff8820c58f3e7b4eebd1a4d052f4
 W
 'lib/ui/widgets/login_invalid_alert.dart,5/e/5e5cf8772036433e487e72fd9c24484da82f0d4f
 Z
 *lib/ui/widgets/input_text_description.dart,3/a/3a314520ffb00d72b5c989ab6b43a1290ecc3fd7
-a
-1lib/ui/widgets/approve_timesheet_list_widget.dart,6/7/674015d9804c625f89bf182fba8cd78ddc6e3d9e
 W
 'lib/ui/widgets/buttons/home_button.dart,8/8/881ae8c96659c6f8083af1da39e9f380a39f2d96
 U
@@ -73,8 +69,6 @@ V
 &lib/blocs/accept_job_request_bloc.dart,9/3/9347441e3a25759fcd29de049019fc123c1bcf68
 D
 lib/db/database.dart,f/d/fdbe111e80fcb108ef5a31b335df4748c9b4718f
-R
-"lib/model/user_profile_update.dart,6/6/66e2a688a6ad54081a28e336c253d6be1f440ad3
 P
  lib/blocs/manager_home_bloc.dart,e/4/e42a2814df7048211ce5b35374dffb6e8a2a87b8
 b
@@ -87,8 +81,6 @@ Q
 !lib/model/accept_job_request.dart,5/e/5e38a086972cbb4b9d7ff7899e216446a66d18d1
 N
 lib/model/allowance_model.dart,3/f/3f49c1efffbf9b05d82945fb596d179755a0516f
-K
-lib/model/country_list.dart,b/9/b9a25d5e54df6779f172543b2e4916740d80e7e7
 J
 lib/model/gender_list.dart,4/9/49a12a8bdac6670ded407cb8e02651eca3d77ead
 M
@@ -107,14 +99,6 @@ W
 'lib/ui/widgets/buttons/book_button.dart,e/2/e2feaa243b48976ddf44280c0120d2265817bd90
 L
 .idea/libraries/Dart_SDK.xml,a/9/a9cc79449f536988c9a3fd2c84e3dfda3be04f09
-S
-#.idea/libraries/Flutter_Plugins.xml,e/8/e8bbc0fdfcefee9aa7b463c83a8a480b92333860
-R
-"lib/ui/user/home/profile_edit.dart,7/4/74ff39b20b095814fe9d3ca61c3a4b312e19f367
-@
-.flutter-plugins,c/0/c0b6f935ef14af8fe1d6391eeee68e16ee6087eb
-M
-.flutter-plugins-dependencies,c/3/c35774685cffc620de767cda8fa01675e8685378
 X
 (lib/ui/widgets/action_alert_dialoge.dart,b/f/bfcc877f987289f33004e00ef1393908977656bf
 N
@@ -137,14 +121,8 @@ T
 $lib/ui/manager_dashboard_screen.dart,2/b/2b4fed885d6392aab298f67fbfc564824c1dc8be
 L
 lib/ui/dashboard_screen.dart,1/b/1bea7a0f1fb8bc90c037be491df23299dcfc9c34
-<
-pubspec.lock,c/1/c1c78778a0cef1e5344166792d1d823fdcb8b109
-Q
-!.idea/libraries/Dart_Packages.xml,f/c/fc67c2d2441e33af1dbd1e910281523d1ce74b4a
 R
 "lib/model/user_complted_shift.dart,0/2/0243abd4dd784132a6f88374c6d946dbe3456d8f
-R
-"lib/blocs/profile_update_bloc.dart,5/2/5275759263f7390c641b413e79d5b2958a96a401
 ]
 -lib/ui/manager/home/shift_detail_manager.dart,d/1/d1f2dac3c22e8ee84a1ee2f4b5ffa01c46cd6b33
 S

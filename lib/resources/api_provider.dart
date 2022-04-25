@@ -18,6 +18,7 @@ import '../model/user_add_availability.dart';
 import '../model/user_availability_btw_date.dart';
 import '../model/user_cancel_jobrequest.dart';
 import '../model/user_complted_shift.dart';
+import '../model/user_documents_response.dart';
 import '../model/user_get_response.dart';
 import '../model/user_getschedule_by_month_year.dart';
 import '../model/user_getschedule_bydate.dart';
@@ -168,6 +169,32 @@ class ApiProvider {
   }
 
   ///////////////////// MANAGER API
+
+
+
+  Future<ManagerScheduleListResponse> fetchViewbooking(
+      String token, String date) async {
+    print("View Booking");
+
+    var uri = Uri.parse(BASE_URL + '/manager/get-schedule-by-date');
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "token": token,
+        },
+        body: jsonEncode(<String, String>{
+          "date": date,
+        }));
+
+    print(response.body);
+    print(response.statusCode);
+    print(response.toString());
+    if (response.statusCode == 200) {
+      return ManagerScheduleListResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
 
   Future<AcceptJobRequestResponse> AcceptJobRequest(
       String token, String job_request_row_id) async {
@@ -746,6 +773,40 @@ class ApiProvider {
     }
   }
 
+
+
+
+
+  Future<UserDocumentsResponse> uploadUserDocuments(
+      String token, String files, String type, String expiry_date) async {
+    var uri = Uri.parse(BASE_URL + "/account/upload-user-documents");
+    final response = await client.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': token,
+        },
+        body: jsonEncode(<String, String>{
+          'files': files,
+          'type': type,
+          'expiry_date': expiry_date,
+        }));
+
+    print("UPLOAD USER DOCUMENTS" + token);
+
+    print(jsonEncode(<String, String>{
+      'files': files,
+      'type': type,
+      'expiry_date': expiry_date,
+    }).toString());
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return UserDocumentsResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
                                                                //////////////CATEGORIES
 
   Future<SliftListRepso> fetchConfirm() async {
@@ -776,27 +837,5 @@ class ApiProvider {
     }
   }
 
-  Future<ManagerScheduleListResponse> fetchViewbooking(
-      String token, String date) async {
-    print("View Booking");
 
-    var uri = Uri.parse(BASE_URL + '/manager/get-schedule-by-date');
-    final response = await client.post(uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          "token": token,
-        },
-        body: jsonEncode(<String, String>{
-          "date": date,
-        }));
-
-    print(response.body);
-    print(response.statusCode);
-    print(response.toString());
-    if (response.statusCode == 200) {
-      return ManagerScheduleListResponse.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load post');
-    }
-  }
 }

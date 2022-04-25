@@ -30,12 +30,14 @@ INJECTED from /Users/intersmart/Documents/FlutterWorks/SaneeshInter/android/app/
 INJECTED from /Users/intersmart/Documents/FlutterWorks/SaneeshInter/android/app/src/main/AndroidManifest.xml:1:1-35:12
 MERGED from /Users/intersmart/Documents/FlutterWorks/SaneeshInter/android/app/src/main/AndroidManifest.xml:1:1-35:12
 MERGED from [:shared_preferences_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:nb_utils] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/nb_utils/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-19:12
 MERGED from [:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-22:12
 MERGED from [:flutter_plugin_android_lifecycle] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:sqflite] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
-MERGED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-14:12
 MERGED from [:fluttertoast] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/fluttertoast/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-14:12
+MERGED from [:connectivity_plus] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/connectivity_plus/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/ad201fac15a88598107ec645f351f5b4/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.appcompat:appcompat:1.4.1] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/7ed8866a153ba11c73fe6ed707b862b7/appcompat-1.4.1/AndroidManifest.xml:17:1-24:12
@@ -89,6 +91,8 @@ INJECTED from /Users/intersmart/Documents/FlutterWorks/SaneeshInter/android/app/
 INJECTED from /Users/intersmart/Documents/FlutterWorks/SaneeshInter/android/app/src/main/AndroidManifest.xml
 MERGED from [:shared_preferences_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:nb_utils] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/nb_utils/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:nb_utils] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/nb_utils/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_email_sender] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_email_sender/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
@@ -97,10 +101,12 @@ MERGED from [:flutter_plugin_android_lifecycle] /Users/intersmart/Documents/Flut
 MERGED from [:flutter_plugin_android_lifecycle] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:fluttertoast] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/fluttertoast/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:fluttertoast] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/fluttertoast/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:connectivity_plus] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/connectivity_plus/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:connectivity_plus] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/connectivity_plus/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/ad201fac15a88598107ec645f351f5b4/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/ad201fac15a88598107ec645f351f5b4/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
@@ -215,6 +221,10 @@ ADDED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/Sane
 		ADDED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
 	android:name
 		ADDED from [:url_launcher_android] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [:connectivity_plus] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/connectivity_plus/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from [:connectivity_plus] /Users/intersmart/Documents/FlutterWorks/SaneeshInter/build/connectivity_plus/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-76
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] /Users/intersmart/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 	android:required

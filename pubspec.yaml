@@ -58,6 +58,8 @@ dependencies:
   lottie: ^1.2.2
   dotted_border: ^2.0.0+2
   image_picker_gallery_camera: ^0.2.2
+  connectivity_plus: ^2.3.0
+  nb_utils: ^4.4.8
 
 dev_dependencies:
   flutter_test:
@@ -133,6 +135,8 @@ flutter:
     - assets/images/icon/premium_home_icon.png
     - assets/images/icon/loading.json
     - assets/images/icon/delete.svg
+    - assets/images/error/nw_error.png
+    - assets/images/error/error.png
 
 
     # An image asset can refer to one or more resolution-specific "variants", see
