@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../Constants/app_defaults.dart';
@@ -24,6 +25,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _ProfileState extends State<ProfileScreen> {
   var token;
+  var _image;
   var scaffoldKey = GlobalKey<ScaffoldState>();
   bool visibility = false;
 
@@ -40,6 +42,32 @@ class _ProfileState extends State<ProfileScreen> {
       });
       profileBloc.getUserInfo(token);
     }
+  }
+
+  Future getImage(ImgSource source) async {
+    var image = await ImagePickerGC.pickImage(
+        enableCloseButton: true,
+        closeIcon: Icon(
+          Icons.close,
+          color: Colors.red,
+          size: 12,
+        ),
+        context: context,
+        source: source,
+        barrierDismissible: true,
+        cameraIcon: Icon(
+          Icons.camera_alt,
+          color: Colors.red,
+        ),
+        //cameraIcon and galleryIcon can change. If no icon provided default icon will be present
+        cameraText: Text(
+          "From Camera",
+          style: TextStyle(color: Colors.red),
+        ),
+        galleryText: Text(
+          "From Gallery",
+          style: TextStyle(color: Colors.blue),
+        ));
   }
 
   @override
@@ -74,7 +102,6 @@ class _ProfileState extends State<ProfileScreen> {
         child: SingleChildScrollView(
           child: Stack(
             children: [
-
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: StreamBuilder<UserGetResponse>(
@@ -200,7 +227,9 @@ class _ProfileState extends State<ProfileScreen> {
                               ),
                             ),
                             if (null != item) ProfileDetailCard(items: item),
-                            ProfileDocumentsCard()
+                            GestureDetector(
+                                onTap: () => getImage(ImgSource.Both),
+                                child: ProfileDocumentsCard()),
                           ],
                         ),
                       );
