@@ -174,6 +174,7 @@ class Repository {
     String job_details,
     String price,
     String shift,
+    String allowances,
   ) =>
       apiProvider.CreateShiftManager(
           token,
@@ -188,7 +189,9 @@ class Repository {
           time_to,
           job_details,
           price,
-          shift);
+          shift,
+          allowances
+      );
 
   Future<GetAvailableUserByDate> fetchGetAvailableUserByDate(
           String token, String date, String shifttype) =>

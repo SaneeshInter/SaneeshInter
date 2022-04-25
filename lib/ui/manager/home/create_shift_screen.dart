@@ -25,6 +25,7 @@ import '../../../model/user_type_list.dart';
 import '../../../resources/token_provider.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
+import '../../widgets/allowance_bottom_sheet.dart';
 import '../../widgets/buttons/login_button.dart';
 import '../../widgets/input_text.dart';
 import '../../widgets/input_text_description.dart';
@@ -979,194 +980,13 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                                                   ),
                                                   RaisedButton(
                                                     onPressed: () {
-                                                      managerBloc
-                                                          .getModelDropDown();
-
                                                       showModalBottomSheet(
                                                           context: context,
                                                           builder: (context) {
-                                                            return Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .all(
-                                                                      16.0),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  AutoSizeText(
-                                                                    'Allowances',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          13.sp,
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontFamily:
-                                                                          "SFProMedium",
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 2.h,
-                                                                  ),
-                                                                  Row(
-                                                                    children: [
-                                                                      Expanded(
-                                                                        flex: 1,
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              50.w,
-                                                                          child:
-                                                                              StreamBuilder(
-                                                                            stream:
-                                                                                managerBloc.typeAllowancesCategroys,
-                                                                            builder:
-                                                                                (context, AsyncSnapshot<List<AllowanceCategoryList>> snapshot) {
-                                                                              return DropdownButtonFormField(
-                                                                                value: allowanceCategroyId,
-                                                                                decoration: InputDecoration(
-                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                                                                                      borderSide: BorderSide(color: Colors.grey),
-                                                                                    ),
-                                                                                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8.0)), borderSide: BorderSide(color: Colors.grey, width: 1)),
-                                                                                    contentPadding: EdgeInsets.all(3.0),
-                                                                                    labelText: "Category",
-                                                                                    labelStyle: TextStyle(fontSize: 10.sp)),
-                                                                                items: snapshot.data?.map((item) {
-                                                                                  return DropdownMenuItem(
-                                                                                    child: new Text(
-                                                                                      item.category!,
-                                                                                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp, decoration: TextDecoration.none, color: Colors.grey),
-                                                                                    ),
-                                                                                    value: item.rowId,
-                                                                                  );
-                                                                                }).toList(),
-                                                                                onChanged: (Object? value) {
-                                                                                  print("value");
-                                                                                  if (value is int) {
-                                                                                    print("value");
-                                                                                    print(value);
-                                                                                    allowanceCategroyId = value;
-                                                                                    allowanceId = 0;
-                                                                                    managerBloc.getAllowanceList(value);
-                                                                                  }
-                                                                                },
-                                                                              );
-                                                                            },
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            10,
-                                                                      ),
-                                                                      Expanded(
-                                                                        flex: 1,
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              50.w,
-                                                                          child:
-                                                                              StreamBuilder(
-                                                                            stream:
-                                                                                managerBloc.typeAllowancesList,
-                                                                            builder:
-                                                                                (context, AsyncSnapshot<List<AllowanceList>> snapshot) {
-                                                                              return DropdownButtonFormField(
-                                                                                value: allowanceId,
-                                                                                decoration: InputDecoration(
-                                                                                    enabledBorder: OutlineInputBorder(
-                                                                                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                                                                      borderSide: BorderSide(color: Colors.grey),
-                                                                                    ),
-                                                                                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8.0)), borderSide: BorderSide(color: Colors.grey, width: 1)),
-                                                                                    contentPadding: EdgeInsets.all(3.0),
-                                                                                    labelText: "Allowances",
-                                                                                    labelStyle: TextStyle(fontSize: 10.sp)),
-                                                                                items: snapshot.data?.map((item) {
-                                                                                  return DropdownMenuItem(
-                                                                                    child: new Text(
-                                                                                      item.allowance!,
-                                                                                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.sp, decoration: TextDecoration.none, color: Colors.grey),
-                                                                                    ),
-                                                                                    value: item.rowId,
-                                                                                  );
-                                                                                }).toList(),
-                                                                                onChanged: (Object? value) {
-                                                                                  if (value is AllowanceList) {
-                                                                                    allowanceId = value.rowId!;
-                                                                                  }
-                                                                                },
-                                                                              );
-                                                                            },
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 2.h,
-                                                                  ),
-                                                                  Column(
-                                                                    children: [
-                                                                      Container(
-                                                                        child: TextInputFileds(
-                                                                            controlr: allowanceprice,
-                                                                            validator: (date) {
-                                                                              if (validDate(date))
-                                                                                return null;
-                                                                              else
-                                                                                return "Enter Price";
-                                                                            },
-                                                                            onTapDate: () {},
-                                                                            hintText: "Price",
-                                                                            keyboadType: TextInputType.number,
-                                                                            isPwd: false),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  ElevatedButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      managerBloc.addAllowances(
-                                                                          allowanceId,
-                                                                          allowanceCategroyId,
-                                                                          allowance,
-                                                                          allowanceCategroy,
-                                                                          allowanceprice
-                                                                              .text);
-                                                                      pop(context);
-                                                                    },
-                                                                    child:
-                                                                        Padding(
-                                                                      padding:
-                                                                          const EdgeInsets.all(
-                                                                              8.0),
-                                                                      child:
-                                                                          Text(
-                                                                        'Add Allowances',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            letterSpacing: 0.6),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 2.h,
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                            return AllowanceBottomSheet(
+                                                              onSumbmit: () {},
+                                                              onTapView: () {},
+                                                              value: 1,
                                                             );
                                                           });
                                                     },
@@ -1244,6 +1064,7 @@ class _CreateShiftState extends State<CreateShiftScreen> {
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           var items = snapshot.data?[index];
+
           String? allowace = items?.allowance.toString();
           String? category = items?.category.toString();
           String? amount = items?.amount.toString();
@@ -1284,11 +1105,17 @@ class _CreateShiftState extends State<CreateShiftScreen> {
                           fontFamily: "SFProMedium",
                           fontWeight: FontWeight.w700),
                     )),
-                SvgPicture.asset(
-                  'assets/images/icon/delete.svg',
-                  fit: BoxFit.contain,
-                  height: 30,
-                  width: 40,
+                GestureDetector(
+                  onTap: ()
+                  {
+                    managerBloc.deleteAllowance(index);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/images/icon/delete.svg',
+                    fit: BoxFit.contain,
+                    height: 30,
+                    width: 40,
+                  ),
                 )
               ],
             ),

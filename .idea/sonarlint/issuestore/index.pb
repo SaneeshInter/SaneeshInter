@@ -79,8 +79,6 @@ b
 2lib/ui/manager/home/approved_timesheet_screen.dart,9/3/938d77eba8113be79f1a4cc4e4c0205bc8507bb6
 Q
 !lib/model/accept_job_request.dart,5/e/5e38a086972cbb4b9d7ff7899e216446a66d18d1
-N
-lib/model/allowance_model.dart,3/f/3f49c1efffbf9b05d82945fb596d179755a0516f
 J
 lib/model/gender_list.dart,4/9/49a12a8bdac6670ded407cb8e02651eca3d77ead
 M

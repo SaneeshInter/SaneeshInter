@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:xpresshealthdev/db/database.dart';
 import 'package:xpresshealthdev/dbmodel/allowance_category_model.dart';
@@ -6,7 +8,7 @@ import 'package:xpresshealthdev/model/schedule_hospital_list.dart';
 import 'package:xpresshealthdev/resources/respository.dart';
 
 import '../dbmodel/allowance_mode.dart';
-import '../model/gender_\list.dart';
+import '../model/gender_list.dart';
 import '../model/manager_response.dart';
 import '../model/schedule_categegory_list.dart';
 import '../model/shift_type_list.dart';
@@ -68,22 +70,16 @@ class CreateShiftmanagerBloc {
     var usertype = await _db.getUserTypeList();
     var category = await _db.getCategory();
     var hospitals = await _db.getHospitalList();
-
     List<ShiftTypeList> typeList = [];
-
     var type1 = ShiftTypeList(rowId: 1, type: "Regular");
     var type2 = ShiftTypeList(rowId: 2, type: "Premium");
-
     typeList.add(type1);
     typeList.add(type2);
-
     List<ShiftTypeList> shifttype = [];
     var shifttype1 = ShiftTypeList(rowId: 1, type: "Day");
     var shifttype2 = ShiftTypeList(rowId: 2, type: "Night");
-
     shifttype.add(shifttype1);
     shifttype.add(shifttype2);
-
     _shifttype.add(shifttype);
     _type.add(typeList);
     _category.add(category);
@@ -129,6 +125,13 @@ class CreateShiftmanagerBloc {
     String price,
     String shift,
   ) async {
+    var json = jsonEncode(allowanceList.map((e) => e.toJson()).toList());
+    // var json = jsonEncode(allowanceList, toEncodable: (e) => {
+    // print(e)
+    // });
+    var allowances = json.toString();
+    print("allowances");
+    print(allowances);
     ManagerShift respo = await _repo.CreateShiftManager(
       token,
       row_id,
@@ -143,6 +146,7 @@ class CreateShiftmanagerBloc {
       job_details,
       price,
       shift,
+      allowances,
     );
 
     _getmanager.sink.add(respo);
@@ -166,6 +170,13 @@ class CreateShiftmanagerBloc {
         categoryId: allowanceCategroyId);
     allowanceList.add(allowances);
     _allowancesList.add(allowanceList);
+  }
+
+  void deleteAllowance(int index) {
+    if (null != allowanceList) {
+      allowanceList.remove(index);
+      _allowancesList.add(allowanceList);
+    }
   }
 }
 

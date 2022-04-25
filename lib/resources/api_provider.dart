@@ -434,6 +434,7 @@ class ApiProvider {
     String job_details,
     String price,
     String shift,
+    String allowances,
   ) async {
     var response;
     var uri = Uri.parse(BASE_URL + '/manager/add-schedule');
@@ -457,7 +458,7 @@ class ApiProvider {
             "time_to": time_to,
             "job_details": job_details,
             "price": price,
-            "allowances": "",
+            "allowances": allowances,
             "assigned_to": "",
             "shift": shift,
           }));
@@ -478,7 +479,7 @@ class ApiProvider {
             "time_to": time_to,
             "job_details": job_details,
             "price": price,
-            "allowances": "",
+            "allowances": allowances,
             "assigned_to": "",
             "shift": shift,
           }));
